@@ -1,0 +1,158 @@
+.formContainer {
+  background-image: url("../../public/bgImage.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-block: 100px;
+  /* margin-top: -10px; */
+  min-height: 100vh;
+}
+.loginContainer {
+  max-width: 546px;
+  max-height: 500px;
+  background-color: #ffd7a9;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 5px 5px 10px;
+  text-align: center;
+  transform: translateY(0);
+  margin-inline: auto;
+
+  /* margin-block: 10px; */
+}
+
+.formLogo {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-block-end: 30px;
+}
+
+.logoImage {
+  width: 150px;
+  height: auto;
+}
+
+.logoP {
+  font-weight: 600;
+  font-size: 40px;
+}
+
+.heading2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #ff7100;
+  font-size: 24px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  margin-bottom: 50px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  color: grey;
+  border: none !important;
+  border-bottom: 2px solid white !important;
+  background-color: transparent !important;
+  font-size: 16px;
+}
+
+.input::placeholder {
+  color: white;
+}
+
+.input:focus {
+  outline: none;
+  border-bottom: 2px solid #ffa500;
+}
+
+.passwordInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+  color: #666666;
+}
+
+.error {
+  color: #ff0000;
+}
+
+.anchorLink {
+  color: black;
+  text-decoration: none;
+}
+
+.anchorLink:hover {
+  text-decoration: underline;
+}
+
+.loginBtn {
+  width: 100px;
+  height: 41px;
+  padding: 12px;
+  background-color: #333333;
+  color: #fabd20;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginBtn:hover {
+  background-color: #555555;
+}
+
+.roundedBtn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  overflow: hidden;
+  position: relative;
+}
+
+.roundedBtn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: all 0.5s ease;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.roundedBtn:hover::before {
+  width: 0;
+  height: 0;
+}
+
+.roundedBtn span {
+  position: relative;
+  z-index: 1;
+}
+
+/* Optional: Add more styles to enhance the button's appearance */
+.roundedBtn:hover {
+  background-color: #ffb156;
+  transition: background-color 0.3s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.roundedBtn:hover span {
+  color: black;
+}
