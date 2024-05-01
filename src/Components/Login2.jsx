@@ -30,7 +30,7 @@ function Login2() {
         </div>
         <button
           type="submit"
-          className="inline-block rounded-full bg-indigo-500 px-4 py-2 font-semibold uppercase text-stone-800 transition-colors duration-300 hover:bg-cyan-400 focus:outline-none focus:ring focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-block rounded-full bg-indigo-500 px-4 py-2 font-semibold uppercase text-stone-800 transition-colors duration-300 hover:bg-cyan-400 focus:outline-none focus:ring focus:ring-cyan-500 focus:ring-offset-2"
         >
           Submit!
         </button>
