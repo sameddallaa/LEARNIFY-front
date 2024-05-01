@@ -4,13 +4,13 @@ import classes from "../CSS/Main.module.css";
 import bookImg from "../assets/img/bookImg.svg";
 import girlImg from "../assets/img/girlImg.svg";
 
-export default function Main({ lgnClicked }) {
+export default function Main({ lgnClicked, navBar }) {
   return (
     <main>
       <div
         className={`scroll  flex h-screen  items-center justify-evenly overflow-auto  bg-cyanT `}
       >
-        <div className={`${classes.contentcontainer}`}>
+        <div className={`${classes.contentcontainer} `}>
           <h1 className="text-blueT">Welcome to Learnify</h1>
           <h2>Lorem ipsum dolor sit amet.</h2>
         </div>
@@ -30,7 +30,7 @@ export default function Main({ lgnClicked }) {
       <div className="max-h-full bg-cyanT">
         <div className="flex">
           <div>
-            <h2 className="text-blueT pl-3">Platforme d'apprentissage :</h2>
+            <h2 className="pl-3 text-blueT">Platforme d'apprentissage :</h2>
             <p className="py-2 pl-3 leading-relaxed tracking-widest">
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut

@@ -1,15 +1,14 @@
-import classes from "../CSS/HomeNavbar.module.css";
 import { Navbar, Container } from "react-bootstrap";
 import logoImage from "../assets/img/header.svg";
-import Login2 from "./Login2";
+import Login from "./Login";
 import React, { useState } from "react";
 
 const HomeNavbarLoggedOff = () => {
   const [clicked, setClicked] = useState(false);
   return (
     <>
-      <Navbar expand="lg" className="bg-blueT">
-        <Container className=" flex items-center justify-between">
+      <Navbar expand="lg" className="w-screen bg-cyanT">
+        <Container className=" items-cente r flex  justify-between">
           <Navbar.Brand href="/">
             <div className="flex h-6">
               <img src={logoImage} alt="logo" className="h-[32px] w-auto" />
@@ -17,21 +16,27 @@ const HomeNavbarLoggedOff = () => {
             </div>
           </Navbar.Brand>
           <div className="items-center space-x-20">
-            <a href="/home" className="text-black no-underline hover:underline">
+            <a
+              href="/home"
+              className="text-blue-950 no-underline hover:underline"
+            >
               Home
             </a>
             <a
               href="/about"
-              className="text-black no-underline hover:underline"
+              className="text-blue-950 no-underline hover:underline"
             >
               About
             </a>
-            <a href="/blog" className="text-black no-underline hover:underline">
+            <a
+              href="/blog"
+              className="text-blue-950 no-underline hover:underline"
+            >
               Blog
             </a>
             <a
               href="/contact"
-              className="text-black no-underline hover:underline"
+              className="text-blue-950 no-underline hover:underline"
             >
               Contact
             </a>
@@ -39,12 +44,12 @@ const HomeNavbarLoggedOff = () => {
 
           <div className="relative">
             <button
-              className="inline-block rounded-full bg-cyan-500 px-4 py-2 font-semibold uppercase text-stone-800 transition-colors duration-300 hover:bg-cyan-400 focus:outline-none focus:ring focus:ring-cyan-400 focus:ring-offset-2"
+              className="inline-block w-40 rounded-full bg-cyan-950 px-4 py-2 text-lg  font-semibold text-blueT transition-colors duration-300 hover:bg-cyan-800 focus:outline-none focus:ring focus:ring-cyan-800 focus:ring-offset-2"
               onClick={() => setClicked((clicked) => !clicked)}
             >
-              <span>🔒 </span>Login
+              Sign in <span></span>
             </button>
-            {clicked && <Login2 />}
+            {clicked && <Login />}
           </div>
         </Container>
       </Navbar>

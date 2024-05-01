@@ -6,6 +6,7 @@ export default {
       colors: {
         cyanT: "#ECF0FF",
         blueT: "#80a5ca",
+        blueF: "#0D3C8E",
       },
     },
   },

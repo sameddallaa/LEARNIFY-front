@@ -9,10 +9,10 @@ export default AuthContext;
 export const AuthProvider = ({ children }) => {
   const currentToken = localStorage.getItem("tokens");
   const [token, setToken] = useState(() =>
-    currentToken ? JSON.parse(currentToken) : null
+    currentToken ? JSON.parse(currentToken) : null,
   );
   const [user, setUser] = useState(() =>
-    currentToken ? jwtDecode(JSON.parse(currentToken).access) : null
+    currentToken ? jwtDecode(JSON.parse(currentToken).access) : null,
   );
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -29,14 +29,14 @@ export const AuthProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
     const data = response.data;
     if (response.status === 200) {
       setToken({ access: data.access, refresh: data.refresh });
       setUser(jwtDecode(data.access));
       localStorage.setItem("tokens", JSON.stringify(data));
-      // navigate("/profile");
+      navigate("/home");
       console.log(user);
     } else {
       console.log("Something went wrong");
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
     const data = response.data;
     if (response.status === 200) {
@@ -75,9 +75,12 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      const intervalId = setInterval(() => {
-        updateTokens();
-      }, 1000 * 60 * 4);
+      const intervalId = setInterval(
+        () => {
+          updateTokens();
+        },
+        1000 * 60 * 4,
+      );
       return () => clearInterval(intervalId);
     }
   }, [token, loading]);
