@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("tokens");
     setToken(null);
     setUser(null);
-    navigate("/login");
+    navigate("/");
   };
 
   const updateTokens = async () => {
