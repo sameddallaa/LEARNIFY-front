@@ -18,25 +18,25 @@ const HomeNavbarLoggedOff = () => {
           <div className="items-center space-x-20">
             <a
               href="/home"
-              className="text-blue-950 no-underline hover:underline"
+              className="font-medium text-blue-950 no-underline hover:underline"
             >
               Home
             </a>
             <a
               href="/about"
-              className="text-blue-950 no-underline hover:underline"
+              className="font-medium text-blue-950 no-underline hover:underline"
             >
               About
             </a>
             <a
               href="/blog"
-              className="text-blue-950 no-underline hover:underline"
+              className="font-medium text-blue-950 no-underline hover:underline"
             >
               Blog
             </a>
             <a
               href="/contact"
-              className="text-blue-950 no-underline hover:underline"
+              className="font-medium text-blue-950 no-underline hover:underline"
             >
               Contact
             </a>

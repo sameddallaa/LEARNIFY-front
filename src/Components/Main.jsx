@@ -10,14 +10,14 @@ export default function Main({ lgnClicked, navBar }) {
       <div
         className={`scroll  flex h-screen  items-center justify-evenly overflow-auto  bg-cyanT `}
       >
-        <div className={`${classes.contentcontainer} `}>
+        <div className={`${classes.contentcontainer} mb-40 `}>
           <h1 className="text-blueT">Welcome to Learnify</h1>
           <h2>Lorem ipsum dolor sit amet.</h2>
         </div>
         <div
           className={`${classes.imageContainer} ${
             lgnClicked ? classes.fadeOut : ""
-          }`}
+          } mb-40`}
         >
           <img
             src={mainLogo}
