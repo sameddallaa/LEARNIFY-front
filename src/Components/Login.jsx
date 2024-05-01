@@ -38,30 +38,30 @@ function Login2() {
         <p className="m-1 text-center text-xl font-bold text-[#001D4F]">
           Login to your account
         </p>
-        <div class="relative mt-10">
+        <div className="relative mt-10">
           <input
             type="email"
             placeholder="Email"
             name="email"
-            class="border-blueF peer w-full border-b bg-transparent py-2 text-black  placeholder:text-transparent focus:outline-none"
+            className="peer w-full border-b border-blueF bg-transparent py-2 text-black  placeholder:text-transparent focus:outline-none"
           />
           <label
-            for="email"
-            class="peer-focus:text-blueF absolute -top-4 left-0 text-sm text-gray-500 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-4 peer-focus:text-sm"
+            htmlFor="email"
+            className="absolute -top-4 left-0 text-sm text-gray-500 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-4 peer-focus:text-sm peer-focus:text-blueF"
           >
             Email
           </label>
         </div>
-        <div class="relative mt-10">
+        <div className="relative mt-10">
           <input
             type="password"
             placeholder="Password"
             name="Password"
-            class="border-blueF peer w-full border-b bg-transparent py-2 placeholder:text-transparent  focus:outline-none "
+            className="peer w-full border-b border-blueF bg-transparent py-2 placeholder:text-transparent  focus:outline-none "
           />
           <label
-            for="password"
-            class="peer-focus:text-blueF absolute -top-4 left-0 text-sm text-gray-500 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-4 peer-focus:text-sm"
+            htmlFor="password"
+            className="absolute -top-4 left-0 text-sm text-gray-500 transition-all peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:-top-4 peer-focus:text-sm peer-focus:text-blueF"
           >
             Password
           </label>
