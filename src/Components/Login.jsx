@@ -21,11 +21,11 @@ function Login2() {
     const { email, password } = formData;
     try {
       await login(email, password);
+      console.log(email);
+      console.log(password);
       if (!email || !password) throw new Error("Please check your inputs !");
       if (!email.includes("@esi-sba.dz"))
         throw new Error("Email does not exist ❌");
-      // const response = await localStorage.getItem("error");
-      // console.log("hey : ", response);
     } catch (err) {
       console.log(err);
       setErrMsg(err.message);
@@ -43,6 +43,7 @@ function Login2() {
             type="email"
             placeholder="Email"
             name="email"
+            onChange={handleChange}
             className="peer w-full border-b border-blueF bg-transparent py-2 text-black  placeholder:text-transparent focus:outline-none"
           />
           <label
@@ -56,7 +57,8 @@ function Login2() {
           <input
             type="password"
             placeholder="Password"
-            name="Password"
+            name="password"
+            onChange={handleChange}
             className="peer w-full border-b border-blueF bg-transparent py-2 placeholder:text-transparent  focus:outline-none "
           />
           <label
