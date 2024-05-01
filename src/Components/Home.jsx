@@ -1,14 +1,22 @@
-import React, { useState } from "react";
 
+import React, { useContext, useEffect, useState } from "react";
 import HomeNavbar from "./HomeNavbar";
 import { Button, Offcanvas, Navbar, Container } from "react-bootstrap";
 import { FiClipboard } from "react-icons/fi";
 import classes from "../CSS/Home.module.css";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../Contexts/AuthContext";
 const Home = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext); // need to be connected in order to access Home
+  useEffect(() => {
+    !user && navigate("/");
+  }, [user]);
+
   return (
     <>
-      <HomeNavbar />
+      {/* <HomeNavbar /> */}
       <Container>
         <main className={`${classes.main}`}>
           <div className={`${classes.classHeader}`}>

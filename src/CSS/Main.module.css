@@ -4,12 +4,6 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  min-height: 100vh;
-  /* max-width: 100vw; */
-  background-image: url("../../public/bgImage.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  /* min-height: 150vh; */
 }
 
 body {

@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }) => {
         setUser(jwtDecode(data.access));
         localStorage.setItem("tokens", JSON.stringify(data));
         // navigate("/profile");
+        navigate("/home");
         console.log(user);
       } else {
         console.log(data);
@@ -66,6 +67,7 @@ export const AuthProvider = ({ children }) => {
           "Content-Type": "application/json",
         },
       }
+
     );
     const data = response.data;
     if (response.status === 200) {
@@ -82,6 +84,7 @@ export const AuthProvider = ({ children }) => {
       const intervalId = setInterval(() => {
         updateTokens();
       }, 1000 * 60 * 4);
+
       return () => clearInterval(intervalId);
     }
   }, [token, loading]);

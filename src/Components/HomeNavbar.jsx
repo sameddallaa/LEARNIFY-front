@@ -21,6 +21,8 @@ const HomeNavbar = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const { logout } = useContext(AuthContext);
   // const { user } = useContext(AuthContext);
   // console.log(user);
   return (
@@ -141,15 +143,25 @@ const HomeNavbar = () => {
               </div>
             </Offcanvas.Body>
           </Offcanvas>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/">
             <div className={`${classes.logoContainer}`}>
               <img src={logoImage} alt="logo" className={`${classes.logo}`} />
               <p className={`${classes.logoP}`}>Learnify</p>
             </div>
           </Navbar.Brand>
-          <Button className={`${classes.navToggle}`}>
-            <AiOutlineMessage />
-          </Button>
+
+          <div className="  flex space-x-2">
+            <Button className={`${classes.navToggle}`}>
+              <AiOutlineMessage />
+            </Button>
+
+            <button
+              className="inline-block rounded-full px-1 py-1 text-sm font-semibold    transition-colors duration-300  hover:bg-red-400 hover:text-red-600  focus:outline-none focus:ring focus:ring-red-400 focus:ring-offset-2"
+              onClick={logout}
+            >
+              Disconnect
+            </button>
+          </div>
         </Container>
       </Navbar>
     </>
