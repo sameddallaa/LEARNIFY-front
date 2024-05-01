@@ -19,27 +19,31 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const endpoint = "http://localhost:8000/api/auth/login/";
-    const response = await axios.post(
-      endpoint,
-      {
-        email: email,
-        password: password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
+    try {
+      const response = await axios.post(
+        endpoint,
+        {
+          email: email,
+          password: password,
         },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.data;
+      if (response.status === 200) {
+        setToken({ access: data.access, refresh: data.refresh });
+        setUser(jwtDecode(data.access));
+        localStorage.setItem("tokens", JSON.stringify(data));
+        // navigate("/profile");
+        console.log(user);
+      } else {
+        console.log(data);
       }
-    );
-    const data = response.data;
-    if (response.status === 200) {
-      setToken({ access: data.access, refresh: data.refresh });
-      setUser(jwtDecode(data.access));
-      localStorage.setItem("tokens", JSON.stringify(data));
-      // navigate("/profile");
-      console.log(user);
-    } else {
-      console.log("Something went wrong");
+    } catch (error) {
+      console.log(error.response.data);
     }
   };
 
