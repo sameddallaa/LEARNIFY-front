@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+.nav {
+  background-color: #80a5ca;
+  z-index: 1000;
+}
+
+.navToggle {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent !important;
+  color: black !important;
+  border: none !important;
+}
+
+.logoContainer {
+  display: flex;
+}
+
+.logoP {
+  display: flex;
+  margin: 0;
+  /* align-items: center; */
+}
+
+.logo {
+  height: 32px;
+  width: auto;
+}
+
+.offcanvas {
+  width: 300px !important;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  /* z-index: 999; */
+}
+
+.offcanvasBody {
+  padding: 0 !important;
+}
+
+.wrap {
+  text-wrap: nowrap;
+}
+
+.user {
+  /* padding: 0; */
+  background-color: #0046bf;
+  color: white;
+  padding-inline: 13px;
+}
+
+.profilePic {
+  border-radius: 100px;
+  background-color: white;
+  width: 50px;
+  height: 50px;
+}
+
+.profilePicContainer {
+  padding-top: 25px;
+}
+
+.userName {
+  font-weight: 500;
+}
+
+.additionalInfo {
+  display: flex;
+}
+
+.info {
+  margin-right: 20px;
+}
+.options {
+  background-color: #80a5ca;
+  padding: 1px;
+}
+
+.option {
+  display: flex;
+  padding: 20px 5px;
+  align-items: center;
+  border-bottom: 1px solid black;
+  margin-inline: 20px;
+  /* width: 250px; */
+  justify-content: space-between;
+}
+.optionHead {
+  display: flex;
+  width: 120px;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+.optionText {
+  margin: 0;
+  font-weight: 700;
+}
+
+.optionIcon {
+  margin-right: 10px;
+}
+
+.courses {
+  font-weight: 600;
+  background-color: #80a5ca;
+  padding-bottom: 20px;
+}
+.year {
+  /* padding: 1px; */
+}
+
+.courseLink {
+  text-decoration: none;
+  color: black;
+}
+
+.courseLink:hover {
+  opacity: 0.8;
+  font-size: 102%;
+  transition: all 0.2s ease-in-out;
+}
+
+.listGroup {
+  /* border: none !important; */
+  padding-inline: 5px !important;
+}
+
+.listGroupItem {
+  border: 1px solid transparent !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  background-color: #ecf0ff !important;
+  align-items: center;
+  margin-block: 1px;
+  /* flex-direction: row; */
+}
+
+.openBook {
+}
+
+.courseIcon {
+  margin-right: 10px;
+  /* width: 50px; */
+}
+.courseText {
+  /* margin-left: 3px; */
+  display: flex;
+  align-items: center;
+  margin: 0;
+}

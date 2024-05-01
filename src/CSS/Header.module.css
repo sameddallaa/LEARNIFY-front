@@ -1,0 +1,140 @@
+.header {
+  /* position: absolute;
+  top: 0;
+  z-index: 0; */
+  z-index: 1;
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding-inline: 50px;
+  padding-block-start: 10px;
+  margin-inline: auto;
+  /* max-width: 100vw; */
+  min-width: 100%;
+}
+
+.logo {
+  /* margin-left: 60px; */
+  display: flex;
+  align-items: center;
+}
+
+.logoImage {
+  height: 70px;
+  width: auto;
+  /* margin-right: 10px; */
+}
+
+.logoP {
+  font-size: 32px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+}
+
+.navLinkList,
+.authLinkList {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+}
+
+.navLinkList {
+  justify-content: center;
+}
+
+.navLinkListItem {
+  /* margin-right: 20px; */
+}
+
+.authLinksListItem {
+  /* margin-right: 40px; */
+}
+
+.navAnchor,
+.navBtn {
+  cursor: pointer;
+  color: black;
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  padding: 10px 15px;
+  transition: color 0.3s ease;
+  font-size: 20px;
+}
+
+.navAnchor:hover,
+.navBtn:hover {
+  color: white;
+}
+
+.navAnchor,
+.navBtn {
+  position: relative;
+}
+
+.navAnchor:hover::after,
+.navBtn:hover::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ffb45c;
+}
+
+.roundedBtn {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  overflow: hidden;
+  background-image: linear-gradient(to top, #ffb156, #ffb156, white);
+  position: relative;
+}
+
+.roundedBtn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  color: white;
+  border-radius: 50%;
+  transition: all 0.1s ease;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.roundedBtn:hover::before {
+  width: 0;
+  height: 0;
+}
+
+.roundedBtn span {
+  position: relative;
+  color: black;
+  z-index: 1;
+  margin-left: 10px;
+}
+
+/* Optional: Add more styles to enhance the button's appearance */
+.roundedBtn:hover {
+  background-color: #ffb156;
+  opacity: 0.8;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.1s ease-in-out;
+}
+
+.roundedBtn:hover span {
+  color: white;
+}

@@ -1,0 +1,49 @@
+.main {
+  /* margin-right: 80px; */
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+body {
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  max-width: 434px;
+  min-height: 100%;
+  transition: opacity 0.5s ease;
+  gap: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.imageContainer {
+}
+.logoImage {
+  width: 340px;
+  height: auto;
+}
+
+.fadeOut {
+  opacity: 0;
+}
+
+.heading1 {
+  color: #ffb45c;
+  font-size: 64px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 auto;
+  line-height: 60px;
+}
+
+.heading2 {
+  color: black;
+  max-width: 100px;
+  font-size: 42px;
+  font-weight: 500;
+}
