@@ -2,6 +2,7 @@ import { Navbar, Container } from "react-bootstrap";
 import logoImage from "../assets/img/header.svg";
 import Login from "./Login";
 import React, { useState } from "react";
+import { AiOutlineLogin } from "react-icons/ai";
 
 const HomeNavbarLoggedOff = () => {
   const [clicked, setClicked] = useState(false);
@@ -18,38 +19,42 @@ const HomeNavbarLoggedOff = () => {
           <div className="items-center space-x-20">
             <a
               href="/home"
-              className="text-blue-950 no-underline hover:underline"
+              className="font-medium text-blue-950 no-underline hover:underline"
             >
               Home
             </a>
             <a
               href="/about"
-              className="text-blue-950 no-underline hover:underline"
+              className="font-medium text-blue-950 no-underline hover:underline"
             >
               About
             </a>
             <a
               href="/blog"
-              className="text-blue-950 no-underline hover:underline"
+              className="font-medium text-blue-950 no-underline hover:underline"
             >
               Blog
             </a>
             <a
               href="/contact"
-              className="text-blue-950 no-underline hover:underline"
+              className="font-medium text-blue-950 no-underline hover:underline"
             >
               Contact
             </a>
           </div>
 
-          <div className="relative">
+          <div className="relative mr-10 flex flex-col items-center">
             <button
-              className="inline-block w-40 rounded-full bg-cyan-950 px-4 py-2 text-lg  font-semibold text-blueT transition-colors duration-300 hover:bg-cyan-800 focus:outline-none focus:ring focus:ring-cyan-800 focus:ring-offset-2"
+              className="inline-block w-40 rounded-full bg-cyan-950 px-4 py-2 text-lg font-semibold text-blueT transition-colors duration-300 hover:bg-cyan-800 focus:outline-none focus:ring focus:ring-cyan-800 focus:ring-offset-2"
               onClick={() => setClicked((clicked) => !clicked)}
             >
-              Sign in <span></span>
+              <div className="flex items-center justify-center">
+                Sign in <AiOutlineLogin className="ml-1 pt-1" />
+              </div>
             </button>
-            {clicked && <Login />}
+            <div className="z-1  z-0 flex justify-center">
+              {clicked && <Login />}
+            </div>
           </div>
         </Container>
       </Navbar>
