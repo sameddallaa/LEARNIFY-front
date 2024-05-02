@@ -9,11 +9,12 @@ export default AuthContext;
 export const AuthProvider = ({ children }) => {
   const currentToken = localStorage.getItem("tokens");
   const [token, setToken] = useState(() =>
-    currentToken ? JSON.parse(currentToken) : null
+    currentToken ? JSON.parse(currentToken) : null,
   );
   const [user, setUser] = useState(() =>
-    currentToken ? jwtDecode(JSON.parse(currentToken).access) : null
+    currentToken ? jwtDecode(JSON.parse(currentToken).access) : null,
   );
+
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -30,7 +31,7 @@ export const AuthProvider = ({ children }) => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       const data = await response.data;
       if (response.status === 200) {
@@ -52,7 +53,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("tokens");
     setToken(null);
     setUser(null);
-    navigate("/login");
+    navigate("/");
   };
 
   const updateTokens = async () => {
@@ -66,8 +67,7 @@ export const AuthProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-      }
-
+      },
     );
     const data = response.data;
     if (response.status === 200) {
@@ -81,9 +81,12 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      const intervalId = setInterval(() => {
-        updateTokens();
-      }, 1000 * 60 * 4);
+      const intervalId = setInterval(
+        () => {
+          updateTokens();
+        },
+        1000 * 60 * 4,
+      );
 
       return () => clearInterval(intervalId);
     }

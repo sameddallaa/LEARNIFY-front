@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import HomeNavbar from "./HomeNavbar";
 import { Button, Offcanvas, Navbar, Container } from "react-bootstrap";
@@ -10,6 +9,7 @@ import AuthContext from "../Contexts/AuthContext";
 const Home = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext); // need to be connected in order to access Home
+  console.log(user);
   useEffect(() => {
     !user && navigate("/");
   }, [user]);
@@ -18,7 +18,7 @@ const Home = () => {
     <>
       {/* <HomeNavbar /> */}
       <Container>
-        <main className={`${classes.main}`}>
+        {/* <main className={`${classes.main}`}>
           <div className={`${classes.classHeader}`}>
             <div className={`${classes.classTitle}`}>
               <h1>Systèmes d'exploitation</h1>
@@ -84,7 +84,8 @@ const Home = () => {
               </div>
             </Link>
           </div>
-        </main>
+        </main> */}
+        <main>bsbsb</main>
         <Button className={`${classes.addNote}`}>
           <FiClipboard className={`${classes.clipboard}`} />
         </Button>

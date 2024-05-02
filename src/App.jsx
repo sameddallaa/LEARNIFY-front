@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import Header from "./Components/Header";
 import HomeNavbar from "./Components/HomeNavbar";
 import Home from "./Components/Home";
@@ -9,32 +8,34 @@ import Main from "./Components/Main";
 import { AuthProvider } from "./Contexts/AuthContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomeNavbarLoggedOff from "./Components/HomeNavbarLoggedoff";
+import Subject from "./Components/Subject";
 import { useContext } from "react";
 import AuthContext from "./Contexts/AuthContext";
+import NonAuthenticatedRoute from "./Routes/NonAuthenticatedRoute";
 
 export default function App() {
   const [lgnClicked, setLgnClicked] = useState(false);
   const { user } = useContext(AuthContext);
   const [navBar, setNavBar] = useState(<HomeNavbarLoggedOff />);
+  // const SubjectContext = createContext();
 
   useEffect(() => {
     setNavBar(user ? <HomeNavbar /> : <HomeNavbarLoggedOff />);
   }, [user]);
   return (
     <>
-      {/* <AuthProvider> */}
-      {/* <Header setLgnClicked={setLgnClicked} /> */}
       {navBar}
       <Routes>
-        <Route path="/" element={<Main lgnClicked={lgnClicked} />} exact />
-        <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
         <Route
-          path="/home"
-          element={<PrivateRoute Component={<Home />} />}
-        ></Route>
+          path="/"
+          element={
+            <NonAuthenticatedRoute Component={Main} props={lgnClicked} />
+          }
+          exact
+        />
+        <Route path="/subjects/:subjectId" element={<Subject />} />
+        <Route path="/home" element={<PrivateRoute Component={Home} />}></Route>
       </Routes>
-      {/* </AuthProvider> */}
     </>
   );
 }
