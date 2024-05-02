@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import classes from "../CSS/HomeNavbar.module.css";
 import {
   Button,
@@ -7,7 +7,7 @@ import {
   Container,
   ListGroup,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logoImage from "../assets/img/header.svg";
 import { AiOutlineMessage } from "react-icons/ai";
 import { VscThreeBars } from "react-icons/vsc";
@@ -17,13 +17,67 @@ import { FaRegUser } from "react-icons/fa";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { FaBookOpen } from "react-icons/fa";
 import AuthContext from "../Contexts/AuthContext";
+import Subject from "./Subject";
+import axios from "axios";
 const HomeNavbar = () => {
   const [show, setShow] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const { user } = useContext(AuthContext); // need to be connected in order to access Home
+  const token = JSON.parse(localStorage.getItem("tokens"));
+  const navigate = useNavigate();
+  const {
+    first_name,
+    last_name,
+    username,
+    user_id,
+    is_student,
+    is_teacher,
+    year,
+  } = user;
+  console.log(user);
+
+  const [subjects, setSubjects] = useState([]);
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      if (is_student) {
+        const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
+        try {
+          const response = await axios.get(endpoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token.access}`,
+            },
+          });
+          // console.log("loading...");
+          const data = await response.data;
+          if (response.status === 200) {
+            setSubjects(data);
+            console.log(data);
+          } else {
+            console.log("Something went wrong :(");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchSubjects();
+  }, []);
+  const [subject, setSubject] = useState("");
+  console.log(subjects);
+  const userType = () => {
+    if (is_student) {
+      return "Student";
+    } else if (is_teacher) {
+      return "Teacher";
+    } else {
+      return "Admin";
+    }
+  };
+
   const { logout } = useContext(AuthContext);
-  // const { user } = useContext(AuthContext);
-  // console.log(user);
   return (
     <>
       <Navbar expand="lg" className={`${classes.nav}`}>
@@ -36,9 +90,6 @@ const HomeNavbar = () => {
             onHide={handleClose}
             className={`${classes.offcanvas}`}
           >
-            {/* <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Menu</Offcanvas.Title>
-            </Offcanvas.Header> */}
             <Offcanvas.Body className={`${classes.offcanvasBody}`}>
               <div className={`${classes.user}`}>
                 <div className={`${classes.profilePicContainer}`}>
@@ -48,97 +99,62 @@ const HomeNavbar = () => {
                     className={`${classes.profilePic}`}
                   />
                   <div className={`${classes.userNameContainer}`}>
-                    <p className={`${classes.userName}`}>Hichem GUEZZEN</p>
+                    <p className={`${classes.userName}`}>
+                      {first_name} {last_name}
+                    </p>
                   </div>
                 </div>
                 <div className={`${classes.additionalInfo}`}>
-                  <div className={`${classes.info}`}>User</div>
-                  <div className={`${classes.info}`}>458353582</div>
+                  <div className={`${classes.info}`}>{userType()}</div>
+                  <div className={`${classes.info}`}>{username}</div>
                 </div>
               </div>
-              <div className={`${classes.options}`}>
-                <div className={`${classes.option}`}>
-                  <div className={`${classes.optionHead}`}>
-                    <IoMdSettings className={`${classes.optionIcon}`} />
-                    <p className={`${classes.optionText}`}>Settings</p>
+              <div className={`${classes.bottomContainer}`}>
+                <div className={`${classes.options}`}>
+                  <div className={`${classes.option}`}>
+                    <div className={`${classes.optionHead}`}>
+                      <IoMdSettings className={`${classes.optionIcon}`} />
+                      <p className={`${classes.optionText}`}>Settings</p>
+                    </div>
+                    <MdArrowForwardIos />
                   </div>
-                  <MdArrowForwardIos />
-                </div>
-                <div className={`${classes.option}`}>
-                  <div className={`${classes.optionHead}`}>
-                    <FaRegUser className={`${classes.optionIcon}`} />
-                    <p className={`${classes.optionText}`}>Profile</p>
+                  <div className={`${classes.option}`}>
+                    <div className={`${classes.optionHead}`}>
+                      <FaRegUser className={`${classes.optionIcon}`} />
+                      <p className={`${classes.optionText}`}>Profile</p>
+                    </div>
+                    <MdArrowForwardIos />
                   </div>
-                  <MdArrowForwardIos />
-                </div>
-                <div className={`${classes.option}`}>
-                  <div className={`${classes.optionHead}`}>
-                    <IoDocumentsOutline className={`${classes.optionIcon}`} />
-                    <p className={`${classes.optionText} ${classes.wrap}`}>
-                      Modules
-                    </p>
+                  <div className={`${classes.option}`}>
+                    <div className={`${classes.optionHead}`}>
+                      <IoDocumentsOutline className={`${classes.optionIcon}`} />
+                      <p className={`${classes.optionText} ${classes.wrap}`}>
+                        Modules
+                      </p>
+                    </div>
+                    <MdArrowForwardIos />
                   </div>
-                  <MdArrowForwardIos />
                 </div>
-                {/* <div className={`${classes.year}`}>
-                  <p className={`${classes.yearLabel}`}>1CS</p>
-                </div> */}
-              </div>
-              <div className={`${classes.courses}`}>
-                <ListGroup className={`${classes.listGroup}`}>
-                  <ListGroup.Item className={`${classes.listGroupItem}`}>
-                    {/* <Link className={`${classes.courseLink}`}> */}
-                    <div className={`${classes.courseIcon}`}>
-                      <FaBookOpen className={`${classes.openBook}`} />
-                    </div>
-                    <Link className={`${classes.courseLink}`}>
-                      <p className={`${classes.courseText}`}>
-                        Systèmes d'exploitation 2
-                      </p>
-                    </Link>
-                    {/* </Link> */}
-                  </ListGroup.Item>
-                  <ListGroup.Item className={`${classes.listGroupItem}`}>
-                    {/* <Link className={`${classes.courseLink}`}> */}
-                    <div className={`${classes.courseIcon}`}>
-                      <FaBookOpen className={`${classes.openBook}`} />
-                    </div>
-                    <Link className={`${classes.courseLink}`}>
-                      <p className={`${classes.courseText}`}>
-                        Analyse et Conception des Systèmes d'information
-                      </p>
-                    </Link>
-                    {/* </Link> */}
-                  </ListGroup.Item>
-                  <ListGroup.Item className={`${classes.listGroupItem}`}>
-                    <div className={`${classes.courseIcon}`}>
-                      <FaBookOpen className={`${classes.openBook}`} />
-                    </div>
-                    <Link className={`${classes.courseLink}`}>
-                      <p className={`${classes.courseText}`}>Réseaux 2</p>
-                    </Link>
-                  </ListGroup.Item>
-                  <ListGroup.Item className={`${classes.listGroupItem}`}>
-                    <div className={`${classes.courseIcon}`}>
-                      <FaBookOpen className={`${classes.openBook}`} />
-                    </div>
-                    <Link className={`${classes.courseLink}`}>
-                      <p className={`${classes.courseText}`}>
-                        Langue Anglaise 2
-                      </p>
-                    </Link>
-                  </ListGroup.Item>
-                  <ListGroup.Item className={`${classes.listGroupItem}`}>
-                    <div className={`${classes.courseIcon}`}>
-                      <FaBookOpen className={`${classes.openBook}`} />
-                    </div>
-                    <Link className={`${classes.courseLink}`}>
-                      <p className={`${classes.courseText}`}>
-                        Langages et Outils du Web
-                      </p>
-                    </Link>
-                  </ListGroup.Item>
-                </ListGroup>
+                <div className={`${classes.courses}`}>
+                  <ListGroup className={`${classes.listGroup}`}>
+                    {subjects.map((key) => (
+                      <ListGroup.Item
+                        className={`${classes.listGroupItem}`}
+                        key={key.id}
+                      >
+                        <div className={`${classes.courseIcon}`}>
+                          <FaBookOpen className={`${classes.openBook}`} />
+                        </div>
+                        <Link
+                          className={`${classes.courseLink}`}
+                          to={`/subjects/${key.id}/`}
+                        >
+                          <p className={`${classes.courseText}`}>{key.name}</p>
+                        </Link>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                </div>
               </div>
             </Offcanvas.Body>
           </Offcanvas>
@@ -148,6 +164,7 @@ const HomeNavbar = () => {
               <p className={`${classes.logoP}`}>Learnify</p>
             </div>
           </Navbar.Brand>
+
           <div className="  flex space-x-2">
             <Button className={`${classes.navToggle}`}>
               <AiOutlineMessage />

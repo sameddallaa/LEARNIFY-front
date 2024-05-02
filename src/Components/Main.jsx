@@ -1,6 +1,7 @@
 import React from "react";
 import mainLogo from "../assets/img/main.svg";
 import classes from "../CSS/Main.module.css";
+
 import bookImg from "../assets/img/bookImg.svg";
 import girlImg from "../assets/img/girlImg.svg";
 import Lottie from "lottie-react";

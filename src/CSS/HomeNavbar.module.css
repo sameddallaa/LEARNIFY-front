@@ -73,8 +73,13 @@
 .info {
   margin-right: 20px;
 }
-.options {
+
+.bottomContainer {
+  min-height: 90vh;
   background-color: #80a5ca;
+  margin: 0;
+}
+.options {
   padding: 1px;
 }
 
@@ -106,7 +111,7 @@
 .courses {
   font-weight: 600;
   background-color: #80a5ca;
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
 }
 .year {
   /* padding: 1px; */

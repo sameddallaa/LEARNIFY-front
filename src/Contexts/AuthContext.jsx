@@ -14,32 +14,38 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() =>
     currentToken ? jwtDecode(JSON.parse(currentToken).access) : null,
   );
+
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const login = async (email, password) => {
     const endpoint = "http://localhost:8000/api/auth/login/";
-    const response = await axios.post(
-      endpoint,
-      {
-        email: email,
-        password: password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
+    try {
+      const response = await axios.post(
+        endpoint,
+        {
+          email: email,
+          password: password,
         },
-      },
-    );
-    const data = response.data;
-    if (response.status === 200) {
-      setToken({ access: data.access, refresh: data.refresh });
-      setUser(jwtDecode(data.access));
-      localStorage.setItem("tokens", JSON.stringify(data));
-      navigate("/home");
-      console.log(user);
-    } else {
-      console.log("Something went wrong");
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      const data = await response.data;
+      if (response.status === 200) {
+        setToken({ access: data.access, refresh: data.refresh });
+        setUser(jwtDecode(data.access));
+        localStorage.setItem("tokens", JSON.stringify(data));
+        // navigate("/profile");
+        navigate("/home");
+        console.log(user);
+      } else {
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error.response.data);
     }
   };
 
@@ -81,6 +87,7 @@ export const AuthProvider = ({ children }) => {
         },
         1000 * 60 * 4,
       );
+
       return () => clearInterval(intervalId);
     }
   }, [token, loading]);
