@@ -31,7 +31,7 @@ function Login2() {
   };
 
   return (
-    <div className=" border-3 absolute mr-1 mt-1 min-h-80   min-w-72 rounded-md border-[#001D4F] bg-cyanT p-4 pb-0 shadow-2xl shadow-black">
+    <div className=" border-3 absolute mr-1 mt-1 min-h-80   min-w-72 rounded-[20px] border-[#001D4F] bg-cyanT p-4 pb-0 shadow-2xl shadow-black">
       <form onSubmit={handleSubmit}>
         <p className="m-1 text-center text-xl font-bold text-[#001D4F]">
           Login to your account

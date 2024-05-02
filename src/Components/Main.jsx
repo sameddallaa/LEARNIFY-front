@@ -34,11 +34,13 @@ export default function Main({ lgnClicked, navBar }) {
         </div>
       </div>
 
-      <div className="max-h-full bg-cyanT">
+      <div className="max-h-full space-y-32 bg-cyanT">
         <div className="flex">
           <div>
-            <h2 className="pl-3 text-blueT">Platforme d'apprentissage :</h2>
-            <p className="py-2 pl-3 leading-relaxed tracking-widest">
+            <h2 className="pb-2 pl-3 text-blueT">
+              Platforme d'apprentissage :
+            </h2>
+            <p className="py-2 pl-3 leading-loose tracking-widest">
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -53,8 +55,8 @@ export default function Main({ lgnClicked, navBar }) {
         <div className="flex pb-10">
           <img src={girlImg} className=" pr-30 h-52 px-20 " />
           <div>
-            <h2 className="text-blueT">Espace de communication :</h2>
-            <p className="py-2 pr-3 leading-relaxed tracking-widest">
+            <h2 className="pb-2 text-blueT">Espace de communication :</h2>
+            <p className="py-2 pr-3 leading-loose tracking-widest">
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris

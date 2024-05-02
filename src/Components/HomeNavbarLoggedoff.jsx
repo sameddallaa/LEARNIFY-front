@@ -43,7 +43,7 @@ const HomeNavbarLoggedOff = () => {
             </a>
           </div>
 
-          <div className="relative mr-10 flex flex-col items-center">
+          <div className="relative mr-10 flex flex-col items-center shadow-inner shadow-white">
             <button
               className="inline-block w-40 rounded-full bg-cyan-950 px-4 py-2 text-lg font-semibold text-blueT transition-colors duration-300 hover:bg-cyan-800 focus:outline-none focus:ring focus:ring-cyan-800 focus:ring-offset-2"
               onClick={() => setClicked((clicked) => !clicked)}
