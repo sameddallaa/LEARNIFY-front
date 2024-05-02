@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import HomeNavbar from "./HomeNavbar";
 import { Button, Offcanvas, Navbar, Container } from "react-bootstrap";
 import { FiClipboard } from "react-icons/fi";
 import classes from "../CSS/Subject.module.css";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../Contexts/AuthContext";
+
 const Subject = () => {
   const [subject, setSubject] = useState({});
   const [chapters, setChapters] = useState([]);
@@ -15,6 +16,9 @@ const Subject = () => {
   const { user } = useContext(AuthContext); // need to be connected in order to access Home
   const token = JSON.parse(localStorage.getItem("tokens"));
   const { subjectId } = useParams();
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   useEffect(() => {
     !user && navigate("/");
   }, [user]);
@@ -49,8 +53,11 @@ const Subject = () => {
           });
           const data = response.data;
           if (response.status === 200) {
-            setSubject(data);
-            console.log(data);
+            setSubject(() => data);
+            console.log(subject);
+            console.log(currentPath);
+            // setLoading((loading) => !loading);
+            console.log("im running");
           } else {
             console.log("Something went wrong");
           }
@@ -58,7 +65,7 @@ const Subject = () => {
           console.log(error);
         }
       },
-    [subject],
+    [subjectId],
   );
 
   return (
