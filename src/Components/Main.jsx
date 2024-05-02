@@ -3,6 +3,8 @@ import mainLogo from "../assets/img/main.svg";
 import classes from "../CSS/Main.module.css";
 import bookImg from "../assets/img/bookImg.svg";
 import girlImg from "../assets/img/girlImg.svg";
+import Lottie from "lottie-react";
+import animationData from "../assets/Animation - 1714609296276.json";
 
 export default function Main({ lgnClicked, navBar }) {
   return (
@@ -15,14 +17,19 @@ export default function Main({ lgnClicked, navBar }) {
           <h2>Lorem ipsum dolor sit amet.</h2>
         </div>
         <div
-          className={`${classes.imageContainer} ${
+          className={`${classes.imageContainer}  ${
             lgnClicked ? classes.fadeOut : ""
-          } mb-40`}
+          } mb-32`}
         >
-          <img
+          {/* <img
             src={mainLogo}
             className={`${classes.logoImage}`}
             alt="Learnify Logo"
+          /> */}
+          <Lottie
+            animationData={animationData}
+            className=" w-[600px]"
+            loop={false}
           />
         </div>
       </div>
