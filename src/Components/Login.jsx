@@ -21,9 +21,9 @@ function Login2() {
     const { email, password } = formData;
     try {
       await login(email, password);
-      if (!email || !password) throw new Error("Please check your inputs !");
-      if (!email.includes("@esi-sba.dz"))
-        throw new Error("Email does not exist ❌");
+      // if (!email || !password) throw new Error("Please check your inputs !");
+      // if (!email.includes("@esi-sba.dz"))
+      //   throw new Error("Email does not exist ❌");
     } catch (err) {
       console.log(err);
       setErrMsg(err.message);

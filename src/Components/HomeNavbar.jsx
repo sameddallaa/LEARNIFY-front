@@ -7,7 +7,7 @@ import {
   Container,
   ListGroup,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logoImage from "../assets/img/header.svg";
 import { AiOutlineMessage } from "react-icons/ai";
 import { VscThreeBars } from "react-icons/vsc";
@@ -26,6 +26,7 @@ const HomeNavbar = () => {
   const handleShow = () => setShow(true);
   const { user } = useContext(AuthContext); // need to be connected in order to access Home
   const token = JSON.parse(localStorage.getItem("tokens"));
+  const navigate = useNavigate();
   const {
     first_name,
     last_name,
@@ -35,34 +36,37 @@ const HomeNavbar = () => {
     is_teacher,
     year,
   } = user;
+  console.log(user);
 
   const [subjects, setSubjects] = useState([]);
-  useEffect(
-    () =>
-      async function fetchSubjects() {
-        if (is_student) {
-          const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
-          try {
-            const response = await axios.get(endpoint, {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token.access}`,
-              },
-            });
-            const data = await response.data;
-            if (response.status === 200) {
-              setSubjects(data);
-              console.log(data);
-            } else {
-              console.log("Something went wrong :(");
-            }
-          } catch (error) {
-            console.log(error);
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      if (is_student) {
+        const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
+        try {
+          const response = await axios.get(endpoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token.access}`,
+            },
+          });
+          // console.log("loading...");
+          const data = await response.data;
+          if (response.status === 200) {
+            setSubjects(data);
+            console.log(data);
+          } else {
+            console.log("Something went wrong :(");
           }
+        } catch (error) {
+          console.log(error);
         }
-      },
-    [],
-  );
+      }
+    };
+    fetchSubjects();
+  }, []);
+  const [subject, setSubject] = useState("");
+  console.log(subjects);
   const userType = () => {
     if (is_student) {
       return "Student";

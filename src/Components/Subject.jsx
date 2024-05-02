@@ -2,14 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import HomeNavbar from "./HomeNavbar";
 import { Button, Offcanvas, Navbar, Container } from "react-bootstrap";
 import { FiClipboard } from "react-icons/fi";
-import classes from "../CSS/Home.module.css";
+import classes from "../CSS/Subject.module.css";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../Contexts/AuthContext";
 const Subject = () => {
-  // console.log(subjectId);
   const [subject, setSubject] = useState({});
   const [chapters, setChapters] = useState([]);
   const navigate = useNavigate();
@@ -65,7 +64,7 @@ const Subject = () => {
   return (
     <>
       {/* <HomeNavbar /> */}
-      <Container>
+      <Container className={`${classes.subjectContainer}`}>
         <main className={`${classes.main}`}>
           <div className={`${classes.classHeader}`}>
             <div className={`${classes.classTitle}`}>

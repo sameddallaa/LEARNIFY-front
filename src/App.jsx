@@ -31,9 +31,8 @@ export default function App() {
           element={
             <NonAuthenticatedRoute Component={Main} props={lgnClicked} />
           }
-          exact
         />
-        <Route path="/subjects/:subjectId" element={<Subject />} />
+        <Route exact path="/subjects/:subjectId" Component={Subject} />
         <Route path="/home" element={<PrivateRoute Component={Home} />}></Route>
       </Routes>
     </>
