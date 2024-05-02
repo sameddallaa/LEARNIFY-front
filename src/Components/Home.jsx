@@ -85,7 +85,7 @@ const Home = () => {
             </Link>
           </div>
         </main> */}
-        <main>bsbsb</main>
+        <main>test</main>
         <Button className={`${classes.addNote}`}>
           <FiClipboard className={`${classes.clipboard}`} />
         </Button>
