@@ -5,12 +5,12 @@ import logoImg from "../assets/img/main.svg";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../Contexts/AuthContext";
 const Home = () => {
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext); // need to be connected in order to access Home
-  console.log(user);
-  useEffect(() => {
-    !user && navigate("/");
-  }, [user]);
+  // const navigate = useNavigate();
+  // const { user } = useContext(AuthContext); // need to be connected in order to access Home
+  // console.log(user);
+  // useEffect(() => {
+  //   !user && navigate("/");
+  // }, [user]);
 
   return (
     <>

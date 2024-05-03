@@ -8,7 +8,7 @@ const HomeNavbarLoggedOff = () => {
   const [clicked, setClicked] = useState(false);
   return (
     <>
-      <Navbar expand="lg" className="w-screen bg-cyanT">
+      <Navbar expand="lg" className=" bg-cyanT ">
         <Container className=" items-cente r flex  justify-between">
           <Navbar.Brand href="/">
             <div className="flex h-6">
@@ -45,7 +45,7 @@ const HomeNavbarLoggedOff = () => {
 
           <div className="relative mr-10 flex flex-col items-center shadow-inner shadow-white">
             <button
-              className="inline-block w-40 rounded-full bg-cyan-950 px-4 py-2 text-lg font-semibold text-blueT transition-colors duration-300 hover:bg-cyan-800 focus:outline-none focus:ring focus:ring-cyan-800 focus:ring-offset-2"
+              className="inline-block w-40 rounded-full bg-[#0857a0] px-4 py-2 text-lg font-semibold text-white transition-colors duration-300 hover:bg-cyan-800 focus:outline-none focus:ring focus:ring-cyan-800 focus:ring-offset-2"
               onClick={() => setClicked((clicked) => !clicked)}
             >
               <div className="flex items-center justify-center">
