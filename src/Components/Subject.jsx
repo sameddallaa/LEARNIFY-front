@@ -65,7 +65,7 @@ const Subject = () => {
           console.log(error);
         }
       },
-    [subjectId],
+    [subject],
   );
 
   return (
