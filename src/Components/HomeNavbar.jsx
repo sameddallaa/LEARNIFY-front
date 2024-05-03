@@ -19,8 +19,10 @@ import { FaBookOpen } from "react-icons/fa";
 import AuthContext from "../Contexts/AuthContext";
 import Subject from "./Subject";
 import axios from "axios";
+import ProfilNavBar from "./ProfilNavBar";
 const HomeNavbar = () => {
   const [show, setShow] = useState(false);
+  const [avatarClicked, setAvatarClicked] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -42,7 +44,7 @@ const HomeNavbar = () => {
   useEffect(() => {
     const fetchSubjects = async () => {
       if (is_student) {
-        const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
+        const endpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/year/${year}`;
         try {
           const response = await axios.get(endpoint, {
             headers: {
@@ -90,41 +92,9 @@ const HomeNavbar = () => {
             onHide={handleClose}
             className={`${classes.offcanvas}`}
           >
-            <Offcanvas.Body className={`${classes.offcanvasBody}`}>
-              <div className={`${classes.user}`}>
-                <div className={`${classes.profilePicContainer}`}>
-                  <img
-                    src={logoImage}
-                    alt="Profile picture"
-                    className={`${classes.profilePic}`}
-                  />
-                  <div className={`${classes.userNameContainer}`}>
-                    <p className={`${classes.userName}`}>
-                      {first_name} {last_name}
-                    </p>
-                  </div>
-                </div>
-                <div className={`${classes.additionalInfo}`}>
-                  <div className={`${classes.info}`}>{userType()}</div>
-                  <div className={`${classes.info}`}>{username}</div>
-                </div>
-              </div>
-              <div className={`${classes.bottomContainer}`}>
+            <Offcanvas.Body className={`${classes.offcanvasBody} bg-blueT`}>
+              <div>
                 <div className={`${classes.options}`}>
-                  <div className={`${classes.option}`}>
-                    <div className={`${classes.optionHead}`}>
-                      <IoMdSettings className={`${classes.optionIcon}`} />
-                      <p className={`${classes.optionText}`}>Settings</p>
-                    </div>
-                    <MdArrowForwardIos />
-                  </div>
-                  <div className={`${classes.option}`}>
-                    <div className={`${classes.optionHead}`}>
-                      <FaRegUser className={`${classes.optionIcon}`} />
-                      <p className={`${classes.optionText}`}>Profile</p>
-                    </div>
-                    <MdArrowForwardIos />
-                  </div>
                   <div className={`${classes.option}`}>
                     <div className={`${classes.optionHead}`}>
                       <IoDocumentsOutline className={`${classes.optionIcon}`} />
@@ -165,17 +135,29 @@ const HomeNavbar = () => {
             </div>
           </Navbar.Brand>
 
-          <div className="  flex space-x-2">
+          <div className="  flex space-x-10">
             <Button className={`${classes.navToggle}`}>
               <AiOutlineMessage />
             </Button>
-
-            <button
+            <div className="relative mr-10 flex flex-col items-center">
+              <button
+                className="daisy-avatar"
+                onClick={() => setAvatarClicked((clicked) => !clicked)}
+              >
+                <div className="w-11 rounded-full">
+                  <img src="https://fileinfo.com/img/ss/xl/jpg_44-2.jpg" />
+                </div>
+              </button>
+              <div className="z-1  z-0 flex justify-center">
+                {avatarClicked && <ProfilNavBar />}
+              </div>
+            </div>
+            {/* <button
               className="inline-block rounded-full px-1 py-1 text-sm font-semibold    transition-colors duration-300  hover:bg-red-400 hover:text-red-600  focus:outline-none focus:ring focus:ring-red-400 focus:ring-offset-2"
               onClick={logout}
             >
               Disconnect
-            </button>
+            </button> */}
           </div>
         </Container>
       </Navbar>

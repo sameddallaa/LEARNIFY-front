@@ -25,8 +25,8 @@ const Subject = () => {
   useEffect(
     () =>
       async function fetchChapters() {
-        const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
-        const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
+        const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
+        const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
         try {
           const response = await axios.get(chaptersEndpoint, {
             headers: {
@@ -65,7 +65,7 @@ const Subject = () => {
           console.log(error);
         }
       },
-    [subject],
+    [subjectId],
   );
 
   return (
