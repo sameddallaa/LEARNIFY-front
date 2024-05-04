@@ -113,8 +113,16 @@
   background-color: #80a5ca;
   /* padding-bottom: 20px; */
 }
+
+.yearContainer {
+  /* background-color: aquamarine; */
+  margin-top: 0 !important;
+  /* border: 1px solid black; */
+}
+
 .year {
-  /* padding: 1px; */
+  padding-inline: 15px;
+  margin: 0;
 }
 
 .courseLink {
@@ -130,7 +138,10 @@
 
 .listGroup {
   /* border: none !important; */
-  padding-inline: 5px !important;
+  margin-inline: 7px;
+  padding-inline: 2px !important;
+  /* border: 1px solid black; */
+  /* background-color: rgba(255, 255, 255, 0.8); */
 }
 
 .listGroupItem {

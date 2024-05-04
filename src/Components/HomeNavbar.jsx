@@ -7,7 +7,7 @@ import {
   Container,
   ListGroup,
 } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logoImage from "../assets/img/header.svg";
 import { AiOutlineMessage } from "react-icons/ai";
 import { VscThreeBars } from "react-icons/vsc";
@@ -21,10 +21,15 @@ import Subject from "./Subject";
 import axios from "axios";
 const HomeNavbar = () => {
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const { user } = useContext(AuthContext); // need to be connected in order to access Home
+  const { user, loading, setLoading } = useContext(AuthContext); // need to be connected in order to access Home
+  const handleClose = () => {
+    setLoading((prevLoading) => !prevLoading);
+    setShow(false);
+  };
+  const handleShow = () => {
+    setLoading((prevLoading) => !prevLoading);
+    setShow(true);
+  };
   const token = JSON.parse(localStorage.getItem("tokens"));
   const navigate = useNavigate();
   const {
@@ -34,11 +39,17 @@ const HomeNavbar = () => {
     user_id,
     is_student,
     is_teacher,
+    teacher_id,
     year,
+    year_tag,
   } = user;
   console.log(user);
-
+  const location = useLocation();
+  // const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState([]);
+  const [years, setYears] = useState([]);
+  const [yearsSubjects, setYearsSubjects] = useState([]);
+  const yearsSet = new Set();
   useEffect(() => {
     const fetchSubjects = async () => {
       if (is_student) {
@@ -50,23 +61,67 @@ const HomeNavbar = () => {
               Authorization: `Bearer ${token.access}`,
             },
           });
-          // console.log("loading...");
           const data = await response.data;
           if (response.status === 200) {
             setSubjects(data);
-            console.log(data);
           } else {
             console.log("Something went wrong :(");
           }
         } catch (error) {
           console.log(error);
         }
+      } else if (is_teacher) {
+        const yearsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/years/`;
+        try {
+          const response = await axios.get(yearsEndpoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token.access}`,
+            },
+          });
+          const data = await response.data;
+          if (response.status === 200) {
+            setYears(data);
+          } else {
+            console.log("Something went wrong :(");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        years.map(async (year) => {
+          console.log("i'm running :)");
+          const subjectsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/${year.year}/subjects/`;
+          try {
+            const response = await axios.get(subjectsEndpoint, {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token.access}`,
+              },
+            });
+            const data = await response.data;
+            if (response.status === 200) {
+              yearsSet.add({
+                year: year.year,
+                year_tag: year.year_tag,
+                subject: data,
+              });
+              setYearsSubjects([...yearsSet]);
+              setSubjects(data);
+              console.log(Array.from(yearsSet));
+            } else {
+              console.log("Something went wrong :(");
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        });
       }
+      console.log(...yearsSet);
     };
+    console.log("useEffect has been invoked");
     fetchSubjects();
-  }, []);
-  const [subject, setSubject] = useState("");
-  console.log(subjects);
+  }, [loading]);
+  // const [subject, setSubject] = useState("");
   const userType = () => {
     if (is_student) {
       return "Student";
@@ -135,26 +190,65 @@ const HomeNavbar = () => {
                     <MdArrowForwardIos />
                   </div>
                 </div>
-                <div className={`${classes.courses}`}>
-                  <ListGroup className={`${classes.listGroup}`}>
-                    {subjects.map((key) => (
-                      <ListGroup.Item
-                        className={`${classes.listGroupItem}`}
-                        key={key.id}
-                      >
-                        <div className={`${classes.courseIcon}`}>
-                          <FaBookOpen className={`${classes.openBook}`} />
-                        </div>
-                        <Link
-                          className={`${classes.courseLink}`}
-                          to={`/subjects/${key.id}/`}
-                        >
-                          <p className={`${classes.courseText}`}>{key.name}</p>
-                        </Link>
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                </div>
+                {is_teacher ? (
+                  yearsSubjects.map((year) => (
+                    <div className={`${classes.yearContainer}`} key={year.id}>
+                      <p className={`${classes.year}`}>{year.year_tag}</p>
+                      <div className={`${classes.courses}`}>
+                        {year.subject.map((subject) => (
+                          <ListGroup
+                            className={`${classes.listGroup}`}
+                            key={subject}
+                          >
+                            <ListGroup.Item
+                              className={`${classes.listGroupItem}`}
+                            >
+                              <div className={`${classes.courseIcon}`}>
+                                <FaBookOpen className={`${classes.openBook}`} />
+                              </div>
+                              <Link
+                                className={`${classes.courseLink}`}
+                                to={`/subjects/${subject.id}/`}
+                              >
+                                <p className={`${classes.courseText}`}>
+                                  {subject.name}
+                                </p>
+                              </Link>
+                            </ListGroup.Item>
+                          </ListGroup>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                ) : is_student ? (
+                  <div className={`${classes.yearContainer}`}>
+                    <p className={`${classes.year}`}>{year_tag}</p>
+                    <div className={`${classes.courses}`}>
+                      <ListGroup className={`${classes.listGroup}`}>
+                        {subjects.map((key) => (
+                          <ListGroup.Item
+                            className={`${classes.listGroupItem}`}
+                            key={key.id}
+                          >
+                            <div className={`${classes.courseIcon}`}>
+                              <FaBookOpen className={`${classes.openBook}`} />
+                            </div>
+                            <Link
+                              className={`${classes.courseLink}`}
+                              to={`/subjects/${key.id}/`}
+                            >
+                              <p className={`${classes.courseText}`}>
+                                {key.name}
+                              </p>
+                            </Link>
+                          </ListGroup.Item>
+                        ))}
+                      </ListGroup>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             </Offcanvas.Body>
           </Offcanvas>

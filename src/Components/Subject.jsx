@@ -11,17 +11,31 @@ import AuthContext from "../Contexts/AuthContext";
 
 const Subject = () => {
   const [subject, setSubject] = useState({});
+  // const [loading, setLoading] = useState(false);
   const [chapters, setChapters] = useState([]);
+  const [role, setRole] = useState("");
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext); // need to be connected in order to access Home
+  const { user, loading } = useContext(AuthContext); // need to be connected in order to access Home
+  const { is_teacher, is_student } = user;
   const token = JSON.parse(localStorage.getItem("tokens"));
   const { subjectId } = useParams();
   const location = useLocation();
-  const currentPath = location.pathname;
+  let currentPath;
 
   useEffect(() => {
     !user && navigate("/");
   }, [user]);
+  useEffect(() => {
+    if (user) {
+      if (is_teacher) {
+        setRole("Teacher");
+      } else if (is_student) {
+        setRole("Student");
+      } else {
+        setRole("Admin");
+      }
+    }
+  }, []);
   useEffect(
     () =>
       async function fetchChapters() {
@@ -54,9 +68,9 @@ const Subject = () => {
           const data = response.data;
           if (response.status === 200) {
             setSubject(() => data);
-            console.log(subject);
+            currentPath = location.pathname;
             console.log(currentPath);
-            // setLoading((loading) => !loading);
+            console.log(subject);
             console.log("im running");
           } else {
             console.log("Something went wrong");
@@ -65,7 +79,7 @@ const Subject = () => {
           console.log(error);
         }
       },
-    [subject],
+    [loading],
   );
 
   return (
@@ -85,24 +99,38 @@ const Subject = () => {
               <br /> Horaire : Mercredi 08h00 09h30
               <br />
               Place: {subject.place} <br />
-              Enseignant: Dr. {subject.teacher_name} <br />
+              Enseignant:{" "}
+              {subject.teacher_degree === "Professeur" ? "Pr. " : "Dr. "}{" "}
+              {subject.teacher_name} <br />
               email: {subject.teacher_email} <br />
               Disponibilité Au bureau : mardi – jeudi de 14h00 -16h00
             </div>
           </div>
           <div className={`${classes.courses}`}>
-            {chapters.map((key) => (
-              <React.Fragment key={key}>
+            {chapters.map((chapter) => (
+              <React.Fragment key={chapter.id}>
                 <Link className={`${classes.courseLink}`}>
                   <div className={`${classes.course}`}>
                     <div className={`${classes.courseTitle}`}>
-                      Chapitre {key.number}
+                      Chapitre {chapter.number}
                     </div>
-                    <div className={`${classes.courseDesc}`}>{key.name}</div>
+                    <div className={`${classes.courseDesc}`}>
+                      {chapter.name}
+                    </div>
                   </div>
                 </Link>
               </React.Fragment>
             ))}
+            {role === "Teacher" ? (
+              <Link className={`${classes.courseLink}`}>
+                <div className={`${classes.course}`}>
+                  <div className={`${classes.courseTitle}`}>Ajouter</div>
+                  <div className={`${classes.courseDesc}`}></div>
+                </div>
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
         </main>
         <Button className={`${classes.addNote}`}>

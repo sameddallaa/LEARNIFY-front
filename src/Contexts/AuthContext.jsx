@@ -91,13 +91,15 @@ export const AuthProvider = ({ children }) => {
 
       return () => clearInterval(intervalId);
     }
-  }, [token, loading]);
+  }, [token]);
 
   const contextData = {
     user: user,
     login: login,
     logout: logout,
     updateTokens: updateTokens,
+    loading: loading,
+    setLoading: setLoading,
   };
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
