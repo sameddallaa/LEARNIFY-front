@@ -12,6 +12,7 @@ import AuthContext from "../Contexts/AuthContext";
 const Subject = () => {
   const [subject, setSubject] = useState({});
   const [chapters, setChapters] = useState([]);
+  const [clipBoardOpened, setClipBoardOpened] = useState(false);
   const navigate = useNavigate();
   const { user } = useContext(AuthContext); // need to be connected in order to access Home
   const token = JSON.parse(localStorage.getItem("tokens"));
@@ -105,9 +106,33 @@ const Subject = () => {
             ))}
           </div>
         </main>
-        <Button className={`${classes.addNote}`}>
-          <FiClipboard className={`${classes.clipboard}`} />
-        </Button>
+        <div className={`${classes.addNote}  z-10 grid bg-transparent`}>
+          {clipBoardOpened ? (
+            <>
+              <div className="flex flex-col items-center space-y-2">
+                <textarea
+                  className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4  h-48 w-full max-w-xs bg-inherit"
+                  placeholder="Bio"
+                ></textarea>
+                <button
+                  className="daisy-btn daisy-btn-info bg-inherit "
+                  onClick={() => {
+                    setClipBoardOpened((clicked) => !clicked);
+                  }}
+                >
+                  Save
+                </button>
+              </div>
+            </>
+          ) : (
+            <Button
+              className={`${classes.addNote}`}
+              onClick={() => setClipBoardOpened((opened) => !opened)}
+            >
+              <FiClipboard className={`${classes.clipboard}`} />
+            </Button>
+          )}
+        </div>
       </Container>
     </>
   );

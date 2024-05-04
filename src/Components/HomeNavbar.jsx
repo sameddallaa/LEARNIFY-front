@@ -9,17 +9,17 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import logoImage from "../assets/img/header.svg";
-import { AiOutlineMessage } from "react-icons/ai";
+import { MdOutlineForum } from "react-icons/md";
 import { VscThreeBars } from "react-icons/vsc";
-import { IoMdSettings } from "react-icons/io";
 import { MdArrowForwardIos } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { FaBookOpen } from "react-icons/fa";
 import AuthContext from "../Contexts/AuthContext";
 import Subject from "./Subject";
 import axios from "axios";
 import ProfilNavBar from "./ProfilNavBar";
+import { MdOutlineNotificationsActive } from "react-icons/md";
+
 const HomeNavbar = () => {
   const [show, setShow] = useState(false);
   const [avatarClicked, setAvatarClicked] = useState(false);
@@ -137,7 +137,11 @@ const HomeNavbar = () => {
 
           <div className="  flex space-x-10">
             <Button className={`${classes.navToggle}`}>
-              <AiOutlineMessage />
+              <MdOutlineForum />
+            </Button>
+
+            <Button className={`${classes.navToggle} `}>
+              <MdOutlineNotificationsActive className="" />
             </Button>
             <div className="relative mr-10 flex flex-col items-center">
               <button
@@ -148,7 +152,7 @@ const HomeNavbar = () => {
                   <img src="https://fileinfo.com/img/ss/xl/jpg_44-2.jpg" />
                 </div>
               </button>
-              <div className="z-1  z-0 flex justify-center">
+              <div className="z-0 flex justify-center">
                 {avatarClicked && <ProfilNavBar />}
               </div>
             </div>
