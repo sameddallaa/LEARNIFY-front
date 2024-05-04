@@ -6,19 +6,21 @@ import {
   Navbar,
   Container,
   ListGroup,
+  Accordion,
 } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import logoImage from "../assets/img/header.svg";
-import { AiOutlineMessage } from "react-icons/ai";
+import { MdOutlineForum } from "react-icons/md";
 import { VscThreeBars } from "react-icons/vsc";
-import { IoMdSettings } from "react-icons/io";
 import { MdArrowForwardIos } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa";
 import { IoDocumentsOutline } from "react-icons/io5";
 import { FaBookOpen } from "react-icons/fa";
 import AuthContext from "../Contexts/AuthContext";
 import Subject from "./Subject";
 import axios from "axios";
+import ProfilNavBar from "./ProfilNavBar";
+import { MdOutlineNotificationsActive } from "react-icons/md";
+
 const HomeNavbar = () => {
   const [show, setShow] = useState(false);
   const { user, loading, setLoading } = useContext(AuthContext); // need to be connected in order to access Home
@@ -30,6 +32,7 @@ const HomeNavbar = () => {
     setLoading((prevLoading) => !prevLoading);
     setShow(true);
   };
+  const [avatarClicked, setAvatarClicked] = useState(false);
   const token = JSON.parse(localStorage.getItem("tokens"));
   const navigate = useNavigate();
   const {
@@ -53,6 +56,7 @@ const HomeNavbar = () => {
   useEffect(() => {
     const fetchSubjects = async () => {
       if (is_student) {
+        // const endpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/year/${year}`;
         const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
         try {
           const response = await axios.get(endpoint, {
@@ -71,7 +75,7 @@ const HomeNavbar = () => {
           console.log(error);
         }
       } else if (is_teacher) {
-        const yearsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/years/`;
+        const yearsEndpoint = `https://localhost:8000/api/teachers/${teacher_id}/years/`;
         try {
           const response = await axios.get(yearsEndpoint, {
             headers: {
@@ -145,42 +149,92 @@ const HomeNavbar = () => {
             onHide={handleClose}
             className={`${classes.offcanvas}`}
           >
-            <Offcanvas.Body className={`${classes.offcanvasBody}`}>
-              <div className={`${classes.user}`}>
-                <div className={`${classes.profilePicContainer}`}>
-                  <img
-                    src={logoImage}
-                    alt="Profile picture"
-                    className={`${classes.profilePic}`}
-                  />
-                  <div className={`${classes.userNameContainer}`}>
-                    <p className={`${classes.userName}`}>
-                      {first_name} {last_name}
-                    </p>
-                  </div>
-                </div>
-                <div className={`${classes.additionalInfo}`}>
-                  <div className={`${classes.info}`}>{userType()}</div>
-                  <div className={`${classes.info}`}>{username}</div>
-                </div>
-              </div>
-              <div className={`${classes.bottomContainer}`}>
+            <Offcanvas.Body className={`${classes.offcanvasBody} bg-blueT`}>
+              <div>
                 <div className={`${classes.options}`}>
-                  <div className={`${classes.option}`}>
-                    <div className={`${classes.optionHead}`}>
-                      <IoMdSettings className={`${classes.optionIcon}`} />
-                      <p className={`${classes.optionText}`}>Settings</p>
-                    </div>
-                    <MdArrowForwardIos />
-                  </div>
-                  <div className={`${classes.option}`}>
-                    <div className={`${classes.optionHead}`}>
-                      <FaRegUser className={`${classes.optionIcon}`} />
-                      <p className={`${classes.optionText}`}>Profile</p>
-                    </div>
-                    <MdArrowForwardIos />
-                  </div>
-                  <div className={`${classes.option}`}>
+                  <Accordion className={`${classes.accordion}`}>
+                    <Accordion.Item
+                      className={`${classes.accordionItem}`}
+                      eventKey="0"
+                    >
+                      <Accordion.Header
+                        className={`${classes.accordionHeader}`}
+                      >
+                        Modules
+                      </Accordion.Header>
+                      <Accordion.Body className={`${classes.accordionBody}`}>
+                        {is_teacher ? (
+                          yearsSubjects.map((year) => (
+                            <div
+                              className={`${classes.yearContainer}`}
+                              key={year.id}
+                            >
+                              <p className={`${classes.year}`}>
+                                {year.year_tag}
+                              </p>
+                              <div className={`${classes.courses}`}>
+                                {year.subject.map((subject) => (
+                                  <ListGroup
+                                    className={`${classes.listGroup}`}
+                                    key={subject}
+                                  >
+                                    <ListGroup.Item
+                                      className={`${classes.listGroupItem}`}
+                                    >
+                                      <div className={`${classes.courseIcon}`}>
+                                        <FaBookOpen
+                                          className={`${classes.openBook}`}
+                                        />
+                                      </div>
+                                      <Link
+                                        className={`${classes.courseLink}`}
+                                        to={`/subjects/${subject.id}/`}
+                                      >
+                                        <p className={`${classes.courseText}`}>
+                                          {subject.name}
+                                        </p>
+                                      </Link>
+                                    </ListGroup.Item>
+                                  </ListGroup>
+                                ))}
+                              </div>
+                            </div>
+                          ))
+                        ) : is_student ? (
+                          <div className={`${classes.yearContainer}`}>
+                            <p className={`${classes.year}`}>{year_tag}</p>
+                            <div className={`${classes.courses}`}>
+                              <ListGroup className={`${classes.listGroup}`}>
+                                {subjects.map((key) => (
+                                  <ListGroup.Item
+                                    className={`${classes.listGroupItem}`}
+                                    key={key.id}
+                                  >
+                                    <div className={`${classes.courseIcon}`}>
+                                      <FaBookOpen
+                                        className={`${classes.openBook}`}
+                                      />
+                                    </div>
+                                    <Link
+                                      className={`${classes.courseLink}`}
+                                      to={`/subjects/${key.id}/`}
+                                    >
+                                      <p className={`${classes.courseText}`}>
+                                        {key.name}
+                                      </p>
+                                    </Link>
+                                  </ListGroup.Item>
+                                ))}
+                              </ListGroup>
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                  {/* <div className={`${classes.option}`}>
                     <div className={`${classes.optionHead}`}>
                       <IoDocumentsOutline className={`${classes.optionIcon}`} />
                       <p className={`${classes.optionText} ${classes.wrap}`}>
@@ -188,67 +242,8 @@ const HomeNavbar = () => {
                       </p>
                     </div>
                     <MdArrowForwardIos />
-                  </div>
+                  </div> */}
                 </div>
-                {is_teacher ? (
-                  yearsSubjects.map((year) => (
-                    <div className={`${classes.yearContainer}`} key={year.id}>
-                      <p className={`${classes.year}`}>{year.year_tag}</p>
-                      <div className={`${classes.courses}`}>
-                        {year.subject.map((subject) => (
-                          <ListGroup
-                            className={`${classes.listGroup}`}
-                            key={subject}
-                          >
-                            <ListGroup.Item
-                              className={`${classes.listGroupItem}`}
-                            >
-                              <div className={`${classes.courseIcon}`}>
-                                <FaBookOpen className={`${classes.openBook}`} />
-                              </div>
-                              <Link
-                                className={`${classes.courseLink}`}
-                                to={`/subjects/${subject.id}/`}
-                              >
-                                <p className={`${classes.courseText}`}>
-                                  {subject.name}
-                                </p>
-                              </Link>
-                            </ListGroup.Item>
-                          </ListGroup>
-                        ))}
-                      </div>
-                    </div>
-                  ))
-                ) : is_student ? (
-                  <div className={`${classes.yearContainer}`}>
-                    <p className={`${classes.year}`}>{year_tag}</p>
-                    <div className={`${classes.courses}`}>
-                      <ListGroup className={`${classes.listGroup}`}>
-                        {subjects.map((key) => (
-                          <ListGroup.Item
-                            className={`${classes.listGroupItem}`}
-                            key={key.id}
-                          >
-                            <div className={`${classes.courseIcon}`}>
-                              <FaBookOpen className={`${classes.openBook}`} />
-                            </div>
-                            <Link
-                              className={`${classes.courseLink}`}
-                              to={`/subjects/${key.id}/`}
-                            >
-                              <p className={`${classes.courseText}`}>
-                                {key.name}
-                              </p>
-                            </Link>
-                          </ListGroup.Item>
-                        ))}
-                      </ListGroup>
-                    </div>
-                  </div>
-                ) : (
-                  ""
-                )}
               </div>
             </Offcanvas.Body>
           </Offcanvas>
@@ -259,17 +254,33 @@ const HomeNavbar = () => {
             </div>
           </Navbar.Brand>
 
-          <div className="  flex space-x-2">
+          <div className="  flex space-x-10">
             <Button className={`${classes.navToggle}`}>
-              <AiOutlineMessage />
+              <MdOutlineForum />
             </Button>
 
-            <button
+            <Button className={`${classes.navToggle} `}>
+              <MdOutlineNotificationsActive className="" />
+            </Button>
+            <div className="relative mr-10 flex flex-col items-center">
+              <button
+                className="daisy-avatar"
+                onClick={() => setAvatarClicked((clicked) => !clicked)}
+              >
+                <div className="w-11 rounded-full">
+                  <img src="https://fileinfo.com/img/ss/xl/jpg_44-2.jpg" />
+                </div>
+              </button>
+              <div className="z-0 flex justify-center">
+                {avatarClicked && <ProfilNavBar />}
+              </div>
+            </div>
+            {/* <button
               className="inline-block rounded-full px-1 py-1 text-sm font-semibold    transition-colors duration-300  hover:bg-red-400 hover:text-red-600  focus:outline-none focus:ring focus:ring-red-400 focus:ring-offset-2"
               onClick={logout}
             >
               Disconnect
-            </button>
+            </button> */}
           </div>
         </Container>
       </Navbar>
