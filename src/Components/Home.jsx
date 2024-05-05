@@ -13,7 +13,7 @@ const Home = () => {
   // }, [user]);
 
   return (
-    <>
+    <div className="bg-cyanT">
       <Container className={`${classes.homeContainer}`}>
         <main className={`${classes.main}`}>
           <h1 className={`${classes.heading}`}>Welcome</h1>
@@ -24,7 +24,7 @@ const Home = () => {
           />
         </main>
       </Container>
-    </>
+    </div>
   );
 };
 

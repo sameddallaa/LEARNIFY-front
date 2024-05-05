@@ -1,8 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
-import Header from "./Components/Header";
 import HomeNavbar from "./Components/HomeNavbar";
 import Home from "./Components/Home";
-import Login from "./Components/Login22";
 import PrivateRoute from "./Routes/PrivateRoute";
 import Main from "./Components/Main";
 import { AuthProvider } from "./Contexts/AuthContext";

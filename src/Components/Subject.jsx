@@ -40,10 +40,10 @@ const Subject = () => {
   useEffect(
     () =>
       async function fetchChapters() {
-        // const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
-        // const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
-        const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
-        const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
+        // const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
+        // const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
+        const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
+        const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
         try {
           const response = await axios.get(chaptersEndpoint, {
             headers: {
@@ -86,10 +86,10 @@ const Subject = () => {
   );
 
   return (
-    <>
+    <div className="bg-cyanT pt-1">
       {/* <HomeNavbar /> */}
       <Container className={`${classes.subjectContainer}`}>
-        <main className={`${classes.main}`}>
+        <main className={`${classes.main} mt-2 `}>
           <div className={`${classes.classHeader}`}>
             <div className={`${classes.classTitle}`}>
               <h1>{subject.name}</h1>
@@ -103,7 +103,10 @@ const Subject = () => {
               <br />
               Place: {subject.place} <br />
               Enseignant:{" "}
-              {subject.teacher_degree === "Professeur" ? "Pr. " : "Dr. "}{" "}
+              {subject.teacher_degree &&
+                (subject.teacher_degree === "Professeur"
+                  ? "Pr. "
+                  : "Dr. ")}{" "}
               {subject.teacher_name} <br />
               email: {subject.teacher_email} <br />
               Disponibilité Au bureau : mardi – jeudi de 14h00 -16h00
@@ -141,7 +144,7 @@ const Subject = () => {
             <>
               <div className="flex flex-col items-center space-y-2">
                 <textarea
-                  className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4  h-48 w-full max-w-xs bg-inherit"
+                  className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4 h-full  w-80 max-w-xs bg-inherit focus:bg-white"
                   placeholder="Bio"
                 ></textarea>
                 <button
@@ -164,7 +167,7 @@ const Subject = () => {
           )}
         </div>
       </Container>
-    </>
+    </div>
   );
 };
 

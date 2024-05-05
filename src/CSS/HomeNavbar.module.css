@@ -3,6 +3,7 @@
 .nav {
   background-color: #80a5ca;
   z-index: 1000;
+  margin-bottom: 0%;
 }
 
 .navToggle {
