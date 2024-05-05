@@ -25,11 +25,11 @@ const HomeNavbar = () => {
   const [show, setShow] = useState(false);
   const { user, loading, setLoading } = useContext(AuthContext); // need to be connected in order to access Home
   const handleClose = () => {
-    setLoading((prevLoading) => !prevLoading);
+    // setLoading((prevLoading) => !prevLoading);
     setShow(false);
   };
   const handleShow = () => {
-    setLoading((prevLoading) => !prevLoading);
+    // setLoading((prevLoading) => !prevLoading);
     setShow(true);
   };
   const [avatarClicked, setAvatarClicked] = useState(false);

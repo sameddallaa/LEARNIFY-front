@@ -3,7 +3,7 @@ import { useState } from "react";
 import AuthContext from "../Contexts/AuthContext";
 import { Await, useNavigate } from "react-router-dom";
 
-function Login2() {
+function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const { login, user } = useContext(AuthContext);
   const [errMsg, setErrMsg] = useState("");
@@ -84,4 +84,4 @@ function Login2() {
   );
 }
 
-export default Login2;
+export default Login;

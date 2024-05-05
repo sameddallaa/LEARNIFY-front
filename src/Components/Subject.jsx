@@ -8,6 +8,7 @@ import axios from "axios";
 
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../Contexts/AuthContext";
+import LoadingAnimation from "./Sub Components/LoadingAnimation";
 
 const Subject = () => {
   const [subject, setSubject] = useState({});
@@ -22,6 +23,7 @@ const Subject = () => {
   const { subjectId } = useParams();
   const location = useLocation();
   let currentPath;
+  const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
     !user && navigate("/");
@@ -45,6 +47,7 @@ const Subject = () => {
         const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
         const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
         try {
+          setDataLoading(true);
           const response = await axios.get(chaptersEndpoint, {
             headers: {
               "Content-Type": "application/json",
@@ -55,6 +58,7 @@ const Subject = () => {
           if (response.status === 200) {
             setChapters(data);
             console.log(data);
+            setDataLoading(false);
           } else {
             console.log("Something went wrong");
           }
@@ -62,6 +66,7 @@ const Subject = () => {
           console.log(error);
         }
         try {
+          setDataLoading(true);
           const response = await axios.get(subjectEndpoint, {
             headers: {
               "Content-Type": "application/json",
@@ -72,6 +77,7 @@ const Subject = () => {
           if (response.status === 200) {
             setSubject(() => data);
             currentPath = location.pathname;
+            setDataLoading(false);
             console.log(currentPath);
             console.log(subject);
             console.log("im running");
@@ -88,57 +94,71 @@ const Subject = () => {
   return (
     <div className="bg-cyanT pt-1">
       {/* <HomeNavbar /> */}
-      <Container className={`${classes.subjectContainer}`}>
-        <main className={`${classes.main} mt-2 `}>
-          <div className={`${classes.classHeader}`}>
-            <div className={`${classes.classTitle}`}>
-              <h1>{subject.name}</h1>
-            </div>
-            <div className={`${classes.classDesc}`}>
-              Crédit : {subject.credit}
-              <br />
-              Coefficient : {subject.coefficient} <br />
-              Durée : 16 semaines
-              <br /> Horaire : Mercredi 08h00 09h30
-              <br />
-              Place: {subject.place} <br />
-              Enseignant:{" "}
-              {subject.teacher_degree &&
-                (subject.teacher_degree === "Professeur"
-                  ? "Pr. "
-                  : "Dr. ")}{" "}
-              {subject.teacher_name} <br />
-              email: {subject.teacher_email} <br />
-              Disponibilité Au bureau : mardi – jeudi de 14h00 -16h00
-            </div>
-          </div>
-          <div className={`${classes.courses}`}>
-            {chapters.map((chapter) => (
-              <React.Fragment key={chapter.id}>
-                <Link className={`${classes.courseLink}`}>
-                  <div className={`${classes.course}`}>
-                    <div className={`${classes.courseTitle}`}>
-                      Chapitre {chapter.number}
-                    </div>
-                    <div className={`${classes.courseDesc}`}>
-                      {chapter.name}
-                    </div>
-                  </div>
-                </Link>
-              </React.Fragment>
-            ))}
-            {role === "Teacher" ? (
-              <Link className={`${classes.courseLink}`}>
-                <div className={`${classes.course}`}>
-                  <div className={`${classes.courseTitle}`}>Ajouter</div>
-                  <div className={`${classes.courseDesc}`}></div>
+      <Container className={`relative ${classes.subjectContainer}`}>
+        {dataLoading ? (
+          <LoadingAnimation
+            classProp={`  absolute  left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/3 transform`}
+          />
+        ) : (
+          <main className={`${classes.main} mt-2 `}>
+            <div className={`${classes.classHeader}`}>
+              <div className={`${classes.classTitle}`}>
+                {dataLoading ? <LoadingAnimation /> : <h1>{subject.name}</h1>}
+              </div>
+              {dataLoading ? (
+                <LoadingAnimation />
+              ) : (
+                <div className={`${classes.classDesc}`}>
+                  Crédit : {subject.credit}
+                  <br />
+                  Coefficient : {subject.coefficient} <br />
+                  Durée : 16 semaines
+                  <br /> Horaire : Mercredi 08h00 09h30
+                  <br />
+                  Place: {subject.place} <br />
+                  Enseignant:{" "}
+                  {subject.teacher_degree &&
+                    (subject.teacher_degree === "Professeur"
+                      ? "Pr. "
+                      : "Dr. ")}{" "}
+                  {subject.teacher_name} <br />
+                  email: {subject.teacher_email} <br />
+                  Disponibilité Au bureau : mardi – jeudi de 14h00 -16h00
                 </div>
-              </Link>
+              )}
+            </div>
+            {dataLoading ? (
+              <LoadingAnimation classProp="justify-center" />
             ) : (
-              ""
+              <div className={`${classes.courses}`}>
+                {chapters.map((chapter) => (
+                  <React.Fragment key={chapter.id}>
+                    <Link className={`${classes.courseLink}`}>
+                      <div className={`${classes.course}`}>
+                        <div className={`${classes.courseTitle}`}>
+                          Chapitre {chapter.number}
+                        </div>
+                        <div className={`${classes.courseDesc}`}>
+                          {chapter.name}
+                        </div>
+                      </div>
+                    </Link>
+                  </React.Fragment>
+                ))}
+                {role === "Teacher" ? (
+                  <Link className={`${classes.courseLink}`}>
+                    <div className={`${classes.course}`}>
+                      <div className={`${classes.courseTitle}`}>Ajouter</div>
+                      <div className={`${classes.courseDesc}`}></div>
+                    </div>
+                  </Link>
+                ) : (
+                  ""
+                )}
+              </div>
             )}
-          </div>
-        </main>
+          </main>
+        )}
         <div className={`${classes.addNote}  z-10 grid bg-transparent`}>
           {clipBoardOpened ? (
             <>
