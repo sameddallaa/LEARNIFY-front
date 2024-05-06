@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
   );
 
   const [loading, setLoading] = useState(true);
+  const [subjectId, setSubjectId] = useState("");
   const navigate = useNavigate();
 
   const login = async (email, password) => {
@@ -101,6 +102,8 @@ export const AuthProvider = ({ children }) => {
     updateTokens: updateTokens,
     loading: loading,
     setLoading: setLoading,
+    subjectId: subjectId,
+    setSubjectId: setSubjectId,
   };
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>

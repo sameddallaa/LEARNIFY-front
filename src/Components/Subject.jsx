@@ -9,6 +9,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../Contexts/AuthContext";
 import LoadingAnimation from "./Sub Components/LoadingAnimation";
+import ChapitreModal from "./ChapitreModal";
 
 const Subject = () => {
   const [subject, setSubject] = useState({});
@@ -24,6 +25,7 @@ const Subject = () => {
   const location = useLocation();
   let currentPath;
   const [dataLoading, setDataLoading] = useState(true);
+  const [chaptersOpened, setChaptersOpened] = useState(false);
 
   useEffect(() => {
     !user && navigate("/");
@@ -100,20 +102,17 @@ const Subject = () => {
             classProp={`  absolute  left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/3 transform`}
           />
         ) : (
-          <main className={`${classes.main} mt-2 `}>
-            <div className={`${classes.classHeader}`}>
-              <div className={`${classes.classTitle}`}>
-                {dataLoading ? <LoadingAnimation /> : <h1>{subject.name}</h1>}
-              </div>
-              {dataLoading ? (
-                <LoadingAnimation />
-              ) : (
+          <>
+            <main className={`${classes.main} mt-2 `}>
+              <div className={`${classes.classHeader}`}>
+                <div className={`${classes.classTitle}`}>
+                  <h1>{subject.name}</h1>
+                </div>
                 <div className={`${classes.classDesc}`}>
                   Crédit : {subject.credit}
                   <br />
                   Coefficient : {subject.coefficient} <br />
                   Durée : 16 semaines
-                  <br /> Horaire : Mercredi 08h00 09h30
                   <br />
                   Place: {subject.place} <br />
                   Enseignant:{" "}
@@ -123,17 +122,18 @@ const Subject = () => {
                       : "Dr. ")}{" "}
                   {subject.teacher_name} <br />
                   email: {subject.teacher_email} <br />
-                  Disponibilité Au bureau : mardi – jeudi de 14h00 -16h00
                 </div>
-              )}
-            </div>
-            {dataLoading ? (
-              <LoadingAnimation classProp="justify-center" />
-            ) : (
+              </div>
               <div className={`${classes.courses}`}>
                 {chapters.map((chapter) => (
                   <React.Fragment key={chapter.id}>
-                    <Link className={`${classes.courseLink}`}>
+                    <button
+                      className={`${classes.courseLink} focus:outline-none focus:ring focus:ring-transparent`}
+                      onClick={() =>
+                        document.getElementById("my_modal_2").showModal()
+                      }
+                    >
+                      <ChapitreModal chapitre={chapter.name} />
                       <div className={`${classes.course}`}>
                         <div className={`${classes.courseTitle}`}>
                           Chapitre {chapter.number}
@@ -142,7 +142,7 @@ const Subject = () => {
                           {chapter.name}
                         </div>
                       </div>
-                    </Link>
+                    </button>
                   </React.Fragment>
                 ))}
                 {role === "Teacher" ? (
@@ -156,36 +156,37 @@ const Subject = () => {
                   ""
                 )}
               </div>
-            )}
-          </main>
-        )}
-        <div className={`${classes.addNote}  z-10 grid bg-transparent`}>
-          {clipBoardOpened ? (
-            <>
-              <div className="flex flex-col items-center space-y-2">
-                <textarea
-                  className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4 h-full  w-80 max-w-xs bg-inherit focus:bg-white"
-                  placeholder="Bio"
-                ></textarea>
-                <button
-                  className="daisy-btn daisy-btn-info bg-inherit "
-                  onClick={() => {
-                    setClipBoardOpened((clicked) => !clicked);
-                  }}
+            </main>
+
+            <div className={`${classes.addNote}  z-10 grid bg-transparent`}>
+              {clipBoardOpened ? (
+                <>
+                  <div className="flex flex-col items-center space-y-2">
+                    <textarea
+                      className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4 h-full  w-80 max-w-xs bg-inherit focus:bg-white"
+                      placeholder="Write your notes "
+                    ></textarea>
+                    <button
+                      className="daisy-btn daisy-btn-info bg-inherit "
+                      onClick={() => {
+                        setClipBoardOpened((clicked) => !clicked);
+                      }}
+                    >
+                      Save
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <Button
+                  className={`${classes.addNote}`}
+                  onClick={() => setClipBoardOpened((opened) => !opened)}
                 >
-                  Save
-                </button>
-              </div>
-            </>
-          ) : (
-            <Button
-              className={`${classes.addNote}`}
-              onClick={() => setClipBoardOpened((opened) => !opened)}
-            >
-              <FiClipboard className={`${classes.clipboard}`} />
-            </Button>
-          )}
-        </div>
+                  <FiClipboard className={`${classes.clipboard}`} />
+                </Button>
+              )}
+            </div>
+          </>
+        )}
       </Container>
     </div>
   );

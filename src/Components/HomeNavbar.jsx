@@ -52,6 +52,7 @@ const HomeNavbar = () => {
   const [subjects, setSubjects] = useState([]);
   const [years, setYears] = useState([]);
   const [yearsSubjects, setYearsSubjects] = useState([]);
+  const { subjectId, setSubjectId } = useContext(AuthContext);
   const yearsSet = new Set();
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -191,6 +192,7 @@ const HomeNavbar = () => {
                                       <Link
                                         className={`${classes.courseLink}`}
                                         to={`/subjects/${subject.id}/`}
+                                        onClick={() => setSubjectId(subject.id)}
                                       >
                                         <p className={`${classes.courseText}`}>
                                           {subject.name}
