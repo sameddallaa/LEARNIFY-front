@@ -127,7 +127,7 @@ const HomeNavbar = () => {
     };
     console.log("useEffect has been invoked");
     fetchSubjects();
-  }, [loading]);
+  }, []);
   // const [subject, setSubject] = useState("");
   const userType = () => {
     if (is_student) {
@@ -142,8 +142,8 @@ const HomeNavbar = () => {
   const { logout } = useContext(AuthContext);
   return (
     <>
-      <Navbar expand="lg" className={`${classes.nav}`}>
-        <Container>
+      <Navbar expand="lg" className={`${classes.nav} `}>
+        <Container className="relative flex items-center justify-center  ">
           <Button className={`${classes.navToggle}`} onClick={handleShow}>
             <VscThreeBars />
           </Button>
@@ -252,7 +252,7 @@ const HomeNavbar = () => {
               </div>
             </Offcanvas.Body>
           </Offcanvas>
-          <Navbar.Brand href="/">
+          <Navbar.Brand href="/" className="mx-auto lg:absolute lg:left-[45%]">
             <div className={`${classes.logoContainer}`}>
               <img src={logoImage} alt="logo" className={`${classes.logo}`} />
               <p className={`${classes.logoP}`}>Learnify</p>
