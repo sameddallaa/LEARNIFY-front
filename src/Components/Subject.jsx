@@ -30,6 +30,7 @@ const Subject = () => {
   useEffect(() => {
     !user && navigate("/");
   }, [user]);
+
   useEffect(() => {
     if (user) {
       if (is_teacher) {
@@ -130,10 +131,12 @@ const Subject = () => {
                     <button
                       className={`${classes.courseLink} focus:outline-none focus:ring focus:ring-transparent`}
                       onClick={() =>
-                        document.getElementById("my_modal_2").showModal()
+                        document
+                          .getElementById(`my_modal_${chapter.number}`)
+                          .showModal()
                       }
                     >
-                      <ChapitreModal chapitre={chapter.name} />
+                      <ChapitreModal chapitre={chapter} />
                       <div className={`${classes.course}`}>
                         <div className={`${classes.courseTitle}`}>
                           Chapitre {chapter.number}
