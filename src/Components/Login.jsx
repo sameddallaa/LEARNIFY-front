@@ -7,9 +7,10 @@ function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const { login, user } = useContext(AuthContext);
   const [errMsg, setErrMsg] = useState("");
+  const { errorMsg } = useContext(AuthContext);
   const ErrorP = (
     <p className="w-fit text-center  text-sm font-medium text-red-600">
-      {errMsg}
+      {errorMsg || errMsg}
     </p>
   );
   const handleChange = (e) => {
@@ -21,7 +22,7 @@ function Login() {
     const { email, password } = formData;
     try {
       await login(email, password);
-      // if (!email || !password) throw new Error("Please check your inputs !");
+      if (!email || !password) throw new Error("Please check your inputs !");
       // if (!email.includes("@esi-sba.dz"))
       //   throw new Error("Email does not exist ❌");
     } catch (err) {
@@ -67,7 +68,7 @@ function Login() {
           </label>
         </div>
 
-        {errMsg && ErrorP}
+        {(errorMsg || errMsg) && ErrorP}
         {/* <div className=" grid grid-rows-2 space-y-0  ">
           {errMsg && ErrorP} */}
         <div className=" flex justify-center">

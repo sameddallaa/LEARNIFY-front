@@ -6,11 +6,12 @@ import ProfilSettings from "./ProfilSettings";
 import InputBox from "./Sub Components/InputBox";
 
 function ProfilNavBar() {
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
   const [profilClicked, setProfilClicked] = useState(false);
   const [secondTabChosen, setSecondTabChosen] = useState(false);
-  const userFirstName = "";
-  const userLastName = "";
+  const userFirstName = user.first_name;
+  const userLastName = user.last_name;
+  const [modifyClicked, setModifyClicked] = useState(false);
   return (
     <>
       <div className=" border-3 absolute  mt-1 min-h-44 w-auto   space-y-6 rounded-[20px] border-[#001D4F] bg-cyanT p-4 shadow-2xl shadow-black">

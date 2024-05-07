@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [subjectId, setSubjectId] = useState("");
   const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState("");
 
   const login = async (email, password) => {
     // const endpoint = "https://elearn-n48v.onrender.com/api/auth/login/";
@@ -46,7 +47,8 @@ export const AuthProvider = ({ children }) => {
         console.log(data);
       }
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data.detail);
+      setErrorMsg(error.response.data.detail);
     }
   };
 
@@ -104,6 +106,7 @@ export const AuthProvider = ({ children }) => {
     setLoading: setLoading,
     subjectId: subjectId,
     setSubjectId: setSubjectId,
+    errorMsg: errorMsg,
   };
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
