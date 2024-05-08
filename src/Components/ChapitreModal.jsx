@@ -153,6 +153,46 @@ function ChapitreModal({ chapitre }) {
                 </div>
               </div>
             )}
+
+            <div id="Devoirs">
+              <p className="border-b-2 border-black text-start">Devoirs</p>
+              <div>
+                <div className="grid grid-cols-4 items-baseline ">
+                  <a className=" flex justify-start pl-4  text-center text-[#009898] underline"></a>
+                  <div className="col-start-4 flex items-baseline justify-evenly space-x-10 py-2 ">
+                    {/* <p className="">1.4 MB</p> */}
+                    {/* <Link
+                      to={cours.content}
+                      target="_blank"
+                      download
+                      className="daisy-btn border-[#009898] bg-[#009898] py-1 tracking-widest text-white hover:bg-[#017676] "
+                    >
+                      Download
+                    </Link> */}
+                  </div>
+                </div>
+              </div>
+
+              <div id="Quizzes">
+                <p className="border-b-2 border-black text-start">Quizzes</p>
+                <div>
+                  <div className="grid grid-cols-4 items-baseline ">
+                    <a className=" flex justify-start pl-4  text-center text-[#009898] underline"></a>
+                    <div className="col-start-4 flex items-baseline justify-evenly space-x-10 py-2 ">
+                      {/* <p className="">1.4 MB</p> */}
+                      {/* <Link
+                            to={cours.content}
+                            target="_blank"
+                            download
+                            className="daisy-btn border-[#009898] bg-[#009898] py-1 tracking-widest text-white hover:bg-[#017676] "
+                          >
+                            Download
+                          </Link> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <form
