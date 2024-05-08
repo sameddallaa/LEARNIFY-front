@@ -57,8 +57,8 @@ const HomeNavbar = () => {
   useEffect(() => {
     const fetchSubjects = async () => {
       if (is_student) {
-        const endpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/year/${year}`;
-        // const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
+        // const endpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/year/${year}`;
+        const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
         try {
           const response = await axios.get(endpoint, {
             headers: {
@@ -76,8 +76,8 @@ const HomeNavbar = () => {
           console.log(error);
         }
       } else if (is_teacher) {
-        // const yearsEndpoint = `https://localhost:8000/api/teachers/${teacher_id}/years/`;
-        const yearsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/years/`;
+        const yearsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/years/`;
+        // const yearsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/years/`;
         try {
           const response = await axios.get(yearsEndpoint, {
             headers: {
@@ -96,8 +96,8 @@ const HomeNavbar = () => {
         }
         years.map(async (year) => {
           console.log("i'm running :)");
-          // const subjectsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/${year.year}/subjects/`;
-          const subjectsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/${year.year}/subjects/`;
+          const subjectsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/${year.year}/subjects/`;
+          // const subjectsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/${year.year}/subjects/`;
           try {
             const response = await axios.get(subjectsEndpoint, {
               headers: {
@@ -127,7 +127,7 @@ const HomeNavbar = () => {
     };
     console.log("useEffect has been invoked");
     fetchSubjects();
-  }, []);
+  }, [...yearsSet]);
   // const [subject, setSubject] = useState("");
   const userType = () => {
     if (is_student) {
@@ -170,7 +170,7 @@ const HomeNavbar = () => {
                           yearsSubjects.map((year) => (
                             <div
                               className={`${classes.yearContainer}`}
-                              key={year.id}
+                              key={year.year_tag}
                             >
                               <p className={`${classes.year}`}>
                                 {year.year_tag}
