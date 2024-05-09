@@ -1,0 +1,40 @@
+.forumContainer {
+  background-color: #ecf0ff;
+  border-radius: 10px;
+  margin-block: 10px;
+  padding-block: 10px;
+}
+
+.header {
+  padding-block: 5px;
+  display: flex;
+  align-items: center;
+  /* border: 1px solid black; */
+  justify-content: space-between;
+}
+.tabs {
+  display: flex;
+  margin-left: 10px;
+}
+.tabButton {
+  display: flex !important;
+  height: 36px;
+  /* width: 30px; */
+  align-items: center;
+  gap: 5px;
+  border-radius: 100px !important;
+  margin-inline: 5px;
+}
+
+.searchBar {
+  /* border: 1px solid black; */
+  margin-right: 10px;
+  padding: 10px;
+}
+
+.searchInput:focus {
+  outline: none !important;
+}
+.searchInput {
+  border-radius: 100px !important;
+}

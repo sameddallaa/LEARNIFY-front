@@ -10,6 +10,8 @@ import Subject from "./Components/Subject";
 import { useContext } from "react";
 import AuthContext from "./Contexts/AuthContext";
 import NonAuthenticatedRoute from "./Routes/NonAuthenticatedRoute";
+import Question from "./Components/Question";
+import Forum from "./Components/Forum";
 
 export default function App() {
   const [lgnClicked, setLgnClicked] = useState(false);
@@ -32,6 +34,7 @@ export default function App() {
         />
         <Route exact path="/subjects/:subjectId" Component={Subject} />
         <Route path="/home" element={<PrivateRoute Component={Home} />}></Route>
+        <Route path="/forum" element={<Forum />} />
       </Routes>
     </>
   );

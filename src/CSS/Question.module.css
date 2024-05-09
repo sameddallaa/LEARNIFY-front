@@ -1,0 +1,77 @@
+.questionContainer {
+  /* border: 1px solid black; */
+  margin-block: 10px;
+  border-radius: 5px;
+  box-shadow: #00000026 2px 1px 5px;
+  /* padding: 20px; */
+  padding-block: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.headerContainer {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rightContainer {
+  margin-right: 10px;
+}
+
+.leftContainer {
+  display: flex;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+.user {
+  /* border: 1px solid black; */
+  display: flex;
+  gap: 10px;
+}
+
+.profilePicContainer {
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+}
+.profilePic {
+  height: 40px;
+  width: 40px;
+  border-radius: 400px;
+}
+
+.userName {
+  font-size: 17px;
+  font-weight: 700;
+}
+.postDate {
+  font-size: 13px;
+  font-weight: 500;
+  color: #808080;
+}
+
+.interactions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-right: 10px;
+}
+
+.interaction {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.interactionCount {
+  margin: 0;
+  padding: 0;
+}
+
+.interactionIcon,
+.interactionCount {
+  font-size: 16px;
+  color: #808080;
+}
