@@ -8,15 +8,15 @@ import { HiOutlineFire } from "react-icons/hi2";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { FloatingLabel, Form } from "react-bootstrap";
 import { IoIosSearch } from "react-icons/io";
-
+import { Link } from "react-router-dom";
 const Forum = () => {
   const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   return (
     <React.Fragment>
       <Container className={`${classes.forumContainer}`}>
         <div className={`${classes.header}`}>
-          <div className={`${classes.tabs}`}>
-            <Button variant="primary" className={`${classes.tabButton}`}>
+          <div className={`${classes.subject}`}>
+            {/* <Button variant="primary" className={`${classes.tabButton}`}>
               <FaRegClock /> New
             </Button>
             <Button variant="secondary" className={`${classes.tabButton}`}>
@@ -28,7 +28,12 @@ const Forum = () => {
             </Button>
             <Button variant="secondary" className={`${classes.tabButton}`}>
               <IoIosCheckmarkCircleOutline /> Closed
-            </Button>
+            </Button> */}
+            <h3 className={`${classes.subjectHeading}`}>
+              <Link className={`${classes.subjectLink}`}>
+                Systèmes d'exploitation
+              </Link>
+            </h3>
           </div>
           <div className={`${classes.searchBar}`}>
             <FloatingLabel

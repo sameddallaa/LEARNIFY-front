@@ -12,6 +12,8 @@ import AuthContext from "./Contexts/AuthContext";
 import NonAuthenticatedRoute from "./Routes/NonAuthenticatedRoute";
 import Question from "./Components/Question";
 import Forum from "./Components/Forum";
+import Answer from "./Components/Answer";
+import Discussion from "./Components/Discussion";
 
 export default function App() {
   const [lgnClicked, setLgnClicked] = useState(false);
@@ -35,6 +37,8 @@ export default function App() {
         <Route exact path="/subjects/:subjectId" Component={Subject} />
         <Route path="/home" element={<PrivateRoute Component={Home} />}></Route>
         <Route path="/forum" element={<Forum />} />
+        <Route path="/answer" element={<Answer />} />
+        <Route path="/discussion" element={<Discussion />} />
       </Routes>
     </>
   );
