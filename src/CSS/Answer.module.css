@@ -1,4 +1,17 @@
-.questionContainer {
+.postContainer {
+  margin-right: 0;
+  /* border: 1px solid black; */
+}
+
+.roleBand {
+  width: 5px;
+  /* height: 10px; */
+  background-color: red;
+  margin-block: 15px; /* flex: 1; */
+}
+
+.answerContainer {
+  /* flex: 1; */
   /* border: 1px solid black; */
   margin-block: 15px;
   border-radius: 5px;
@@ -8,6 +21,10 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.role {
+  background-color: red;
 }
 
 .headerContainer {
@@ -52,11 +69,18 @@
   color: #808080;
 }
 
+.attachementContainer {
+  padding-inline: 20px;
+  margin-block: 10px;
+}
+
+.postAttachement {
+  width: auto;
+}
 .interactions {
   display: flex;
   gap: 15px;
-  justify-content: flex-end;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .interaction {
