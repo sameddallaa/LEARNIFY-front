@@ -17,15 +17,17 @@ function ProfilNavBar() {
   const [userNewMdp, setUserNewMdp] = useState(null);
   const token = JSON.parse(localStorage.getItem("tokens"));
   let userId = user.user_id;
-  const mdpObject = { old_password: userCurrMdp, new_password: userNewMdp };
-  const [errMsg, setErrMsg] = useState("");
-  let data;
+
+  const [errMsgM, setErrMsgM] = useState("");
+  const [errMsgN, setErrMsgN] = useState("");
+  let dataM, dataN;
 
   async function handlePassword() {
     if (!userNewMdp || !userCurrMdp) {
-      setErrMsg(`Please check your inputs fields !`);
+      setErrMsgM(`Please check your inputs fields !`);
       return;
     }
+    const mdpObject = { old_password: userCurrMdp, new_password: userNewMdp };
     const endpoint = `https://elearn-n48v.onrender.com/api/users/${userId}/change-password/`;
     try {
       const response = await axios.patch(endpoint, mdpObject, {
@@ -34,10 +36,32 @@ function ProfilNavBar() {
           Authorization: `Bearer ${token.access}`,
         },
       });
-      data = response.data;
-      return data;
+      dataM = response.data;
     } catch (err) {
-      setErrMsg(err.message);
+      setErrMsgM(err.message);
+    }
+  }
+
+  async function handleName() {
+    if (!userNewFirstName || !userNewLastName) {
+      setErrMsgN(`Please check your inputs fields !`);
+      return;
+    }
+    const nameObj = {
+      first_name: userNewFirstName,
+      last_name: userNewLastName,
+    };
+    const endpoint = `https://elearn-n48v.onrender.com/api/change-name/${userId}/`;
+    try {
+      const response = await axios.patch(endpoint, nameObj, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token.access}`,
+        },
+      });
+      dataN = response.data;
+    } catch (err) {
+      setErrMsgN(err.message);
     }
   }
 
@@ -106,9 +130,16 @@ function ProfilNavBar() {
                   </InputBox>
                 </div>
 
-                <button className="daisy-btn daisy-btn-primary mt-4 border-inherit bg-blueC text-white hover:border-inherit hover:bg-blueT">
+                <button
+                  className="daisy-btn daisy-btn-primary mt-4 border-inherit bg-blueC text-white hover:border-inherit hover:bg-blueT"
+                  onClick={async () => {
+                    await handleName();
+                    dataN && logout();
+                  }}
+                >
                   Save changes
                 </button>
+                {errMsgN && <p className="mt-2 text-red-700">{errMsgN}</p>}
               </div>
             </div>
 
@@ -131,12 +162,12 @@ function ProfilNavBar() {
                   className="daisy-btn daisy-btn-primary mt-4 border-inherit bg-blueC text-white hover:border-inherit hover:bg-blueT"
                   onClick={async (e) => {
                     await handlePassword();
-                    data && logout();
+                    dataM && logout();
                   }}
                 >
                   Save password
                 </button>
-                {errMsg && <p className="mt-2 text-red-700">{errMsg}</p>}
+                {errMsgM && <p className="mt-2 text-red-700">{errMsgM}</p>}
               </div>
             </div>
           </form>

@@ -64,7 +64,10 @@ function ChapitreModal({ chapitre }) {
   );
   return (
     <>
-      <dialog id={`my_modal_${chapitre.number}`} className="daisy-modal">
+      <dialog
+        id={`my_modal_${chapitre.number}`}
+        className="daisy-modal backdrop-blur-sm"
+      >
         <div className="daisy-modal-box  relative mt-8 h-screen  w-11/12 max-w-5xl border-[8px] border-black bg-[#A5BED7] shadow-xl shadow-stone-400">
           <h2 className=" font-bold">{chapitre.name}</h2>
           <div className="space-y-1 pt-10">

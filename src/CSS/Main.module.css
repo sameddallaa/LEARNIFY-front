@@ -9,6 +9,17 @@
 body {
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* to hide the scroll bar */
+
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .contentContainer {
   display: flex;
   flex-direction: column;
@@ -23,6 +34,7 @@ body {
 }
 .imageContainer {
 }
+
 .logoImage {
   width: 533px;
   height: auto;
