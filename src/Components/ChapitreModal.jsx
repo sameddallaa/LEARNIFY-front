@@ -67,7 +67,10 @@ function ChapitreModal({ chapitre }) {
   );
   return (
     <>
-      <dialog id={`my_modal_${chapitre.number}`} className="daisy-modal">
+      <dialog
+        id={`my_modal_${chapitre.number}`}
+        className="daisy-modal backdrop-blur-sm"
+      >
         <div className="daisy-modal-box  relative mt-8 h-screen  w-11/12 max-w-5xl border-[8px] border-black bg-[#A5BED7] shadow-xl shadow-stone-400">
           <h2 className=" font-bold">{chapitre.name}</h2>
           <div className="space-y-1 pt-10">
@@ -156,6 +159,46 @@ function ChapitreModal({ chapitre }) {
                 </div>
               </div>
             )}
+
+            <div id="Devoirs">
+              <p className="border-b-2 border-black text-start">Devoirs</p>
+              <div>
+                <div className="grid grid-cols-4 items-baseline ">
+                  <a className=" flex justify-start pl-4  text-center text-[#009898] underline"></a>
+                  <div className="col-start-4 flex items-baseline justify-evenly space-x-10 py-2 ">
+                    {/* <p className="">1.4 MB</p> */}
+                    {/* <Link
+                      to={cours.content}
+                      target="_blank"
+                      download
+                      className="daisy-btn border-[#009898] bg-[#009898] py-1 tracking-widest text-white hover:bg-[#017676] "
+                    >
+                      Download
+                    </Link> */}
+                  </div>
+                </div>
+              </div>
+
+              <div id="Quizzes">
+                <p className="border-b-2 border-black text-start">Quizzes</p>
+                <div>
+                  <div className="grid grid-cols-4 items-baseline ">
+                    <a className=" flex justify-start pl-4  text-center text-[#009898] underline"></a>
+                    <div className="col-start-4 flex items-baseline justify-evenly space-x-10 py-2 ">
+                      {/* <p className="">1.4 MB</p> */}
+                      {/* <Link
+                            to={cours.content}
+                            target="_blank"
+                            download
+                            className="daisy-btn border-[#009898] bg-[#009898] py-1 tracking-widest text-white hover:bg-[#017676] "
+                          >
+                            Download
+                          </Link> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <form
