@@ -11,8 +11,8 @@ function ProfilNavBar() {
   const [secondTabChosen, setSecondTabChosen] = useState(false);
   const userFirstName = user.first_name;
   const userLastName = user.last_name;
-  const [userNewFirstName, setNewUserFirstName] = useState(null);
-  const [userNewLastName, setNewUserLastName] = useState(null);
+  const [userNewFirstName, setNewUserFirstName] = useState(user.first_name);
+  const [userNewLastName, setNewUserLastName] = useState(user.last_name);
   const [userCurrMdp, setUserCurrMdp] = useState(null);
   const [userNewMdp, setUserNewMdp] = useState(null);
   const token = JSON.parse(localStorage.getItem("tokens"));
@@ -28,7 +28,8 @@ function ProfilNavBar() {
       return;
     }
     const mdpObject = { old_password: userCurrMdp, new_password: userNewMdp };
-    const endpoint = `https://elearn-n48v.onrender.com/api/users/${userId}/change-password/`;
+    const endpoint = `http://localhost:8000/api/users/${userId}/change-password/`;
+    // const endpoint = `https://elearn-n48v.onrender.com/api/users/${userId}/change-password/`;
     try {
       const response = await axios.patch(endpoint, mdpObject, {
         headers: {
@@ -43,7 +44,7 @@ function ProfilNavBar() {
   }
 
   async function handleName() {
-    if (!userNewFirstName || !userNewLastName) {
+    if (!userNewFirstName && !userNewLastName) {
       setErrMsgN(`Please check your inputs fields !`);
       return;
     }
@@ -51,7 +52,8 @@ function ProfilNavBar() {
       first_name: userNewFirstName,
       last_name: userNewLastName,
     };
-    const endpoint = `https://elearn-n48v.onrender.com/api/change-name/${userId}/`;
+    const endpoint = `http://localhost:8000/api/change-name/${userId}/`;
+    // const endpoint = `https://elearn-n48v.onrender.com/api/change-name/${userId}/`;
     try {
       const response = await axios.patch(endpoint, nameObj, {
         headers: {

@@ -13,12 +13,13 @@ import ChapitreModal from "./ChapitreModal";
 
 const Subject = () => {
   const [subject, setSubject] = useState({});
+
   // const [loading, setLoading] = useState(false);
   const [chapters, setChapters] = useState([]);
   const [role, setRole] = useState("");
   const [clipBoardOpened, setClipBoardOpened] = useState(false);
   const navigate = useNavigate();
-  const { user, loading } = useContext(AuthContext); // need to be connected in order to access Home
+  const { user, loading, pathToggle } = useContext(AuthContext); // need to be connected in order to access Home
   const { is_teacher, is_student } = user;
   const token = JSON.parse(localStorage.getItem("tokens"));
   const { subjectId } = useParams();
@@ -32,10 +33,11 @@ const Subject = () => {
   const { student_id, teacher_id } = user;
 
   async function handleNoteSave() {
-    const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    // const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
     noteSaved = false;
     try {
-      const response = await axios.post(
+      const response = await axios.put(
         noteEndPoint,
         { ...note, content: noteInput },
         {
@@ -57,7 +59,8 @@ const Subject = () => {
   }
 
   async function handleNoteFetch() {
-    const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    // const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
     try {
       const response = await axios.get(noteEndPoint, {
         headers: {
@@ -96,10 +99,10 @@ const Subject = () => {
   useEffect(
     () =>
       async function fetchChapters() {
-        // const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
-        // const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
-        const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
-        const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
+        const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
+        const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
+        // const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
+        // const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
         try {
           setDataLoading(true);
           const response = await axios.get(chaptersEndpoint, {
@@ -142,7 +145,7 @@ const Subject = () => {
           console.log(error);
         }
       },
-    [loading],
+    [loading, pathToggle],
   );
 
   useEffect(() => {
@@ -216,40 +219,42 @@ const Subject = () => {
               </div>
             </main>
 
-            <div className={`${classes.addNote}  z-10 grid bg-transparent`}>
-              {clipBoardOpened ? (
-                <>
-                  <div className="flex flex-col items-center space-y-2">
-                    <textarea
-                      className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4 h-full  w-80 max-w-xs bg-inherit focus:bg-white"
-                      placeholder="Write your notes "
-                      // defaultValue={note}
-                      value={noteInput}
-                      onChange={(e) => setNoteInput(e.target.value)}
-                    ></textarea>
-                    <button
-                      className="daisy-btn daisy-btn-info bg-inherit "
-                      onClick={async () => {
-                        if (noteInput.length != 0) {
-                          await handleNoteSave();
-                          noteSaved &&
-                            setClipBoardOpened((clicked) => !clicked);
-                        }
-                      }}
-                    >
-                      Save
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <Button
-                  className={`${classes.addNote}`}
-                  onClick={() => setClipBoardOpened((opened) => !opened)}
-                >
-                  <FiClipboard className={`${classes.clipboard}`} />
-                </Button>
-              )}
-            </div>
+            {is_student && (
+              <div className={`${classes.addNote}  z-10 grid bg-transparent`}>
+                {clipBoardOpened ? (
+                  <>
+                    <div className="flex flex-col items-center space-y-2">
+                      <textarea
+                        className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4 h-full  w-80 max-w-xs bg-inherit focus:bg-white"
+                        placeholder="Write your notes "
+                        // defaultValue={note}
+                        value={noteInput}
+                        onChange={(e) => setNoteInput(e.target.value)}
+                      ></textarea>
+                      <button
+                        className="daisy-btn daisy-btn-info bg-inherit "
+                        onClick={async () => {
+                          if (noteInput.length != 0) {
+                            await handleNoteSave();
+                            noteSaved &&
+                              setClipBoardOpened((clicked) => !clicked);
+                          }
+                        }}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <Button
+                    className={`${classes.addNote}`}
+                    onClick={() => setClipBoardOpened((opened) => !opened)}
+                  >
+                    <FiClipboard className={`${classes.clipboard}`} />
+                  </Button>
+                )}
+              </div>
+            )}
           </>
         )}
       </Container>
