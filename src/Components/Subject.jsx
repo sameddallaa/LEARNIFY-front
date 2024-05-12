@@ -26,6 +26,57 @@ const Subject = () => {
   let currentPath;
   const [dataLoading, setDataLoading] = useState(true);
   const [chaptersOpened, setChaptersOpened] = useState(false);
+  const [note, setNote] = useState("");
+  const [noteInput, setNoteInput] = useState("");
+  let noteSaved = false;
+  const { student_id, teacher_id } = user;
+
+  async function handleNoteSave() {
+    const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    noteSaved = false;
+    try {
+      const response = await axios.post(
+        noteEndPoint,
+        { ...note, content: noteInput },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token.access}`,
+          },
+        },
+      );
+
+      const data = response.data;
+      console.log(response);
+
+      noteSaved = true;
+      console.log("note saved : ", data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleNoteFetch() {
+    const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    try {
+      const response = await axios.get(noteEndPoint, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token.access,
+        },
+      });
+      const data = response.data;
+      if (response.status === 200) {
+        console.log("note fetch : ", data);
+        setNote(data);
+        setNoteInput(data.content);
+      } else {
+        console.log("Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     !user && navigate("/");
@@ -45,10 +96,10 @@ const Subject = () => {
   useEffect(
     () =>
       async function fetchChapters() {
-        const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
-        const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
-        // const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
-        // const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
+        // const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
+        // const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
+        const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
+        const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
         try {
           setDataLoading(true);
           const response = await axios.get(chaptersEndpoint, {
@@ -93,6 +144,10 @@ const Subject = () => {
       },
     [loading],
   );
+
+  useEffect(() => {
+    handleNoteFetch();
+  }, []);
 
   return (
     <div className="bg-cyanT pt-1">
@@ -168,11 +223,18 @@ const Subject = () => {
                     <textarea
                       className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4 h-full  w-80 max-w-xs bg-inherit focus:bg-white"
                       placeholder="Write your notes "
+                      // defaultValue={note}
+                      value={noteInput}
+                      onChange={(e) => setNoteInput(e.target.value)}
                     ></textarea>
                     <button
                       className="daisy-btn daisy-btn-info bg-inherit "
-                      onClick={() => {
-                        setClipBoardOpened((clicked) => !clicked);
+                      onClick={async () => {
+                        if (noteInput.length != 0) {
+                          await handleNoteSave();
+                          noteSaved &&
+                            setClipBoardOpened((clicked) => !clicked);
+                        }
                       }}
                     >
                       Save

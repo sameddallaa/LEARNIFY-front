@@ -9,15 +9,18 @@
 body {
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
+} */
+
+/* Customizing the scroll bar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-/* to hide the scroll bar */
-
-* {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+::-webkit-scrollbar-thumb {
+  background-color: #80a5ca;
+  border-radius: 4px;
 }
 
 .contentContainer {

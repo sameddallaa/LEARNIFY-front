@@ -20,6 +20,7 @@ import Subject from "./Subject";
 import axios from "axios";
 import ProfilNavBar from "./ProfilNavBar";
 import { MdOutlineNotificationsActive } from "react-icons/md";
+import Avatar from "react-avatar";
 
 const HomeNavbar = () => {
   const [show, setShow] = useState(false);
@@ -57,8 +58,8 @@ const HomeNavbar = () => {
   useEffect(() => {
     const fetchSubjects = async () => {
       if (is_student) {
-        // const endpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/year/${year}`;
-        const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
+        const endpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/year/${year}`;
+        // const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
         try {
           const response = await axios.get(endpoint, {
             headers: {
@@ -76,8 +77,8 @@ const HomeNavbar = () => {
           console.log(error);
         }
       } else if (is_teacher) {
-        const yearsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/years/`;
-        // const yearsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/years/`;
+        // const yearsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/years/`;
+        const yearsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/years/`;
         try {
           const response = await axios.get(yearsEndpoint, {
             headers: {
@@ -96,8 +97,8 @@ const HomeNavbar = () => {
         }
         years.map(async (year) => {
           console.log("i'm running :)");
-          const subjectsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/${year.year}/subjects/`;
-          // const subjectsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/${year.year}/subjects/`;
+          // const subjectsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/${year.year}/subjects/`;
+          const subjectsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/${year.year}/subjects/`;
           try {
             const response = await axios.get(subjectsEndpoint, {
               headers: {
@@ -268,14 +269,23 @@ const HomeNavbar = () => {
               <MdOutlineNotificationsActive className="" />
             </Button>
             <div className="relative mr-10 flex flex-col items-center">
-              <button
+              {/* <button
                 className="daisy-avatar"
                 onClick={() => setAvatarClicked((clicked) => !clicked)}
-              >
-                <div className="w-11 rounded-full">
-                  <img src="https://fileinfo.com/img/ss/xl/jpg_44-2.jpg" />
-                </div>
-              </button>
+              > */}
+              {/* <div className="w-11 rounded-full"> */}
+              {/* <img src="https://fileinfo.com/img/ss/xl/jpg_44-2.jpg" /> */}
+              <Avatar
+                name={`${first_name} ${last_name}`}
+                color={`#ECF0FF`}
+                fgColor={`black`}
+                round={true}
+                size="45"
+                onClick={() => setAvatarClicked((clicked) => !clicked)}
+                className={`select-none hover:cursor-pointer`}
+              />
+              {/* </div> */}
+              {/* </button> */}
               <div className="z-0 flex justify-center">
                 {avatarClicked && <ProfilNavBar />}
               </div>
