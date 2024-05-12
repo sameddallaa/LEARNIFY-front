@@ -127,7 +127,6 @@ const HomeNavbar = () => {
       }
       console.log(...yearsSet);
     };
-    console.log("useEffect has been invoked");
     fetchSubjects();
   }, [...yearsSet]);
   // const [subject, setSubject] = useState("");
@@ -199,6 +198,7 @@ const HomeNavbar = () => {
                                           setPathToggle(
                                             (prevToggle) => !prevToggle,
                                           );
+                                          navigate(`/subjects/${subject.id}/`);
                                           window.location.reload();
                                         }}
                                       >
