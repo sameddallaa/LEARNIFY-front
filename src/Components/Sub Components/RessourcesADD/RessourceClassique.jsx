@@ -7,9 +7,6 @@ function RessourceClassique({ endPoint }) {
   async function handleAdd() {}
   return (
     <div className=" mt-4 flex w-fit flex-col  items-center justify-center  space-y-5 bg-[#A5BED7] ">
-      {/* <h3 className="text-center text-lg font-bold">
-    Upload your file
-  </h3> */}
       <div className="flex space-x-4">
         <label className="daisy-input daisy-input-bordered flex items-center gap-2  bg-white">
           <GrAttachment /> Titre

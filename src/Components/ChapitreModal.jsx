@@ -456,52 +456,57 @@ function ChapitreModal({ chapitre }) {
             </div>
           </div>
 
-          <dialog id="modal_add_ressource" className="daisy-modal">
-            <div className="daisy-modal-box flex h-auto w-auto min-w-fit space-y-10 bg-[#A5BED7] shadow-md shadow-stone-400">
-              <div>
-                <select
-                  className="daisy-select daisy-select-info w-full max-w-xs   bg-inherit"
-                  onChange={(e) => setSelected(parseInt(e.target.value))}
-                >
-                  <option disabled selected>
-                    Select a ressource
-                  </option>
-                  <option value={1}>Cours</option>
-                  <option value={2}>TD</option>
-                  <option value={3}>TP</option>
-                  <option value={4}>Devoir</option>
-                  <option value={5}>Quizz</option>
-                  <option value={6}>Autre</option>
-                </select>
-
+          {is_teacher && (
+            <dialog id="modal_add_ressource" className="daisy-modal">
+              <div className="daisy-modal-box flex h-auto w-auto min-w-fit space-y-10 bg-[#A5BED7] shadow-md shadow-stone-400">
                 <div>
-                  {selected === 1 && <RessourceClassique endPoint="" />}
-                  {selected === 2 && <RessourceClassique endPoint="" />}
-                  {selected === 3 && <RessourceClassique endPoint="" />}
-                  {selected === 4 && <DevoirC />}
-                  {selected === 5 && <Quizz />}
-                  {selected === 6 && <AutreRessource />}
+                  <select
+                    className="daisy-select daisy-select-info w-full max-w-xs   bg-inherit"
+                    onChange={(e) => setSelected(parseInt(e.target.value))}
+                    defaultValue={0}
+                  >
+                    <option value={0} disabled>
+                      Select a ressource
+                    </option>
+                    <option value={1}>Cours</option>
+                    <option value={2}>TD</option>
+                    <option value={3}>TP</option>
+                    <option value={4}>Devoir</option>
+                    <option value={5}>Quizz</option>
+                    <option value={6}>Autre</option>
+                  </select>
+
+                  <div>
+                    {selected === 1 && <RessourceClassique endPoint="" />}
+                    {selected === 2 && <RessourceClassique endPoint="" />}
+                    {selected === 3 && <RessourceClassique endPoint="" />}
+                    {selected === 4 && <DevoirC />}
+                    {selected === 5 && <Quizz />}
+                    {selected === 6 && <AutreRessource />}
+                  </div>
                 </div>
               </div>
-            </div>
-            <form method="dialog" className="daisy-modal-backdrop">
-              <button>close</button>
-            </form>
-          </dialog>
+              <form method="dialog" className="daisy-modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
+          )}
 
           <form
             method="dialog"
             className="daisy-modal-backdrop  justify-center"
           >
             <div className="space-x-4">
-              <button
-                className="daisy-btn daisy-btn-outline daisy-btn-info  mt-10 w-48 min-w-40"
-                onClick={() =>
-                  document.getElementById("modal_add_ressource").showModal()
-                }
-              >
-                Ajouter
-              </button>
+              {is_teacher && (
+                <button
+                  className="daisy-btn daisy-btn-outline daisy-btn-info  mt-10 w-48 min-w-40"
+                  onClick={() =>
+                    document.getElementById("modal_add_ressource").showModal()
+                  }
+                >
+                  Ajouter
+                </button>
+              )}
               <button className="daisy-btn daisy-btn-outline daisy-btn-error  mt-10 w-48 min-w-40">
                 Close
               </button>

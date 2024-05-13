@@ -4,6 +4,21 @@ import { GrAttachment } from "react-icons/gr";
 function DevoirC() {
   const [titre, setTitre] = useState("");
 
+  function initialDate() {
+    const initialDate = new Date();
+    initialDate.setDate(initialDate.getDate() + 1);
+    initialDate.setHours(0, 0, 0);
+    const initialYear = initialDate.getFullYear();
+    const initialMonth = initialDate.getMonth() + 1;
+    const initialDay = initialDate.getDate();
+
+    const initialHour = initialDate.getHours();
+    const initialMinute = initialDate.getMinutes();
+
+    const initialDateString = `${initialYear}-${initialMonth < 10 ? "0" : ""}${initialMonth}-${initialDay < 10 ? "0" : ""}${initialDay}T${initialHour < 10 ? "0" : ""}${initialHour}:${initialMinute < 10 ? "0" : ""}${initialMinute}`;
+    return initialDateString;
+  }
+
   async function handleAdd() {}
   return (
     <div className=" mt-4 flex w-fit flex-col  items-center justify-center  space-y-5 bg-[#A5BED7] ">
@@ -25,7 +40,11 @@ function DevoirC() {
           className="daisy-file-input daisy-file-input-bordered daisy-file-input-info  w-full  bg-white"
         />
 
-        <div>20h</div>
+        <input
+          type="datetime-local"
+          defaultValue={initialDate()}
+          className=" w-auto min-w-fit rounded-xl bg-[#00b6ff] py-1 text-center tracking-widest text-white"
+        />
       </div>
       <button
         className="daisy-btn border-[#00b6ff] bg-[#00b6ff] py-1 tracking-widest text-white hover:bg-[#0684b6] "
