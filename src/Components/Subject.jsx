@@ -31,10 +31,11 @@ const Subject = () => {
   const [noteInput, setNoteInput] = useState("");
   let noteSaved = false;
   const { student_id, teacher_id } = user;
+  const newChapters = [];
 
   async function handleNoteSave() {
-    const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
-    // const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    // const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
     noteSaved = false;
     try {
       const response = await axios.put(
@@ -59,8 +60,8 @@ const Subject = () => {
   }
 
   async function handleNoteFetch() {
-    const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
-    // const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    // const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
     try {
       const response = await axios.get(noteEndPoint, {
         headers: {
@@ -99,10 +100,10 @@ const Subject = () => {
   useEffect(
     () =>
       async function fetchChapters() {
-        const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
-        const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
-        // const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
-        // const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
+        // const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
+        // const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
+        const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
+        const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
         try {
           setDataLoading(true);
           const response = await axios.get(chaptersEndpoint, {
@@ -149,7 +150,7 @@ const Subject = () => {
   );
 
   useEffect(() => {
-    handleNoteFetch();
+    is_student && handleNoteFetch();
   }, []);
 
   return (
@@ -183,7 +184,7 @@ const Subject = () => {
                   email: {subject.teacher_email} <br />
                 </div>
               </div>
-              <div className={`${classes.courses}`}>
+              <div className={`${classes.courses}`} id="chapters">
                 {chapters.map((chapter) => (
                   <React.Fragment key={chapter.id}>
                     <button
@@ -206,10 +207,16 @@ const Subject = () => {
                     <ChapitreModal chapitre={chapter} />
                   </React.Fragment>
                 ))}
-                {role === "Teacher" ? (
+
+                {is_teacher ? (
                   <Link className={`${classes.courseLink}`}>
                     <div className={`${classes.course}`}>
-                      <div className={`${classes.courseTitle}`}>Ajouter</div>
+                      <button
+                        className={`${classes.courseTitle}`}
+                        onClick={() => newChapters.push(1)}
+                      >
+                        Ajouter
+                      </button>
                       <div className={`${classes.courseDesc}`}></div>
                     </div>
                   </Link>

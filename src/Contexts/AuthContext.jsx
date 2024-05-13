@@ -22,8 +22,8 @@ export const AuthProvider = ({ children }) => {
   const [pathToggle, setPathToggle] = useState(false);
 
   const login = async (email, password) => {
-    const endpoint = "http://localhost:8000/api/auth/login/";
-    // const endpoint = "https://elearn-n48v.onrender.com/api/auth/login/";
+    // const endpoint = "http://localhost:8000/api/auth/login/";
+    const endpoint = "https://elearn-n48v.onrender.com/api/auth/login/";
     try {
       const response = await axios.post(
         endpoint,
@@ -62,8 +62,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateTokens = async () => {
-    const endpoint = "http://localhost:8000/api/auth/login/refresh/";
-    // const endpoint = "https://elearn-n48v.onrender.com/api/auth/login/";
+    // const endpoint = "http://localhost:8000/api/auth/login/refresh/";
+    const endpoint = "https://elearn-n48v.onrender.com/api/auth/login/";
     const response = await axios.post(
       endpoint,
       {
