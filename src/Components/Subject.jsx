@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../Contexts/AuthContext";
 import LoadingAnimation from "./Sub Components/LoadingAnimation";
 import ChapitreModal from "./ChapitreModal";
+import ChapitreAdd_Modal from "./Sub Components/ChapitreAdd_Modal";
 
 const Subject = () => {
   const [subject, setSubject] = useState({});
@@ -31,7 +32,7 @@ const Subject = () => {
   const [noteInput, setNoteInput] = useState("");
   let noteSaved = false;
   const { student_id, teacher_id } = user;
-  const newChapters = [];
+  const [start, setStart] = useState(false);
 
   async function handleNoteSave() {
     // const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
@@ -82,6 +83,21 @@ const Subject = () => {
     }
   }
 
+  async function handleChapterDelete(chapterId) {
+    const chapterDltEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/delete/`;
+    try {
+      const res = await axios.delete(chapterDltEndpoint, {
+        headers: {
+          Authorization: "Bearer " + token.access,
+        },
+      });
+
+      console.log(res);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
   useEffect(() => {
     !user && navigate("/");
   }, [user]);
@@ -124,6 +140,7 @@ const Subject = () => {
           console.log(error);
         }
         try {
+          setStart(true);
           setDataLoading(true);
           const response = await axios.get(subjectEndpoint, {
             headers: {
@@ -188,14 +205,25 @@ const Subject = () => {
                 {chapters.map((chapter) => (
                   <React.Fragment key={chapter.id}>
                     <button
-                      className={`${classes.courseLink} focus:outline-none focus:ring focus:ring-transparent`}
-                      onClick={() =>
+                      className={`${classes.courseLink} relative focus:outline-none focus:ring focus:ring-transparent`}
+                      onClick={() => {
+                        // setStart(true);
                         document
-                          .getElementById(`my_modal_${chapter.number}`)
-                          .showModal()
-                      }
+                          .getElementById(`my_modal_${chapter.id}`)
+                          .showModal();
+                      }}
                     >
-                      <div className={`${classes.course}`}>
+                      <div className={`${classes.course} relative`}>
+                        {is_teacher && (
+                          <button
+                            className="absolute right-1 top-0 px-1 text-xl hover:text-2xl hover:text-red-600 hover:transition-all hover:duration-200"
+                            onClick={async () => {
+                              await handleChapterDelete(chapter.id);
+                            }}
+                          >
+                            &times;
+                          </button>
+                        )}
                         <div className={`${classes.courseTitle}`}>
                           Chapitre {chapter.number}
                         </div>
@@ -204,22 +232,27 @@ const Subject = () => {
                         </div>
                       </div>
                     </button>
-                    <ChapitreModal chapitre={chapter} />
+                    <ChapitreModal chapitre={chapter} start={start} />
                   </React.Fragment>
                 ))}
 
                 {is_teacher ? (
-                  <Link className={`${classes.courseLink}`}>
+                  <>
                     <div className={`${classes.course}`}>
                       <button
                         className={`${classes.courseTitle}`}
-                        onClick={() => newChapters.push(1)}
+                        onClick={() =>
+                          document
+                            .getElementById("chapitre_add_modal")
+                            .showModal()
+                        }
                       >
                         Ajouter
                       </button>
                       <div className={`${classes.courseDesc}`}></div>
                     </div>
-                  </Link>
+                    <ChapitreAdd_Modal subjectId={subjectId} />
+                  </>
                 ) : (
                   ""
                 )}

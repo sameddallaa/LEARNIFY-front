@@ -10,7 +10,7 @@ import RessourceClassique from "./Sub Components/RessourcesADD/RessourceClassiqu
 import AutreRessource from "./Sub Components/RessourcesADD/AutreRessource";
 import QuizzModel from "./Sub Components/QuizzModel";
 
-function ChapitreModal({ chapitre }) {
+function ChapitreModal({ chapitre, start }) {
   const token = JSON.parse(localStorage.getItem("tokens"));
   const [cours, setCours] = useState([]);
   const [td, setTd] = useState([]);
@@ -20,6 +20,39 @@ function ChapitreModal({ chapitre }) {
   const [selected, setSelected] = useState(-1);
   const { user } = useContext(AuthContext);
   const { is_teacher, is_student } = user;
+  const coursEndPoint = `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
+  const tdEndPoint = `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
+  const tpEndPoint = `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
+  const devoirEndPoint = `https://elearn-n48v.onrender.com/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
+  const quizzesEndpoint = `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
+
+  function getDelai(dateD) {
+    const dateMs = new Date(dateD).getTime();
+    const currDateMs = new Date().getTime();
+
+    const toYearMs = 1000 * 60 * 60 * 24 * 365;
+    const toDayMs = 1000 * 60 * 60 * 24;
+    const toHourMs = 1000 * 60 * 60;
+    const toMinuteMs = 1000 * 60;
+
+    let remainingMs = dateMs - currDateMs;
+    const years = Math.floor(Math.abs(remainingMs / toYearMs));
+    remainingMs = remainingMs % toYearMs;
+    const days = Math.floor(Math.abs(remainingMs / toDayMs));
+    remainingMs = remainingMs % toDayMs;
+    const hours = Math.floor(Math.abs(remainingMs / toHourMs));
+    remainingMs = remainingMs % toHourMs;
+    const minutes = Math.floor(Math.abs(remainingMs / toMinuteMs));
+    // console.log(`${days} days ${Math.sign(remainingMs) < 0 ? "ago" : ""}`);
+    // console.log(`${hours} hours ${Math.sign(remainingMs) < 0 ? "ago" : ""}`);
+    // console.log(
+    //   `${minutes} minutes ${Math.sign(remainingMs) < 0 ? "ago" : ""}`,
+    // );
+
+    const dateString = `${Math.sign(remainingMs) < 0 ? "Expiré il y a " : "Il vous reste "}${years !== 0 ? `${years} année${years > 1 ? "s " : " "} ` : ""}${days !== 0 ? `${days} jour${days > 1 ? "s " : " "} ` : ""}${hours !== 0 ? `${hours} heure${hours > 1 ? "s " : " "}` : ""}${minutes} minute${minutes > 1 ? "s" : ""} `;
+
+    return { dateString, expired: remainingMs < 0 };
+  }
 
   async function handleDelete(endPoint) {
     try {
@@ -34,100 +67,94 @@ function ChapitreModal({ chapitre }) {
     }
   }
 
-  useEffect(
-    () =>
-      async function fetchCours() {
-        const coursEndPoint = `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
-        const tdEndPoint = `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
-        const tpEndPoint = `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
-        const devoirEndPoint = `https://elearn-n48v.onrender.com/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
-        const quizzesEndpoint = `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
-        // const coursEndPoint = `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
-        // const tdEndPoint = `http://localhost:8000/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
-        // const tpEndPoint = `http://localhost:8000/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
-        // const devoirEndPoint = `http://localhost:8000/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
+  useEffect(() => {
+    async function fetchCours() {
+      // const coursEndPoint = `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
+      // const tdEndPoint = `http://localhost:8000/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
+      // const tpEndPoint = `http://localhost:8000/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
+      // const devoirEndPoint = `http://localhost:8000/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
 
-        try {
-          const res = await axios.get(coursEndPoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = res.data;
-          console.log("Cours :");
-          console.log(data);
-          setCours(data);
-        } catch (err) {
-          console.log(err.message);
-        }
+      try {
+        const res = await axios.get(coursEndPoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = res.data;
+        console.log("Cours :");
+        console.log(data);
+        setCours(data);
+      } catch (err) {
+        console.log(err.message);
+      }
 
-        try {
-          const res = await axios.get(tdEndPoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = res.data;
-          console.log("Td :", chapitre.number);
-          console.log(data);
-          setTd(data);
-        } catch (err) {
-          console.log(err.message);
-        }
+      try {
+        const res = await axios.get(tdEndPoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = res.data;
+        console.log("Td :", chapitre.number);
+        console.log(data);
+        setTd(data);
+      } catch (err) {
+        console.log(err.message);
+      }
 
-        try {
-          const res = await axios.get(tpEndPoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = res.data;
-          console.log("TP :");
-          console.log(data);
-          setTp(data);
-        } catch (err) {
-          console.log(err.message);
-        }
+      try {
+        const res = await axios.get(tpEndPoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = res.data;
+        console.log("TP :");
+        console.log(data);
+        setTp(data);
+      } catch (err) {
+        console.log(err.message);
+      }
 
-        try {
-          const res = await axios.get(devoirEndPoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = res.data;
-          console.log("Devoir :");
-          console.log(data);
-          setDevoir(data);
-        } catch (err) {
-          console.log(err.message);
-        }
+      try {
+        const res = await axios.get(devoirEndPoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = res.data;
+        console.log("Devoir :");
+        console.log(data);
+        setDevoir(data);
+      } catch (err) {
+        console.log(err.message);
+      }
 
-        try {
-          const res = await axios.get(quizzesEndpoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = res.data;
-          console.log("Quizzes :");
-          console.log(data);
-          setQuizzes(data);
-        } catch (err) {
-          console.log(err.message);
-        }
-      },
-    [],
-  );
+      try {
+        const res = await axios.get(quizzesEndpoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = res.data;
+        console.log("Quizzes :");
+        console.log(data);
+        setQuizzes(data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    start && fetchCours();
+  }, [start]);
   return (
     <>
       <dialog
-        id={`my_modal_${chapitre.number}`}
+        id={`my_modal_${chapitre.id}`}
         className="daisy-modal  backdrop-blur-sm"
       >
         <div className="daisy-modal-box  relative mt-8 h-screen w-11/12  max-w-5xl overflow-y-auto  overflow-x-hidden border-[8px] border-black bg-[#A5BED7] shadow-xl shadow-stone-400">
@@ -200,7 +227,7 @@ function ChapitreModal({ chapitre }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
+                                  `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
                                 )
                               }
                             >
@@ -240,7 +267,7 @@ function ChapitreModal({ chapitre }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
+                                  `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
                                 )
                               }
                             >
@@ -262,9 +289,18 @@ function ChapitreModal({ chapitre }) {
                   {devoir.map((devoir) => (
                     <React.Fragment key={devoir.id}>
                       <div className="grid grid-cols-4 items-baseline ">
-                        <a className=" flex justify-start pl-4  text-center text-[#26a69a] underline">
+                        <a className=" flex justify-start text-center text-[#26a69a] underline">
                           {devoir.title}
                         </a>
+
+                        {devoir.deadline && (
+                          <p
+                            className={`inline font-serif text-xs tracking-widest ${getDelai(devoir.deadline).expired ? "text-red-600" : "text-green-800"} `}
+                          >
+                            {getDelai(devoir.deadline)?.dateString}
+                          </p>
+                        )}
+
                         <div className="col-start-4 flex items-baseline justify-evenly space-x-2  py-2 ">
                           {/* <p className="">1.4 MB</p> */}
                           <Link
@@ -277,36 +313,33 @@ function ChapitreModal({ chapitre }) {
                           </Link>
                           <div className="flex flex-col items-center justify-center space-y-4">
                             {is_student ? (
-                              <button
-                                className="daisy-btn border-[#4d8c57] bg-[#4d8c57] py-1 tracking-widest text-white hover:bg-[#3d6d44] "
-                                onClick={() => {
-                                  document
-                                    .getElementById("devoir_modal")
-                                    .showModal();
-                                  // document
-                                  //   .getElementById(`my_modal_${chapitre.number}`)
-                                  //   .close();
-                                }}
-                              >
-                                Upload
-                              </button>
+                              !getDelai(devoir.deadline).expired && (
+                                <button
+                                  className="daisy-btn border-[#4d8c57] bg-[#4d8c57] py-1 tracking-widest text-white hover:bg-[#3d6d44] "
+                                  onClick={() => {
+                                    document
+                                      .getElementById("devoir_modal")
+                                      .showModal();
+                                    // document
+                                    //   .getElementById(`my_modal_${chapitre.id}`)
+                                    //   .close();
+                                  }}
+                                >
+                                  Upload
+                                </button>
+                              )
                             ) : (
                               <button
                                 className="daisy-btn daisy-btn-error py-1 tracking-widest text-white "
                                 onClick={async () =>
                                   handleDelete(
-                                    `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
+                                    `https://elearn-n48v.onrender.com/api/ressources/homework/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
                                   )
                                 }
                               >
                                 Delete
                               </button>
                             )}
-                            <span className="daisy-countdown font-mono ">
-                              <span style={{ "--value": 10 }}></span>j
-                              <span style={{ "--value": 24 }}></span>h
-                              <span style={{ "--value": 46 }}></span>s
-                            </span>
                           </div>
                           <dialog id="devoir_modal" className="daisy-modal ">
                             <div className="daisy-modal-box flex w-fit flex-col items-center justify-center  space-y-5 bg-[#A5BED7] shadow-md shadow-stone-400">
@@ -346,6 +379,14 @@ function ChapitreModal({ chapitre }) {
                         <a className=" flex justify-start pl-4  text-center text-[#26a69a] underline">
                           {`Quizze #${i + 1}`}
                         </a>
+                        {quizze.deadline && (
+                          <p
+                            className={`inline font-serif text-xs tracking-widest ${getDelai(quizze.deadline).expired ? "text-red-600" : "text-green-800"} `}
+                          >
+                            {getDelai(quizze.deadline)?.dateString}
+                          </p>
+                        )}
+
                         <div className="col-start-4 flex items-baseline justify-evenly space-x-10 py-2 ">
                           <button
                             className="daisy-btn border-[#26a69a] bg-[#26a69a] py-1 tracking-widest text-white hover:bg-[#017676] "
@@ -355,7 +396,7 @@ function ChapitreModal({ chapitre }) {
                                 .showModal();
                             }}
                           >
-                            Start
+                            {is_student ? "Start" : "Open"}
                           </button>
 
                           {is_teacher && (
@@ -363,7 +404,7 @@ function ChapitreModal({ chapitre }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  `https://elearn-n48v.onrender.com/api/ressources/quizzes/QUIZZ_ID/delete/`,
+                                  `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/${quizze.number}/delete/`,
                                 )
                               }
                             >
@@ -374,6 +415,7 @@ function ChapitreModal({ chapitre }) {
                         <QuizzModel
                           idQuizz={quizze.id}
                           questions={quizze.questions}
+                          is_student={is_student}
                         />
                       </div>
                     </React.Fragment>
@@ -435,9 +477,15 @@ function ChapitreModal({ chapitre }) {
                   </select>
 
                   <div>
-                    {selected === 1 && <RessourceClassique endPoint="" />}
-                    {selected === 2 && <RessourceClassique endPoint="" />}
-                    {selected === 3 && <RessourceClassique endPoint="" />}
+                    {selected === 1 && (
+                      <RessourceClassique endPoint={coursEndPoint} />
+                    )}
+                    {selected === 2 && (
+                      <RessourceClassique endPoint={tdEndPoint} />
+                    )}
+                    {selected === 3 && (
+                      <RessourceClassique endPoint={tpEndPoint} />
+                    )}
                     {selected === 4 && <DevoirC />}
                     {selected === 5 && <Quizz />}
                     {selected === 6 && <AutreRessource />}

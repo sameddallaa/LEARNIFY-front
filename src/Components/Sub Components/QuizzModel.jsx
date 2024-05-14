@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function QuizzModel({ idQuizz, questions }) {
+function QuizzModel({ idQuizz, questions, is_student }) {
   const totalPages = questions.length;
 
   const [actifPage, setActifPage] = useState(1);
@@ -59,14 +59,30 @@ function QuizzModel({ idQuizz, questions }) {
             >
               Précédente
             </button>
-            <button
-              className={`daisy-btn w-auto min-w-fit border-[#00b6ff] bg-[#00b6ff] py-1 tracking-widest text-white hover:bg-[#0684b6] ${lastPage && "opacity-0"}`}
-              onClick={() => {
-                setActifPage((p) => p + 1);
-              }}
-            >
-              Suivante
-            </button>
+
+            {lastPage ? (
+              <>
+                {is_student && (
+                  <button
+                    className={`daisy-btn w-auto min-w-fit border-[#00b6ff] bg-[#00b6ff] py-1 tracking-widest text-white hover:bg-[#0684b6]`}
+                    onClick={() => {
+                      setActifPage((p) => p + 1);
+                    }}
+                  >
+                    Valider
+                  </button>
+                )}
+              </>
+            ) : (
+              <button
+                className={`daisy-btn w-auto min-w-fit border-[#00b6ff] bg-[#00b6ff] py-1 tracking-widest text-white hover:bg-[#0684b6]`}
+                onClick={() => {
+                  setActifPage((p) => p + 1);
+                }}
+              >
+                Suivante
+              </button>
+            )}
           </div>
           <div className="daisy-join justify-center tracking-widest">
             {Array.from({ length: totalPages }).map((page, i) => (
