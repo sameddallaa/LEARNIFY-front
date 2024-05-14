@@ -11,6 +11,7 @@ import AuthContext from "../Contexts/AuthContext";
 import LoadingAnimation from "./Sub Components/LoadingAnimation";
 import ChapitreModal from "./ChapitreModal";
 import ChapitreAdd_Modal from "./Sub Components/ChapitreAdd_Modal";
+import { GrEdit } from "react-icons/gr";
 
 const Subject = () => {
   const [subject, setSubject] = useState({});
@@ -204,34 +205,32 @@ const Subject = () => {
               <div className={`${classes.courses}`} id="chapters">
                 {chapters.map((chapter) => (
                   <React.Fragment key={chapter.id}>
-                    <button
-                      className={`${classes.courseLink} relative focus:outline-none focus:ring focus:ring-transparent`}
-                      onClick={() => {
-                        // setStart(true);
-                        document
-                          .getElementById(`my_modal_${chapter.id}`)
-                          .showModal();
-                      }}
-                    >
-                      <div className={`${classes.course} relative`}>
-                        {is_teacher && (
-                          <button
-                            className="absolute right-1 top-0 px-1 text-xl hover:text-2xl hover:text-red-600 hover:transition-all hover:duration-200"
-                            onClick={async () => {
-                              await handleChapterDelete(chapter.id);
-                            }}
-                          >
-                            &times;
-                          </button>
-                        )}
+                    <div className={`${classes.course} relative`}>
+                      {is_teacher && (
+                        <button
+                          className="absolute right-1 top-0 p-1 text-lg hover:text-xl hover:text-[#00b6ff] hover:transition-all hover:duration-200"
+                          onClick={async () => {}}
+                        >
+                          <GrEdit />
+                        </button>
+                      )}
+                      <button
+                        className={`${classes.courseLink} relative focus:outline-none focus:ring focus:ring-transparent`}
+                        onClick={() => {
+                          // setStart(true);
+                          document
+                            .getElementById(`my_modal_${chapter.id}`)
+                            .showModal();
+                        }}
+                      >
                         <div className={`${classes.courseTitle}`}>
                           Chapitre {chapter.number}
                         </div>
                         <div className={`${classes.courseDesc}`}>
                           {chapter.name}
                         </div>
-                      </div>
-                    </button>
+                      </button>
+                    </div>
                     <ChapitreModal chapitre={chapter} start={start} />
                   </React.Fragment>
                 ))}
