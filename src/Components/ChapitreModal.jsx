@@ -8,6 +8,7 @@ import DevoirC from "./Sub Components/RessourcesADD/DevoirC";
 import Quizz from "./Sub Components/RessourcesADD/Quizz";
 import RessourceClassique from "./Sub Components/RessourcesADD/RessourceClassique";
 import AutreRessource from "./Sub Components/RessourcesADD/AutreRessource";
+import QuizzModel from "./Sub Components/QuizzModel";
 
 function ChapitreModal({ chapitre }) {
   const token = JSON.parse(localStorage.getItem("tokens"));
@@ -15,6 +16,7 @@ function ChapitreModal({ chapitre }) {
   const [td, setTd] = useState([]);
   const [tp, setTp] = useState([]);
   const [devoir, setDevoir] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
   const [selected, setSelected] = useState(-1);
   const { user } = useContext(AuthContext);
   const { is_teacher, is_student } = user;
@@ -39,6 +41,7 @@ function ChapitreModal({ chapitre }) {
         const tdEndPoint = `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
         const tpEndPoint = `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
         const devoirEndPoint = `https://elearn-n48v.onrender.com/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
+        const quizzesEndpoint = `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
         // const coursEndPoint = `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
         // const tdEndPoint = `http://localhost:8000/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
         // const tpEndPoint = `http://localhost:8000/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
@@ -103,6 +106,21 @@ function ChapitreModal({ chapitre }) {
         } catch (err) {
           console.log(err.message);
         }
+
+        try {
+          const res = await axios.get(quizzesEndpoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token.access,
+            },
+          });
+          const data = res.data;
+          console.log("Quizzes :");
+          console.log(data);
+          setQuizzes(data);
+        } catch (err) {
+          console.log(err.message);
+        }
       },
     [],
   );
@@ -140,7 +158,7 @@ function ChapitreModal({ chapitre }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  `https://elearn-n48v.onrender.com/api/ressources/courses/${cours.id}/delete/`,
+                                  `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${cours.number}/delete/`,
                                 )
                               }
                             >
@@ -182,7 +200,7 @@ function ChapitreModal({ chapitre }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  `https://elearn-n48v.onrender.com/api/ressources/td/${td.id}/delete/`,
+                                  `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
                                 )
                               }
                             >
@@ -222,7 +240,7 @@ function ChapitreModal({ chapitre }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  `https://elearn-n48v.onrender.com/api/ressources/tp/${tp.id}/delete/`,
+                                  `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
                                 )
                               }
                             >
@@ -277,7 +295,7 @@ function ChapitreModal({ chapitre }) {
                                 className="daisy-btn daisy-btn-error py-1 tracking-widest text-white "
                                 onClick={async () =>
                                   handleDelete(
-                                    `https://elearn-n48v.onrender.com/api/ressources/devoir/${devoir.id}/delete/`,
+                                    `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
                                   )
                                 }
                               >
@@ -318,111 +336,51 @@ function ChapitreModal({ chapitre }) {
               </div>
             )}
 
-            <div id="Quizzes">
-              <p className="border-b-2 border-black text-start">Quizzes</p>
-              <div>
-                <div className="grid grid-cols-4 items-baseline ">
-                  <a className=" flex justify-start pl-4  text-center text-[#26a69a] underline">
-                    Quizz1.pdf
-                  </a>
-                  <div className="col-start-4 flex items-baseline justify-evenly space-x-10 py-2 ">
-                    <button
-                      className="daisy-btn border-[#26a69a] bg-[#26a69a] py-1 tracking-widest text-white hover:bg-[#017676] "
-                      onClick={() => {
-                        document.getElementById("quizzes_modal").showModal();
-                      }}
-                    >
-                      Start
-                    </button>
+            {quizzes.length !== 0 && (
+              <div id="Quizzes">
+                <p className="border-b-2 border-black text-start">Quizzes</p>
+                <div>
+                  {quizzes.map((quizze, i) => (
+                    <React.Fragment key={quizze.id}>
+                      <div className="grid grid-cols-4 items-baseline ">
+                        <a className=" flex justify-start pl-4  text-center text-[#26a69a] underline">
+                          {`Quizze #${i + 1}`}
+                        </a>
+                        <div className="col-start-4 flex items-baseline justify-evenly space-x-10 py-2 ">
+                          <button
+                            className="daisy-btn border-[#26a69a] bg-[#26a69a] py-1 tracking-widest text-white hover:bg-[#017676] "
+                            onClick={() => {
+                              document
+                                .getElementById(`quizzes_modal_${quizze.id}`)
+                                .showModal();
+                            }}
+                          >
+                            Start
+                          </button>
 
-                    {is_teacher && (
-                      <button
-                        className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
-                        onClick={async () =>
-                          handleDelete(
-                            `https://elearn-n48v.onrender.com/api/ressources/quizzes/QUIZZ_ID/delete/`,
-                          )
-                        }
-                      >
-                        Delete
-                      </button>
-                    )}
-                  </div>
-                  <dialog id="quizzes_modal" className="daisy-modal ">
-                    <div className="daisy-modal-box flex h-auto w-auto space-y-5 bg-[#A5BED7] shadow-md shadow-stone-400">
-                      <div
-                        id="question"
-                        className="flex flex-col text-start text-lg "
-                      >
-                        <p className="font-mono">
-                          2-Question 2 .....................................
-                        </p>
-                        <div
-                          id="options"
-                          className="flex flex-col items-start  space-y-6"
-                        >
-                          <div
-                            id="option"
-                            className="flex items-center space-x-4 "
-                          >
-                            <input
-                              type="checkbox"
-                              className="daisy-checkbox-success daisy-checkbox rounded-full"
-                            />
-                            <span>Reponse 1</span>
-                          </div>{" "}
-                          <div
-                            id="option"
-                            className="flex items-center space-x-4"
-                          >
-                            <input
-                              type="checkbox"
-                              className="daisy-checkbox-success daisy-checkbox rounded-full"
-                            />
-                            <span>Reponse 2</span>
-                          </div>
-                          <div
-                            id="option"
-                            className="flex items-center space-x-4"
-                          >
-                            <input
-                              type="checkbox"
-                              className="daisy-checkbox-success daisy-checkbox rounded-full "
-                            />
-                            <span>Reponse 3</span>
-                          </div>
+                          {is_teacher && (
+                            <button
+                              className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
+                              onClick={async () =>
+                                handleDelete(
+                                  `https://elearn-n48v.onrender.com/api/ressources/quizzes/QUIZZ_ID/delete/`,
+                                )
+                              }
+                            >
+                              Delete
+                            </button>
+                          )}
                         </div>
-                        <div id="buttons" className="mt-6 flex justify-between">
-                          <button className="daisy-btn w-1/4 border-[#00b6ff] bg-[#00b6ff] py-1 tracking-widest text-white hover:bg-[#0684b6]">
-                            Précédente
-                          </button>
-                          <button className="daisy-btn w-1/4 border-[#00b6ff] bg-[#00b6ff] py-1 tracking-widest text-white hover:bg-[#0684b6]">
-                            Suivante
-                          </button>
-                        </div>
-                        <div className="daisy-join justify-center tracking-widest">
-                          <button className="daisy-btn daisy-join-item text-white">
-                            1
-                          </button>
-                          <button className="daisy-btn daisy-join-item daisy-btn-active bg-inherit text-black hover:bg-inherit">
-                            2
-                          </button>
-                          <button className="daisy-btn daisy-join-item text-white">
-                            3
-                          </button>
-                          <button className="daisy-btn daisy-join-item text-white">
-                            4
-                          </button>
-                        </div>
+                        <QuizzModel
+                          idQuizz={quizze.id}
+                          questions={quizze.questions}
+                        />
                       </div>
-                    </div>
-                    <form method="dialog" className="daisy-modal-backdrop">
-                      <button>close</button>
-                    </form>
-                  </dialog>
+                    </React.Fragment>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
 
             <div id="Autre">
               <p className="border-b-2 border-black text-start">
