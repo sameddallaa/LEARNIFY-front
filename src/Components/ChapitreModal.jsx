@@ -438,6 +438,7 @@ function ChapitreModal({ chapitre, start }) {
                           idQuizz={quizze.id}
                           questions={quizze.questions}
                           is_student={is_student}
+                          endPoint={quizzesEndpoint}
                         />
                       </div>
                     </React.Fragment>
@@ -516,7 +517,7 @@ function ChapitreModal({ chapitre, start }) {
                       <RessourceClassique endPoint={tpEndPoint} />
                     )}
                     {selected === 4 && <DevoirC />}
-                    {selected === 5 && <Quizz />}
+                    {selected === 5 && <Quizz endPoint={quizzesEndpoint} />}
                     {selected === 6 && (
                       <AutreRessource endPoint={autresEndpoint} />
                     )}
