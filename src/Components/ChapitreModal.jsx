@@ -79,85 +79,87 @@ function ChapitreModal({ chapitre, start }) {
         const tdEndPoint = `http://localhost:8000/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
         const tpEndPoint = `http://localhost:8000/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
         const devoirEndPoint = `http://localhost:8000/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
-        const quizzesEndpoint = `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
+        const quizzesEndpoint = `http://localhost:8000/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
 
-      try {
-        const res = await axios.get(coursEndPoint, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token.access,
-          },
-        });
-        const data = res.data;
-        console.log("Cours :");
-        console.log(data);
-        setCours(data);
-      } catch (err) {
-        console.log(err.message);
-      }
+        try {
+          const res = await axios.get(coursEndPoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token.access,
+            },
+          });
+          const data = res.data;
+          console.log("Cours :");
+          console.log(data);
+          setCours(data);
+        } catch (err) {
+          console.log(err.message);
+        }
 
-      try {
-        const res = await axios.get(tdEndPoint, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token.access,
-          },
-        });
-        const data = res.data;
-        console.log("Td :", chapitre.number);
-        console.log(data);
-        setTd(data);
-      } catch (err) {
-        console.log(err.message);
-      }
+        try {
+          const res = await axios.get(tdEndPoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token.access,
+            },
+          });
+          const data = res.data;
+          console.log("Td :", chapitre.number);
+          console.log(data);
+          setTd(data);
+        } catch (err) {
+          console.log(err.message);
+        }
 
-      try {
-        const res = await axios.get(tpEndPoint, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token.access,
-          },
-        });
-        const data = res.data;
-        console.log("TP :");
-        console.log(data);
-        setTp(data);
-      } catch (err) {
-        console.log(err.message);
-      }
+        try {
+          const res = await axios.get(tpEndPoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token.access,
+            },
+          });
+          const data = res.data;
+          console.log("TP :");
+          console.log(data);
+          setTp(data);
+        } catch (err) {
+          console.log(err.message);
+        }
 
-      try {
-        const res = await axios.get(devoirEndPoint, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token.access,
-          },
-        });
-        const data = res.data;
-        console.log("Devoir :");
-        console.log(data);
-        setDevoir(data);
-      } catch (err) {
-        console.log(err.message);
-      }
+        try {
+          const res = await axios.get(devoirEndPoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token.access,
+            },
+          });
+          const data = res.data;
+          console.log("Devoir :");
+          console.log(data);
+          setDevoir(data);
+        } catch (err) {
+          console.log(err.message);
+        }
 
-      try {
-        const res = await axios.get(quizzesEndpoint, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token.access,
-          },
-        });
-        const data = res.data;
-        console.log("Quizzes :");
-        console.log(data);
-        setQuizzes(data);
-      } catch (err) {
-        console.log(err.message);
-      }
-    }
-    start && fetchCours();
-  }, [start]);
+        try {
+          const res = await axios.get(quizzesEndpoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token.access,
+            },
+          });
+          const data = res.data;
+          console.log("Quizzes :");
+          console.log(data);
+          setQuizzes(data);
+        } catch (err) {
+          console.log(err.message);
+        }
+
+        start && fetchCours();
+      },
+    [start],
+  );
   return (
     <>
       <dialog

@@ -20,26 +20,17 @@ const Forum = () => {
       async function fetchPosts() {
         try {
           const postsEndpoint = `http://localhost:8000/api/ressources/forums/${subjectId}/`;
-          const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
-          const subjectResponse = await axios.get(subjectEndpoint, {
+          // const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
+          const response = await axios.get(postsEndpoint, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token.access}`,
             },
           });
-          const subjectData = subjectResponse.data;
-          if (subjectResponse.status === 200) {
-            setSubject(subjectData);
-          }
-          const postsResponse = await axios.get(postsEndpoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token.access}`,
-            },
-          });
-          const postsData = postsResponse.data;
-          if (postsResponse.status === 200) {
-            setPosts(postsData);
+          const subjectData = response.data;
+          if (response.status === 200) {
+            setSubject(subjectData.subject_name);
+            setPosts(subjectData.posts);
           }
         } catch (err) {
           console.log(err);
@@ -48,7 +39,7 @@ const Forum = () => {
     [],
   );
   // const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  console.log(posts);
+  console.log(subject);
   return (
     <React.Fragment>
       <Container className={`${classes.forumContainer}`}>
@@ -68,7 +59,7 @@ const Forum = () => {
               <IoIosCheckmarkCircleOutline /> Closed
             </Button> */}
             <h3 className={`${classes.subjectHeading}`}>
-              <Link className={`${classes.subjectLink}`}>{subject.name}</Link>
+              <Link className={`${classes.subjectLink}`}>{subject}</Link>
             </h3>
           </div>
           <div className={`${classes.searchBar}`}>
@@ -85,7 +76,7 @@ const Forum = () => {
             </FloatingLabel>
           </div>
         </div>
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <Question key={post.id} props={post} />
         ))}
       </Container>

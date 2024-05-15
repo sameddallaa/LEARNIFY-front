@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Container } from "react-bootstrap";
 import classes from "../CSS/Question.module.css";
 import profileImage from "../assets/img/1705940048112.jpg";
@@ -7,8 +7,10 @@ import { BiUpvote } from "react-icons/bi";
 import { BiComment } from "react-icons/bi";
 import { IoEyeOutline } from "react-icons/io5";
 import AuthContext from "../Contexts/AuthContext";
+import Avatar from "react-avatar";
 const Question = ({ props }) => {
   const { user } = useContext(AuthContext);
+  const [avatarClicked, setAvatarClicked] = useState(false);
   const date = new Date(props.date);
   const formattedDate = date.toLocaleString("en-US", {
     year: "numeric",
@@ -26,10 +28,19 @@ const Question = ({ props }) => {
           <div className={`${classes.leftContainer}`}>
             <div className={`${classes.user}`}>
               <div className={`${classes.profilePicContainer}`}>
-                <img
+                {/* <img
                   src={profileImage}
                   alt="Profile image"
                   className={`${classes.profilePic}`}
+                /> */}
+                <Avatar
+                  name={`${props.author_name}`}
+                  color={`white`}
+                  fgColor={`black`}
+                  round={true}
+                  size="45"
+                  onClick={() => setAvatarClicked((clicked) => !clicked)}
+                  className={`select-none hover:cursor-pointer`}
                 />
               </div>
               <div className={`${classes.postData}`}>
@@ -71,7 +82,9 @@ const Question = ({ props }) => {
             <button>
               <BiComment className={`${classes.interactionIcon}`} />
             </button>
-            <p className={`${classes.interactionCount}`}>12</p>
+            <p className={`${classes.interactionCount}`}>
+              {props.comment_count}
+            </p>
           </div>
         </div>
       </Container>
