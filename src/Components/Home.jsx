@@ -15,67 +15,61 @@ const Home = () => {
 
   return (
     <div className="bg-cyanT">
-      <Container
-        className={`${classes.homeContainer} w-auto max-w-fit overflow-auto`}
-      >
+      <Container className={`${classes.homeContainer} overflow-auto`}>
         <main className={`${classes.main} flex items-center justify-center`}>
-          <ul id="news" className="space-y-10">
-            <li className="grid w-auto grid-cols-[fr_auto] flex-col space-x-10 rounded-badge  p-3 shadow-xl shadow-stone-600">
+          <h1 className="mb-10">Actualités</h1>
+          <ul id="news" className=" flex flex-col space-y-10 ">
+            <li className="relative flex w-auto flex-row space-x-10 rounded-badge  p-3  py-2 shadow-xl shadow-stone-600">
               <img
-                className="col-start-1 w-auto max-w-64  rounded-box border-2 border-stone-600 p-3"
+                className=" w-auto max-w-64  rounded-box border-2 border-stone-600 p-3"
                 alt="Picture"
                 src={img}
               />
-              <div
-                id="content"
-                className="lg relative col-start-2  w-auto max-w-sm space-y-10  sm:max-w-sm"
-              >
+
+              <div id="content" className="w-auto space-y-1">
                 <h1>Title</h1>
-                <p className=" break-words font-mono tracking-widest">
-                  Text...........................................
+                <p className=" mb-3 break-words text-start font-mono tracking-wide">
+                  Text okqdpk qspk dpqs dkqp kdqkq dpskq dqp dkq ^k pdqkd p^qksd
+                  dkpq^skdq^dk dqpkdpqs
+                  kdq^kdpq^dkd^pdpqk^dskqpsdpdqksdsqkdp^kqdp^dkpdqksdpqkdpdkqds^skqdpkdqs^dpkkpdsqkd^ppqdkqdk^dkq^pdk^q
+                  dpqsk^d^q pqskd^qd dqpkd^sq podkqopdk kdqodkqze poqjsdp
                 </p>
-                <a className="absolute bottom-auto right-2 tracking-wider no-underline ">
-                  Download
-                </a>
               </div>
+              <a className="absolute bottom-4 right-10 tracking-wider no-underline ">
+                Download
+              </a>
             </li>{" "}
-            <li className="grid w-auto grid-cols-[fr_auto] flex-col space-x-10  rounded-badge p-3 shadow-xl shadow-stone-600">
+            <li className="relative flex w-auto flex-row space-x-10 rounded-badge  p-3 py-2 shadow-xl shadow-stone-600">
               <img
-                className="col-start-1 w-auto max-w-64 rounded-box border-2 border-stone-600 p-3"
+                className=" w-auto max-w-64 rounded-box border-2 border-stone-600 p-3"
                 alt="Picture"
                 src={img}
               />
-              <div
-                id="content"
-                className="relative col-start-2 w-auto max-w-sm  space-y-10 "
-              >
+              <div id="content" className="w-auto  space-y-1 ">
                 <h1>Title</h1>
-                <p className=" break-words font-mono tracking-widest">
+                <p className=" mb-3 break-words font-mono tracking-widest">
                   Text...........................................
                 </p>
-                <a className="absolute bottom-auto right-2 tracking-wider no-underline ">
-                  Download
-                </a>
               </div>
+              <a className="absolute bottom-4 right-10 tracking-wider no-underline ">
+                Download
+              </a>
             </li>{" "}
-            <li className="grid w-auto grid-cols-[fr_auto] flex-col space-x-10 rounded-badge  p-3 shadow-xl shadow-stone-600">
+            <li className=" relative flex w-auto flex-row space-x-10 rounded-badge  p-3   py-2 shadow-xl shadow-stone-600">
               <img
-                className="col-start-1 w-auto max-w-64 rounded-box border-2 border-stone-600 p-3"
+                className=" w-auto max-w-64 rounded-box border-2 border-stone-600 p-3"
                 alt="Picture"
                 src={img}
               />
-              <div
-                id="content"
-                className="relative col-start-2 w-auto max-w-sm  space-y-10 "
-              >
+              <div id="content" className="w-auto space-y-1 ">
                 <h1>Title</h1>
-                <p className=" break-words font-mono tracking-widest">
+                <p className="mb-3 break-words font-mono tracking-widest">
                   Text...........................................
                 </p>
-                <a className="absolute bottom-auto right-2 tracking-wider no-underline ">
-                  Download
-                </a>
               </div>
+              <a className="absolute bottom-4 right-10 tracking-wider no-underline ">
+                Download
+              </a>
             </li>
           </ul>
         </main>
