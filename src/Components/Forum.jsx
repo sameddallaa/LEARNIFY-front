@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Question from "./Question";
 import classes from "../CSS/Forum.module.css";
 import { Button, Container } from "react-bootstrap";
@@ -8,9 +8,47 @@ import { HiOutlineFire } from "react-icons/hi2";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { FloatingLabel, Form } from "react-bootstrap";
 import { IoIosSearch } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 const Forum = () => {
-  const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const [posts, setPosts] = useState([]);
+  const [subject, setSubject] = useState("");
+  const token = JSON.parse(localStorage.getItem("tokens"));
+  const { subjectId } = useParams();
+  useEffect(
+    () =>
+      async function fetchPosts() {
+        try {
+          const postsEndpoint = `http://localhost:8000/api/ressources/forums/${subjectId}/`;
+          const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
+          const subjectResponse = await axios.get(subjectEndpoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token.access}`,
+            },
+          });
+          const subjectData = subjectResponse.data;
+          if (subjectResponse.status === 200) {
+            setSubject(subjectData);
+          }
+          const postsResponse = await axios.get(postsEndpoint, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token.access}`,
+            },
+          });
+          const postsData = postsResponse.data;
+          if (postsResponse.status === 200) {
+            setPosts(postsData);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    [],
+  );
+  // const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  console.log(posts);
   return (
     <React.Fragment>
       <Container className={`${classes.forumContainer}`}>
@@ -30,9 +68,7 @@ const Forum = () => {
               <IoIosCheckmarkCircleOutline /> Closed
             </Button> */}
             <h3 className={`${classes.subjectHeading}`}>
-              <Link className={`${classes.subjectLink}`}>
-                Systèmes d'exploitation
-              </Link>
+              <Link className={`${classes.subjectLink}`}>{subject.name}</Link>
             </h3>
           </div>
           <div className={`${classes.searchBar}`}>
@@ -49,8 +85,8 @@ const Forum = () => {
             </FloatingLabel>
           </div>
         </div>
-        {testArray.map((test) => (
-          <Question key={test} />
+        {posts.map((post) => (
+          <Question key={post.id} props={post} />
         ))}
       </Container>
     </React.Fragment>

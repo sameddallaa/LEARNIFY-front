@@ -59,8 +59,8 @@ const HomeNavbar = () => {
   useEffect(() => {
     const fetchSubjects = async () => {
       if (is_student) {
-        const endpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/year/${year}`;
-        // const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
+        // const endpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/year/${year}`;
+        const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
         try {
           const response = await axios.get(endpoint, {
             headers: {
@@ -78,8 +78,8 @@ const HomeNavbar = () => {
           console.log(error);
         }
       } else if (is_teacher) {
-        // const yearsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/years/`;
-        const yearsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/years/`;
+        const yearsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/years/`;
+        // const yearsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/years/`;
         try {
           const response = await axios.get(yearsEndpoint, {
             headers: {

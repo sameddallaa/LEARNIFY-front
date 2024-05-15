@@ -34,8 +34,8 @@ const Subject = () => {
   const newChapters = [];
 
   async function handleNoteSave() {
-    // const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
-    const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    // const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
     noteSaved = false;
     try {
       const response = await axios.put(
@@ -60,8 +60,8 @@ const Subject = () => {
   }
 
   async function handleNoteFetch() {
-    // const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
-    const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    // const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
     try {
       const response = await axios.get(noteEndPoint, {
         headers: {
@@ -100,10 +100,11 @@ const Subject = () => {
   useEffect(
     () =>
       async function fetchChapters() {
-        // const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
-        // const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
-        const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
-        const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
+        const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
+        const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
+
+        // const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
+        // const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
         try {
           setDataLoading(true);
           const response = await axios.get(chaptersEndpoint, {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Container } from "react-bootstrap";
 import classes from "../CSS/Question.module.css";
 import profileImage from "../assets/img/1705940048112.jpg";
@@ -6,7 +6,19 @@ import { BsThreeDots } from "react-icons/bs";
 import { BiUpvote } from "react-icons/bi";
 import { BiComment } from "react-icons/bi";
 import { IoEyeOutline } from "react-icons/io5";
-const Question = () => {
+import AuthContext from "../Contexts/AuthContext";
+const Question = ({ props }) => {
+  const { user } = useContext(AuthContext);
+  const date = new Date(props.date);
+  const formattedDate = date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
   return (
     <React.Fragment>
       <Container className={`${classes.questionContainer}`}>
@@ -22,10 +34,10 @@ const Question = () => {
               </div>
               <div className={`${classes.postData}`}>
                 <div className={`${classes.userNameContainer}`}>
-                  <h2 className={`${classes.userName}`}>Abdessamed DALLAA</h2>
+                  <h2 className={`${classes.userName}`}>{props.author_name}</h2>
                 </div>
                 <div className={`${classes.postDateContainer}`}>
-                  <h5 className={`${classes.postDate}`}>16h34</h5>
+                  <h5 className={`${classes.postDate}`}>{formattedDate}</h5>
                 </div>
               </div>
             </div>
@@ -36,14 +48,10 @@ const Question = () => {
         </div>
         <div className={`${classes.question}`}>
           <div className={`${classes.questionTitle}`}>
-            <h3>Lorem, ipsum.</h3>
+            <h3>{props.title}</h3>
           </div>
           <div className={`${classes.questionBody}`}>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. A beatae
-              iste incidunt reprehenderit hic accusantium quas quibusdam
-              explicabo aspernatur. Accusamus repellendus aut aperiam.
-            </p>
+            <p>{props.content}</p>
           </div>
         </div>
         <div className={`${classes.interactions}`}>
@@ -57,7 +65,7 @@ const Question = () => {
             <button>
               <BiUpvote className={`${classes.interactionIcon}`} />
             </button>
-            <p className={`${classes.interactionCount}`}>12</p>
+            <p className={`${classes.interactionCount}`}>{props.upvotes}</p>
           </div>
           <div className={`${classes.interaction}`}>
             <button>

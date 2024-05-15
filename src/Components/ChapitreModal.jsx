@@ -37,15 +37,16 @@ function ChapitreModal({ chapitre }) {
   useEffect(
     () =>
       async function fetchCours() {
-        const coursEndPoint = `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
-        const tdEndPoint = `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
-        const tpEndPoint = `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
-        const devoirEndPoint = `https://elearn-n48v.onrender.com/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
+        // const coursEndPoint = `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
+        // const tdEndPoint = `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
+        // const tpEndPoint = `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
+        // const devoirEndPoint = `https://elearn-n48v.onrender.com/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
+        // const quizzesEndpoint = `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
+        const coursEndPoint = `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
+        const tdEndPoint = `http://localhost:8000/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
+        const tpEndPoint = `http://localhost:8000/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
+        const devoirEndPoint = `http://localhost:8000/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
         const quizzesEndpoint = `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
-        // const coursEndPoint = `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
-        // const tdEndPoint = `http://localhost:8000/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
-        // const tpEndPoint = `http://localhost:8000/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
-        // const devoirEndPoint = `http://localhost:8000/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
 
         try {
           const res = await axios.get(coursEndPoint, {
@@ -158,7 +159,8 @@ function ChapitreModal({ chapitre }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${cours.number}/delete/`,
+                                  // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${cours.number}/delete/`,
+                                  `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${cours.number}/delete/`,
                                 )
                               }
                             >
@@ -200,7 +202,8 @@ function ChapitreModal({ chapitre }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
+                                  // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
+                                  `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
                                 )
                               }
                             >
@@ -240,7 +243,8 @@ function ChapitreModal({ chapitre }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
+                                  // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
+                                  `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
                                 )
                               }
                             >
@@ -295,7 +299,8 @@ function ChapitreModal({ chapitre }) {
                                 className="daisy-btn daisy-btn-error py-1 tracking-widest text-white "
                                 onClick={async () =>
                                   handleDelete(
-                                    `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
+                                    // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
+                                    `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
                                   )
                                 }
                               >
@@ -363,7 +368,8 @@ function ChapitreModal({ chapitre }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  `https://elearn-n48v.onrender.com/api/ressources/quizzes/QUIZZ_ID/delete/`,
+                                  // `https://elearn-n48v.onrender.com/api/ressources/quizzes/QUIZZ_ID/delete/`,
+                                  `http://localhost:8000/api/ressources/quizzes/QUIZZ_ID/delete/`,
                                 )
                               }
                             >
@@ -400,7 +406,8 @@ function ChapitreModal({ chapitre }) {
                       className="daisy-btn daisy-btn-error mr-4 py-1 tracking-widest text-white"
                       onClick={async () =>
                         handleDelete(
-                          `https://elearn-n48v.onrender.com/api/ressources/quizzes/QUIZZ_ID/delete/`,
+                          // `https://elearn-n48v.onrender.com/api/ressources/quizzes/QUIZZ_ID/delete/`,
+                          `http://localhost:8000/api/ressources/quizzes/QUIZZ_ID/delete/`,
                         )
                       }
                     >
