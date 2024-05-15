@@ -16,32 +16,6 @@ const HomeNavbarLoggedOff = () => {
               <p className="tracking-widest">Learnify</p>
             </div>
           </Navbar.Brand>
-          <div className="items-center space-x-20">
-            <a
-              href="/home"
-              className="font-medium text-blue-950 no-underline hover:underline"
-            >
-              Home
-            </a>
-            <a
-              href="/about"
-              className="font-medium text-blue-950 no-underline hover:underline"
-            >
-              About
-            </a>
-            <a
-              href="/blog"
-              className="font-medium text-blue-950 no-underline hover:underline"
-            >
-              Blog
-            </a>
-            <a
-              href="/contact"
-              className="font-medium text-blue-950 no-underline hover:underline"
-            >
-              Contact
-            </a>
-          </div>
 
           <div className="relative mr-10 flex flex-col items-center shadow-inner shadow-white">
             <button

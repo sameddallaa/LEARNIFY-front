@@ -35,6 +35,8 @@ const Subject = () => {
   const { student_id, teacher_id } = user;
   const [start, setStart] = useState(false);
 
+  const [oldNoteInput, setOldNoteInput] = useState("");
+
   async function handleNoteSave() {
     // const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
     const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
@@ -76,6 +78,7 @@ const Subject = () => {
         console.log("note fetch : ", data);
         setNote(data);
         setNoteInput(data.content);
+        setOldNoteInput(data.content);
       } else {
         console.log("Something went wrong");
       }
@@ -273,10 +276,15 @@ const Subject = () => {
                       <button
                         className="daisy-btn daisy-btn-info bg-inherit "
                         onClick={async () => {
-                          if (noteInput.length != 0) {
+                          if (
+                            noteInput.length != 0 &&
+                            noteInput != oldNoteInput
+                          ) {
                             await handleNoteSave();
                             noteSaved &&
                               setClipBoardOpened((clicked) => !clicked);
+                          } else {
+                            setClipBoardOpened((clicked) => !clicked);
                           }
                         }}
                       >

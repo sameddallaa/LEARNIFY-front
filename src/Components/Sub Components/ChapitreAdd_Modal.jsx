@@ -17,8 +17,7 @@ function ChapitreAdd_Modal({ subjectId }) {
         },
       });
 
-      const data = res.data;
-      console.log(data);
+      console.log("Chapter Added.");
     } catch (err) {
       console.error(err);
     }
