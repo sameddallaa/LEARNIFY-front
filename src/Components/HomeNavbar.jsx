@@ -98,8 +98,8 @@ const HomeNavbar = () => {
         }
         years.map(async (year) => {
           console.log("i'm running :)");
-          const subjectsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/${year.year}/subjects/`;
-          // const subjectsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/${year.year}/subjects/`;
+          // const subjectsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/${year.year}/subjects/`;
+          const subjectsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/${year.year}/subjects/`;
           try {
             const response = await axios.get(subjectsEndpoint, {
               headers: {
