@@ -5,6 +5,7 @@ import logoImg from "../assets/img/main.svg";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../Contexts/AuthContext";
 import img from "../assets/img/girlImg.svg";
+import axios from "axios";
 const Home = () => {
   // const navigate = useNavigate();
   // const { user } = useContext(AuthContext); // need to be connected in order to access Home
@@ -13,67 +14,69 @@ const Home = () => {
   //   !user && navigate("/");
   // }, [user]);
 
-  return (
-    <div className="bg-cyanT">
-      <Container className={`${classes.homeContainer} overflow-auto`}>
-        <main className={`${classes.main} flex items-center justify-center`}>
-          <h1 className="mb-10">Actualités</h1>
-          <ul id="news" className=" flex flex-col space-y-10 ">
-            <li className="relative flex w-auto flex-row space-x-10 rounded-badge  p-3  py-2 shadow-xl shadow-stone-600">
-              <img
-                className=" w-auto max-w-64  rounded-box border-2 border-stone-600 p-3"
-                alt="Picture"
-                src={img}
-              />
+  const token = JSON.parse(localStorage.getItem("tokens"));
+  const { user } = useContext(AuthContext);
+  const { year } = user;
+  const newsEndpoint = `https://elearn-n48v.onrender.com/api/news/${Number(year)}/ `;
 
-              <div id="content" className="w-auto space-y-1">
-                <h1>Title</h1>
-                <p className=" mb-3 break-words text-start font-mono tracking-wide">
-                  Text okqdpk qspk dpqs dkqp kdqkq dpskq dqp dkq ^k pdqkd p^qksd
-                  dkpq^skdq^dk dqpkdpqs
-                  kdq^kdpq^dkd^pdpqk^dskqpsdpdqksdsqkdp^kqdp^dkpdqksdpqkdpdkqds^skqdpkdqs^dpkkpdsqkd^ppqdkqdk^dkq^pdk^q
-                  dpqsk^d^q pqskd^qd dqpkd^sq podkqopdk kdqodkqze poqjsdp
-                </p>
-              </div>
-              <a className="absolute bottom-4 right-10 tracking-wider no-underline ">
-                Download
-              </a>
-            </li>{" "}
-            <li className="relative flex w-auto flex-row space-x-10 rounded-badge  p-3 py-2 shadow-xl shadow-stone-600">
-              <img
-                className=" w-auto max-w-64 rounded-box border-2 border-stone-600 p-3"
-                alt="Picture"
-                src={img}
-              />
-              <div id="content" className="w-auto  space-y-1 ">
-                <h1>Title</h1>
-                <p className=" mb-3 break-words font-mono tracking-widest">
-                  Text...........................................
-                </p>
-              </div>
-              <a className="absolute bottom-4 right-10 tracking-wider no-underline ">
-                Download
-              </a>
-            </li>{" "}
-            <li className=" relative flex w-auto flex-row space-x-10 rounded-badge  p-3   py-2 shadow-xl shadow-stone-600">
-              <img
-                className=" w-auto max-w-64 rounded-box border-2 border-stone-600 p-3"
-                alt="Picture"
-                src={img}
-              />
-              <div id="content" className="w-auto space-y-1 ">
-                <h1>Title</h1>
-                <p className="mb-3 break-words font-mono tracking-widest">
-                  Text...........................................
-                </p>
-              </div>
-              <a className="absolute bottom-4 right-10 tracking-wider no-underline ">
-                Download
-              </a>
-            </li>
-          </ul>
-        </main>
-      </Container>
+  const [news, setNews] = useState([]);
+
+  async function handleFetchNews() {
+    try {
+      const res = await axios.get(newsEndpoint, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token.access,
+        },
+      });
+      if (res.status == 200) {
+        const data = await res.data;
+        console.log("data news : ", data);
+        setNews(data);
+      } else {
+        throw new Error("Someting went wrong !");
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  useEffect(() => {
+    handleFetchNews();
+  }, []);
+
+  return (
+    <div className="overflow-auto bg-cyanT">
+      <h1 className="mt-8 text-center text-3xl font-bold md:text-4xl">
+        Actualités
+      </h1>
+      <main className={`${classes.main} flex items-center justify-center`}>
+        <ul id="news" className="w-auto min-w-full space-y-10 ">
+          {news.map((nvl) => (
+            <React.Fragment key={nvl.id}>
+              <li className="hover:trasition-all relative flex   space-x-10  rounded-badge  px-3 py-2 shadow-xl shadow-stone-600 hover:mx-10 hover:duration-700">
+                <img
+                  className=" w-auto max-w-64 rounded-box  border-2 border-stone-600 object-cover p-3"
+                  alt="Picture"
+                  src={nvl.image}
+                />
+
+                <div id="content" className="space-y-1 ">
+                  <h3 className="text-xl font-semibold md:text-2xl">
+                    {nvl.title}
+                  </h3>
+                  <p className=" mb-3 break-words text-start text-sm text-gray-700 md:text-base ">
+                    {nvl.body}
+                  </p>
+                  <button className="daisy-btn daisy-btn-info  absolute bottom-4 right-10 tracking-wider text-white ">
+                    Download
+                  </button>
+                </div>
+              </li>
+            </React.Fragment>
+          ))}
+        </ul>
+      </main>
     </div>
   );
 };

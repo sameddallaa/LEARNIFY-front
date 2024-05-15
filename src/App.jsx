@@ -35,8 +35,8 @@ export default function App() {
           }
         />
         <Route exact path="/subjects/:subjectId" Component={Subject} />
-        {/* <Route path="/home" element={<PrivateRoute Component={Home} />}></Route> */}
-        <Route path="/home" element={<Home />}></Route>
+        <Route path="/home" element={<PrivateRoute Component={Home} />}></Route>
+        {/* <Route path="/home" element={<Home />}></Route> */}
         <Route path="/forum" element={<Forum />} />
         <Route path="/answer" element={<Answer />} />
         <Route path="/discussion" element={<Discussion />} />
