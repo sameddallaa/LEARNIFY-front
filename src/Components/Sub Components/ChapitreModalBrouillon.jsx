@@ -70,114 +70,105 @@ function ChapitreModal({ chapitre, start }) {
     }
   }
 
-  useEffect(
-    () =>
-      async function fetchCours() {
-        // const coursEndPoint = `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
-        // const tdEndPoint = `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
-        // const tpEndPoint = `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
-        // const devoirEndPoint = `https://elearn-n48v.onrender.com/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
-        // const quizzesEndpoint = `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
-        const coursEndPoint = `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
-        const tdEndPoint = `http://localhost:8000/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
-        const tpEndPoint = `http://localhost:8000/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
-        const devoirEndPoint = `http://localhost:8000/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
-        const quizzesEndpoint = `http://localhost:8000/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
+  useEffect(() => {
+    async function fetchCours() {
+      // const coursEndPoint = `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
+      // const tdEndPoint = `http://localhost:8000/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
+      // const tpEndPoint = `http://localhost:8000/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
+      // const devoirEndPoint = `http://localhost:8000/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
 
-        try {
-          const res = await axios.get(coursEndPoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = await res.data;
-          console.log("Cours :");
-          console.log(data);
-          setCours(data);
-        } catch (err) {
-          console.log(err.message);
-        }
+      try {
+        const res = await axios.get(coursEndPoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = await res.data;
+        console.log("Cours :");
+        console.log(data);
+        setCours(data);
+      } catch (err) {
+        console.log(err.message);
+      }
 
-        try {
-          const res = await axios.get(tdEndPoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = await res.data;
-          console.log("Td :", chapitre.number);
-          console.log(data);
-          setTd(data);
-        } catch (err) {
-          console.log(err.message);
-        }
+      try {
+        const res = await axios.get(tdEndPoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = await res.data;
+        console.log("Td :", chapitre.number);
+        console.log(data);
+        setTd(data);
+      } catch (err) {
+        console.log(err.message);
+      }
 
-        try {
-          const res = await axios.get(tpEndPoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = await res.data;
-          console.log("TP :");
-          console.log(data);
-          setTp(data);
-        } catch (err) {
-          console.log(err.message);
-        }
+      try {
+        const res = await axios.get(tpEndPoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = await res.data;
+        console.log("TP :");
+        console.log(data);
+        setTp(data);
+      } catch (err) {
+        console.log(err.message);
+      }
 
-        try {
-          const res = await axios.get(devoirEndPoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = await res.data;
-          console.log("Devoir :");
-          console.log(data);
-          setDevoir(data);
-        } catch (err) {
-          console.log(err.message);
-        }
+      try {
+        const res = await axios.get(devoirEndPoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = await res.data;
+        console.log("Devoir :");
+        console.log(data);
+        setDevoir(data);
+      } catch (err) {
+        console.log(err.message);
+      }
 
-        try {
-          const res = await axios.get(quizzesEndpoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = await res.data;
-          console.log("Quizzes :");
-          console.log(data);
-          setQuizzes(data);
-        } catch (err) {
-          console.log(err.message);
-        }
+      try {
+        const res = await axios.get(quizzesEndpoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = await res.data;
+        console.log("Quizzes :");
+        console.log(data);
+        setQuizzes(data);
+      } catch (err) {
+        console.log(err.message);
+      }
 
-        try {
-          const res = await axios.get(autresEndpoint, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token.access,
-            },
-          });
-          const data = await res.data;
-          console.log("Autre ressources :");
-          console.log(data);
-          setAutreRs(data);
-        } catch (err) {
-          console.log(err.message);
-        }
-
-        start && fetchCours();
-      },
-    [start],
-  );
+      try {
+        const res = await axios.get(autresEndpoint, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token.access,
+          },
+        });
+        const data = await res.data;
+        console.log("Autre ressources :");
+        console.log(data);
+        setAutreRs(data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    start && fetchCours();
+  }, [start]);
   return (
     <>
       <dialog
@@ -212,8 +203,7 @@ function ChapitreModal({ chapitre, start }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${cours.number}/delete/`,
-                                  `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${cours.number}/delete/`,
+                                  `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${cours.number}/delete/`,
                                 )
                               }
                             >
@@ -255,8 +245,7 @@ function ChapitreModal({ chapitre, start }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
-                                  `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
+                                  `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
                                 )
                               }
                             >
@@ -296,8 +285,7 @@ function ChapitreModal({ chapitre, start }) {
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
-                                  `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
+                                  `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
                                 )
                               }
                             >
@@ -363,8 +351,7 @@ function ChapitreModal({ chapitre, start }) {
                                 className="daisy-btn daisy-btn-error py-1 tracking-widest text-white "
                                 onClick={async () =>
                                   handleDelete(
-                                    // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
-                                    `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
+                                    `https://elearn-n48v.onrender.com/api/ressources/homework/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
                                   )
                                 }
                               >
@@ -406,9 +393,7 @@ function ChapitreModal({ chapitre, start }) {
                 <div>
                   {quizzes.map((quizze, i) => (
                     <React.Fragment key={quizze.id}>
-                      <div
-                        className={`flex items-baseline justify-between ${is_student && "pr-20"} `}
-                      >
+                      <div className="flex items-baseline justify-between ">
                         <p className=" flex justify-start pl-4  text-center text-[#26a69a] ">
                           {`Quizze #${i + 1}`}
                         </p>
@@ -420,9 +405,7 @@ function ChapitreModal({ chapitre, start }) {
                           </p>
                         )}
 
-                        <div
-                          className={`flex items-baseline justify-evenly py-2 ${is_teacher && "space-x-9  md:pr-3"}  `}
-                        >
+                        <div className="flex items-baseline justify-evenly space-x-10 py-2 ">
                           <button
                             className="daisy-btn border-[#26a69a] bg-[#26a69a] py-1 tracking-widest text-white hover:bg-[#017676] "
                             onClick={() => {
@@ -436,11 +419,10 @@ function ChapitreModal({ chapitre, start }) {
 
                           {is_teacher && (
                             <button
-                              className="daisy-btn daisy-btn-error  py-1 tracking-widest text-white"
+                              className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
-                                  // `https://elearn-n48v.onrender.com/api/ressources/quizzes/QUIZZ_ID/delete/`,
-                                  `http://localhost:8000/api/ressources/quizzes/QUIZZ_ID/delete/`,
+                                  `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/${quizze.number}/delete/`,
                                 )
                               }
                             >
@@ -452,7 +434,6 @@ function ChapitreModal({ chapitre, start }) {
                           idQuizz={quizze.id}
                           questions={quizze.questions}
                           is_student={is_student}
-                          endPoint={quizzesEndpoint}
                         />
                       </div>
                     </React.Fragment>
@@ -474,7 +455,7 @@ function ChapitreModal({ chapitre, start }) {
                           {rs.title}
                         </p>
                         <a
-                          className={`${is_student && "pr-20"} text-center tracking-widest text-[#26a69a] underline`}
+                          className="text-center tracking-widest text-[#26a69a] underline"
                           href={rs?.link}
                         >
                           {rs?.link}
@@ -531,7 +512,7 @@ function ChapitreModal({ chapitre, start }) {
                       <RessourceClassique endPoint={tpEndPoint} />
                     )}
                     {selected === 4 && <DevoirC />}
-                    {selected === 5 && <Quizz endPoint={quizzesEndpoint} />}
+                    {selected === 5 && <Quizz />}
                     {selected === 6 && (
                       <AutreRessource endPoint={autresEndpoint} />
                     )}

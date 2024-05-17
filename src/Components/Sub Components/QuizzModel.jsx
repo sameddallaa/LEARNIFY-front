@@ -1,11 +1,37 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-function QuizzModel({ idQuizz, questions, is_student }) {
+function QuizzModel({ idQuizz, questions, is_student, endPoint }) {
   const totalPages = questions.length;
-
+  const token = JSON.parse(localStorage.getItem("tokens"));
   const [actifPage, setActifPage] = useState(1);
   const [firstPage, setFirstPage] = useState(true);
   const [lastPage, setLastPage] = useState(false);
+  const [quizzes, setQuizzes] = useState([]);
+
+  // useEffect(() => {
+  //   async function fetchQuizzes() {
+  //     try {
+  //       const res = await axios.get(endPoint, {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "Bearer " + token.access,
+  //         },
+  //       });
+  //       if (res.status == 200) {
+  //         const data = await res.data;
+  //         console.log("data quizzes : ", data);
+  //         setQuizzes(data);
+  //       } else {
+  //         throw new Error("Someting went wrong !");
+  //       }
+  //     } catch (err) {
+  //       console.log(err.message);
+  //     }
+  //   }
+
+  //   fetchQuizzes();
+  // }, []);
 
   useEffect(() => {
     if (actifPage === 1) {
