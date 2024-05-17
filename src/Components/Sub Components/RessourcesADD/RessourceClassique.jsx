@@ -24,6 +24,7 @@ function RessourceClassique({ endPoint }) {
       });
 
       console.log(res);
+      console.log("File Added.");
     } catch (err) {
       console.log(err.message);
     }

@@ -52,8 +52,8 @@ const HomeNavbar = () => {
   const location = useLocation();
   // const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState([]);
-  const [years, setYears] = useState([]);
   const [yearsSubjects, setYearsSubjects] = useState([]);
+  const [finished, setFinished] = useState(false);
   const { subjectId, setSubjectId } = useContext(AuthContext);
   const yearsSet = new Set();
   useEffect(() => {
@@ -78,8 +78,9 @@ const HomeNavbar = () => {
           console.log(error);
         }
       } else if (is_teacher) {
-        const yearsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/years/`;
+        // const yearsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/years/`;
         // const yearsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/years/`;
+        const yearsEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${teacher_id}/subjects/`;
         try {
           const response = await axios.get(yearsEndpoint, {
             headers: {
@@ -89,46 +90,20 @@ const HomeNavbar = () => {
           });
           const data = await response.data;
           if (response.status === 200) {
-            setYears(data);
+            // setYears(data);
+            console.log("data : ", data.years_subjects);
+            setYearsSubjects(data.years_subjects);
+            setFinished(true);
           } else {
             console.log("Something went wrong :(");
           }
         } catch (error) {
           console.log(error);
         }
-        years.map(async (year) => {
-          console.log("i'm running :)");
-          // const subjectsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/${year.year}/subjects/`;
-          const subjectsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/${year.year}/subjects/`;
-          try {
-            const response = await axios.get(subjectsEndpoint, {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token.access}`,
-              },
-            });
-            const data = await response.data;
-            if (response.status === 200) {
-              yearsSet.add({
-                year: year.year,
-                year_tag: year.year_tag,
-                subject: data,
-              });
-              setYearsSubjects([...yearsSet]);
-              setSubjects(data);
-              console.log(Array.from(yearsSet));
-            } else {
-              console.log("Something went wrong :(");
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        });
       }
-      console.log(...yearsSet);
     };
     fetchSubjects();
-  }, [...yearsSet]);
+  }, []);
   // const [subject, setSubject] = useState("");
   const userType = () => {
     if (is_student) {
@@ -168,19 +143,20 @@ const HomeNavbar = () => {
                       </Accordion.Header>
                       <Accordion.Body className={`${classes.accordionBody}`}>
                         {is_teacher ? (
+                          finished &&
                           yearsSubjects.map((year) => (
                             <div
                               className={`${classes.yearContainer}`}
-                              key={year.year_tag}
+                              key={year.year.id}
                             >
                               <p className={`${classes.year}`}>
-                                {year.year_tag}
+                                {year.year.year_tag}
                               </p>
                               <div className={`${classes.courses}`}>
-                                {year.subject.map((subject) => (
+                                {year.subjects.map((subject) => (
                                   <ListGroup
                                     className={`${classes.listGroup}`}
-                                    key={subject}
+                                    key={subject.id}
                                   >
                                     <ListGroup.Item
                                       className={`${classes.listGroupItem}`}

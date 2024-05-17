@@ -62,6 +62,7 @@ function ChapitreModal({ chapitre, start }) {
           Authorization: "Bearer " + token.access,
         },
       });
+      console.log("Deleted.");
     } catch (err) {
       console.log(err);
     }
