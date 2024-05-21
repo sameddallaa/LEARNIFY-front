@@ -4,7 +4,8 @@ import { MdOutlinePostAdd } from "react-icons/md";
 
 function ChapitreAdd_Modal({ subjectId }) {
   const [titre, setTitre] = useState("");
-  const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
+  // const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
+  const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
   const token = JSON.parse(localStorage.getItem("tokens"));
 
   async function handleAddChapitre() {

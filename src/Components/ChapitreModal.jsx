@@ -21,12 +21,18 @@ function ChapitreModal({ chapitre, start }) {
   const [selected, setSelected] = useState(-1);
   const { user } = useContext(AuthContext);
   const { is_teacher, is_student } = user;
-  const coursEndPoint = `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
-  const tdEndPoint = `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
-  const tpEndPoint = `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
-  const devoirEndPoint = `https://elearn-n48v.onrender.com/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
-  const quizzesEndpoint = `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
-  const autresEndpoint = `https://elearn-n48v.onrender.com/api/ressources/other/${chapitre.subject}/${chapitre.number}/  `;
+  // const coursEndPoint = `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
+  // const tdEndPoint = `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
+  // const tpEndPoint = `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
+  // const devoirEndPoint = `https://elearn-n48v.onrender.com/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
+  // const quizzesEndpoint = `https://elearn-n48v.onrender.com/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
+  // const autresEndpoint = `https://elearn-n48v.onrender.com/api/ressources/other/${chapitre.subject}/${chapitre.number}/  `;
+  const coursEndPoint = `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
+  const tdEndPoint = `http://localhost:8000/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
+  const tpEndPoint = `http://localhost:8000/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
+  const devoirEndPoint = `http://localhost:8000/api/ressources/homework/${chapitre.subject}/${chapitre.number}/`;
+  const quizzesEndpoint = `http://localhost:8000/api/ressources/quizzes/${chapitre.subject}/${chapitre.number}/`;
+  const autresEndpoint = `http://localhost:8000/api/ressources/other/${chapitre.subject}/${chapitre.number}/  `;
 
   function getDelai(dateD) {
     const dateMs = new Date(dateD).getTime();

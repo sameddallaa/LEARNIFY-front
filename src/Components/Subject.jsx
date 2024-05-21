@@ -21,10 +21,11 @@ const Subject = () => {
   const [role, setRole] = useState("");
   const [clipBoardOpened, setClipBoardOpened] = useState(false);
   const navigate = useNavigate();
-  const { user, loading, pathToggle } = useContext(AuthContext); // need to be connected in order to access Home
+  const { user, loading, pathToggle, setSubjectId } = useContext(AuthContext); // need to be connected in order to access Home
   const { is_teacher, is_student } = user;
   const token = JSON.parse(localStorage.getItem("tokens"));
   const { subjectId } = useParams();
+  setSubjectId(subjectId);
   const location = useLocation();
   let currentPath;
   const [dataLoading, setDataLoading] = useState(true);
@@ -88,7 +89,8 @@ const Subject = () => {
   }
 
   async function handleChapterDelete(chapterId) {
-    const chapterDltEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/delete/`;
+    // const chapterDltEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/delete/`;
+    const chapterDltEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/delete/`;
     try {
       const res = await axios.delete(chapterDltEndpoint, {
         headers: {

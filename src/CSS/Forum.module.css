@@ -53,3 +53,17 @@
 .searchInput {
   border-radius: 100px !important;
 }
+
+.addPost {
+  border-radius: 100px;
+  background-color: #29b6f6;
+  position: fixed;
+  right: 23px;
+  bottom: 18px;
+  padding: 29px;
+}
+
+.addPostIcon {
+  width: 30px;
+  height: 30px;
+}

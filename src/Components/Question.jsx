@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import { Container } from "react-bootstrap";
 import classes from "../CSS/Question.module.css";
 import profileImage from "../assets/img/1705940048112.jpg";
+import { Link } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { BiDownvote, BiUpvote } from "react-icons/bi";
 import { BiComment } from "react-icons/bi";
@@ -179,7 +180,12 @@ const Question = ({ props }) => {
         <div className={`${classes.question}`}>
           <div className={`${classes.questionText}`}>
             <div className={`${classes.questionTitle}`}>
-              <h3>{props.title}</h3>
+              <Link
+                to={`../../discussion/${props.id}`}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                <h3>{props.title}</h3>
+              </Link>
             </div>
             <div className={`${classes.questionBody}`}>
               <p>{props.content}</p>

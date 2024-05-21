@@ -17,7 +17,8 @@ const Home = () => {
   const token = JSON.parse(localStorage.getItem("tokens"));
   const { user } = useContext(AuthContext);
   const { year } = user;
-  const newsEndpoint = `https://elearn-n48v.onrender.com/api/news/${Number(year)}/ `;
+  // const newsEndpoint = `https://elearn-n48v.onrender.com/api/news/${Number(year)}/ `;
+  const newsEndpoint = `http://localhost:8000/api/news/${Number(year)}/ `;
 
   const [news, setNews] = useState([]);
 
