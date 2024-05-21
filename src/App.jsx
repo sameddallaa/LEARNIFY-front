@@ -38,7 +38,6 @@ export default function App() {
         <Route path="/home" element={<PrivateRoute Component={Home} />}></Route>
         {/* <Route path="/home" element={<Home />}></Route> */}
         <Route path="/forum/:subjectId" element={<Forum />} />
-        <Route path="/answer" element={<Answer />} />
         <Route path="/discussion/:postId/" element={<Discussion />} />
       </Routes>
     </>
