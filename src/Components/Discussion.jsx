@@ -35,7 +35,7 @@ const Discussion = () => {
 
   return (
     <Container className={`d-flex flex-column  ${classes.discussionContainer}`}>
-      {Object.keys(post).length > 0 && (
+      {Object.keys(post).length > 0 ? (
         <>
           <Question props={post} className={`${classes.question}`} />
           <div className={`${classes.answersContainer}`}>
@@ -48,6 +48,8 @@ const Discussion = () => {
             ))}
           </div>
         </>
+      ) : (
+        ""
       )}
     </Container>
   );
