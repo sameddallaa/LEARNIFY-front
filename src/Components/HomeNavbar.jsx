@@ -264,12 +264,14 @@ const HomeNavbar = () => {
             </>
           )}
 
-          <Link
-            to={"/dashboard"}
-            className="daisy-btn  border-none bg-inherit tracking-wider text-black no-underline hover:bg-white"
-          >
-            Dashboard
-          </Link>
+          {is_admin && (
+            <Link
+              to={"/dashboard"}
+              className="daisy-btn  border-none bg-inherit tracking-wider text-black no-underline hover:bg-white"
+            >
+              Dashboard
+            </Link>
+          )}
 
           <Navbar.Brand href="/" className="mx-auto lg:absolute lg:left-[45%]">
             <div className={`${classes.logoContainer}`}>
