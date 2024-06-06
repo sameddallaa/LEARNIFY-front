@@ -282,7 +282,9 @@ const HomeNavbar = () => {
             {location.pathname.startsWith("/subjects") && (
               <Button
                 className={`${classes.navToggle}`}
-                onClick={(window.location.href = `/forum/${subjectId}`)}
+                onClick={() => {
+                  window.location.href = `/forum/${subjectId}`;
+                }}
               >
                 <MdOutlineForum />
               </Button>

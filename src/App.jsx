@@ -26,6 +26,25 @@ export default function App() {
     setNavBar(user ? <HomeNavbar /> : <HomeNavbarLoggedOff />);
   }, [user]);
   return (
+    // <>
+    //   {navBar}
+    //   <Routes>
+    //     <Route
+    //       path="/"
+    //       element={
+    //         <NonAuthenticatedRoute Component={Main} props={lgnClicked} />
+    //       }
+    //     />
+    //     <Route exact path="/subjects/:subjectId" Component={Subject} />
+    //     <Route path="/home" element={<PrivateRoute Component={Home} />}></Route>
+    //     {/* <Route path="/home" element={<Home />}></Route> */}
+    //     <Route path="/forum/:subject" element={<Forum />} />
+    //     <Route path="/answer" element={<Answer />} />
+    //     <Route path="/discussion" element={<Discussion />} />
+    //     <Route path="/dashboard" element={<Dashboard />} />
+    //   </Routes>
+    // </>
+
     <>
       {navBar}
       <Routes>
@@ -38,9 +57,8 @@ export default function App() {
         <Route exact path="/subjects/:subjectId" Component={Subject} />
         <Route path="/home" element={<PrivateRoute Component={Home} />}></Route>
         {/* <Route path="/home" element={<Home />}></Route> */}
-        <Route path="/forum" element={<Forum />} />
-        <Route path="/answer" element={<Answer />} />
-        <Route path="/discussion" element={<Discussion />} />
+        <Route path="/forum/:subjectId" element={<Forum />} />
+        <Route path="/discussion/:postId/" element={<Discussion />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </>
