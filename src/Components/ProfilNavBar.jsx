@@ -28,8 +28,8 @@ function ProfilNavBar() {
       return;
     }
     const mdpObject = { old_password: userCurrMdp, new_password: userNewMdp };
-    // const endpoint = `http://localhost:8000/api/users/${userId}/change-password/`;
-    const endpoint = `https://elearn-n48v.onrender.com/api/users/${userId}/change-password/`;
+    const endpoint = `http://localhost:8000/api/users/${userId}/change-password/`;
+    // const endpoint = `https://elearn-n48v.onrender.com/api/users/${userId}/change-password/`;
     try {
       const response = await axios.patch(endpoint, mdpObject, {
         headers: {
@@ -52,8 +52,8 @@ function ProfilNavBar() {
       first_name: userNewFirstName,
       last_name: userNewLastName,
     };
-    // const endpoint = `http://localhost:8000/api/change-name/${userId}/`;
-    const endpoint = `https://elearn-n48v.onrender.com/api/change-name/${userId}/`;
+    const endpoint = `http://localhost:8000/api/change-name/${userId}/`;
+    // const endpoint = `https://elearn-n48v.onrender.com/api/change-name/${userId}/`;
     try {
       const response = await axios.patch(endpoint, nameObj, {
         headers: {

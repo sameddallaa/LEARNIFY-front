@@ -19,7 +19,8 @@ const Home = () => {
   const { is_student, is_teacher } = user;
   const is_admin = user && !is_student && !is_teacher;
   const { year } = user;
-  const newsEndpoint = `https://elearn-n48v.onrender.com/api/news/${Number(year)}/ `;
+  // const newsEndpoint = `https://elearn-n48v.onrender.com/api/news/${Number(year)}/ `;
+  const newsEndpoint = `http://localhost:8000/api/news/${Number(year)}/ `;
 
   const [news, setNews] = useState([]);
 

@@ -1,0 +1,9 @@
+.attachLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* color: ; */
+  font-size: 23px;
+  font-weight: 600;
+}

@@ -21,10 +21,11 @@ const Subject = () => {
   const [role, setRole] = useState("");
   const [clipBoardOpened, setClipBoardOpened] = useState(false);
   const navigate = useNavigate();
-  const { user, loading, pathToggle } = useContext(AuthContext); // need to be connected in order to access Home
+  const { user, loading, pathToggle, setSubjectId } = useContext(AuthContext); // need to be connected in order to access Home
   const { is_teacher, is_student } = user;
   const token = JSON.parse(localStorage.getItem("tokens"));
   const { subjectId } = useParams();
+  setSubjectId(subjectId);
   const location = useLocation();
   let currentPath;
   const [dataLoading, setDataLoading] = useState(true);
@@ -38,8 +39,8 @@ const Subject = () => {
   const [oldNoteInput, setOldNoteInput] = useState("");
 
   async function handleNoteSave() {
-    // const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
-    const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    // const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
     noteSaved = false;
     try {
       const response = await axios.put(
@@ -64,8 +65,8 @@ const Subject = () => {
   }
 
   async function handleNoteFetch() {
-    // const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
-    const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    const noteEndPoint = `http://localhost:8000/api/students/${student_id}/subjects/${subjectId}/notes/`;
+    // const noteEndPoint = `https://elearn-n48v.onrender.com/api/students/${student_id}/subjects/${subjectId}/notes/`;
     try {
       const response = await axios.get(noteEndPoint, {
         headers: {
@@ -88,7 +89,8 @@ const Subject = () => {
   }
 
   async function handleChapterDelete(chapterId) {
-    const chapterDltEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/delete/`;
+    // const chapterDltEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/delete/`;
+    const chapterDltEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/delete/`;
     try {
       const res = await axios.delete(chapterDltEndpoint, {
         headers: {
@@ -120,10 +122,11 @@ const Subject = () => {
   useEffect(
     () =>
       async function fetchChapters() {
-        // const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
-        // const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
-        const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
-        const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
+        const chaptersEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/`;
+        const subjectEndpoint = `http://localhost:8000/api/ressources/subjects/${subjectId}`;
+
+        // const chaptersEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/`;
+        // const subjectEndpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/${subjectId}`;
         try {
           setDataLoading(true);
           const response = await axios.get(chaptersEndpoint, {

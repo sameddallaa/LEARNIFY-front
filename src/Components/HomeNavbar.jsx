@@ -37,6 +37,7 @@ const HomeNavbar = () => {
   const [avatarClicked, setAvatarClicked] = useState(false);
   const token = JSON.parse(localStorage.getItem("tokens"));
   const navigate = useNavigate();
+
   const {
     first_name,
     last_name,
@@ -56,12 +57,13 @@ const HomeNavbar = () => {
   const [yearsSubjects, setYearsSubjects] = useState([]);
   const [finished, setFinished] = useState(false);
   const { subjectId, setSubjectId } = useContext(AuthContext);
+  console.log(subjectId);
   const yearsSet = new Set();
   useEffect(() => {
     const fetchSubjects = async () => {
       if (is_student) {
-        const endpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/year/${year}`;
-        // const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
+        // const endpoint = `https://elearn-n48v.onrender.com/api/ressources/subjects/year/${year}`;
+        const endpoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
         try {
           const response = await axios.get(endpoint, {
             headers: {
@@ -81,7 +83,8 @@ const HomeNavbar = () => {
       } else if (is_teacher) {
         // const yearsEndpoint = `http://localhost:8000/api/teachers/${teacher_id}/years/`;
         // const yearsEndpoint = `https://elearn-n48v.onrender.com/api/teachers/${teacher_id}/years/`;
-        const yearsEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${teacher_id}/subjects/`;
+        // const yearsEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${teacher_id}/subjects/`;
+        const yearsEndpoint = `http://localhost:8000/api/ressources/${teacher_id}/subjects/`;
         try {
           const response = await axios.get(yearsEndpoint, {
             headers: {
@@ -276,9 +279,14 @@ const HomeNavbar = () => {
           </Navbar.Brand>
 
           <div className="  flex space-x-10">
-            <Button className={`${classes.navToggle}`}>
-              <MdOutlineForum />
-            </Button>
+            {location.pathname.startsWith("/subjects") && (
+              <Button
+                className={`${classes.navToggle}`}
+                onClick={(window.location.href = `/forum/${subjectId}`)}
+              >
+                <MdOutlineForum />
+              </Button>
+            )}
 
             {/* <Button className={`${classes.navToggle} `}>
               <MdOutlineNotificationsActive className="" />
