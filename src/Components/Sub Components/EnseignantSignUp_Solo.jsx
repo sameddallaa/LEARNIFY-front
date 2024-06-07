@@ -1,7 +1,7 @@
-function EtudiantSignUp_Solo() {
+function EnseignantSignUp_Solo() {
   return (
     <>
-      <dialog id="etudiant_solo_modal" className="daisy-modal">
+      <dialog id="enseignant_solo_modal" className="daisy-modal">
         <div className="daisy-modal-box relative w-auto min-w-fit space-y-6 bg-blueT">
           <div className="flex">
             <div className="ml-4 flex justify-between space-x-2">
@@ -49,27 +49,13 @@ function EtudiantSignUp_Solo() {
           </div>
 
           <div className="ml-4 flex justify-between">
-            <label>Année</label>
+            <label>Grade</label>
             <select className="daisy-select daisy-select-ghost daisy-select-xs w-full max-w-xs bg-white text-center tracking-widest">
-              <option disabled selected>
-                1CPI
-              </option>
-              <option>2CPI</option>
-              <option>1CS</option>
-              <option>2CS</option>
-              <option>3CS</option>
-            </select>
-          </div>
-          <div className="ml-4 flex justify-between">
-            <label>Groupe</label>
-            <select className="daisy-select daisy-select-ghost daisy-select-xs w-full max-w-xs bg-white text-center tracking-widest">
-              <option disabled selected>
-                G1
-              </option>
-              <option>G2</option>
-              <option>G3</option>
-              <option>G4</option>
-              <option>G5</option>
+              <option selected>Maitre assistant B</option>
+              <option>Maitre assistant A</option>
+              <option>Maitre de conference B</option>
+              <option>Maitre de conference A</option>
+              <option>Professeur</option>
             </select>
           </div>
 
@@ -95,4 +81,4 @@ function EtudiantSignUp_Solo() {
   );
 }
 
-export default EtudiantSignUp_Solo;
+export default EnseignantSignUp_Solo;

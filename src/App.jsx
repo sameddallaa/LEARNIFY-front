@@ -15,6 +15,7 @@ import Forum from "./Components/Forum";
 import Answer from "./Components/Answer";
 import Discussion from "./Components/Discussion";
 import Dashboard from "./Components/Dashboard";
+import Module from "./Components/Module";
 
 export default function App() {
   const [lgnClicked, setLgnClicked] = useState(false);
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="/forum/:subjectId" element={<Forum />} />
         <Route path="/discussion/:postId/" element={<Discussion />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/module" element={<Module />} />
       </Routes>
     </>
   );
