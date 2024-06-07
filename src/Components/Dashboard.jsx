@@ -4,7 +4,7 @@ import EnseignantSignUp_Solo from "./Sub Components/EnseignantSignUp_Solo";
 import EtudiantSignUp_Solo from "./Sub Components/EtudiantSignUp_Solo";
 import { FcDeleteRow } from "react-icons/fc";
 import React, { useState } from "react";
-
+import CSVSignup from "./CSVSignup";
 function Dashboard() {
   const token = JSON.parse(localStorage.getItem("tokens"));
   const [modules, setModules] = useState([]);
@@ -186,9 +186,7 @@ function Dashboard() {
                 >
                   Ajouter un etudiant
                 </button>
-                <button className="daisy-btn daisy-btn-info daisy-btn-xs">
-                  Ajouter des etudiants
-                </button>
+                <CSVSignup userType={"students"} />
               </div>
             </div>
             <div className="space-y-4 overflow-x-auto" id="Tableau2">
@@ -231,9 +229,7 @@ function Dashboard() {
                 >
                   Ajouter un enseignant
                 </button>
-                <button className="daisy-btn daisy-btn-info daisy-btn-xs">
-                  Ajouter des enseignants
-                </button>
+                <CSVSignup userType={"teachers"} />{" "}
               </div>
             </div>
           </div>

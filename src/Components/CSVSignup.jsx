@@ -41,14 +41,17 @@ function CSVSignup({ userType }) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <button
+        className="daisy-btn daisy-btn-info daisy-btn-xs"
+        onClick={handleShow}
+      >
         Ajouter{" "}
         {userType === "students"
           ? "étudiants"
           : userType === "teachers"
             ? "enseignants"
             : ""}
-      </Button>
+      </button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
