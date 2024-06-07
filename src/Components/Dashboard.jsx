@@ -169,7 +169,7 @@ function Dashboard() {
                             <FcDeleteRow />
                           </button>
                         </th>
-                        <td>Cy Ganderton</td>
+                        <td>{student.email}</td>
                         <td>{student.full_name}</td>
                         <td>{student.group_tag}</td>
                       </tr>
@@ -212,7 +212,7 @@ function Dashboard() {
                             <FcDeleteRow />
                           </button>
                         </th>
-                        <td>email</td>
+                        <td>{teacher.email}</td>
                         <td>{teacher.name}</td>
                         <td>{teacher.degree}</td>
                       </tr>
