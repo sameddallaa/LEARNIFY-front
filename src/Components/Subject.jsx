@@ -276,23 +276,34 @@ const Subject = () => {
                         value={noteInput}
                         onChange={(e) => setNoteInput(e.target.value)}
                       ></textarea>
-                      <button
-                        className="daisy-btn daisy-btn-info bg-inherit "
-                        onClick={async () => {
-                          if (
-                            noteInput.length != 0 &&
-                            noteInput != oldNoteInput
-                          ) {
-                            await handleNoteSave();
-                            noteSaved &&
-                              setClipBoardOpened((clicked) => !clicked);
-                          } else {
-                            setClipBoardOpened((clicked) => !clicked);
+                      <div className="flex space-x-6">
+                        <button
+                          className="daisy-btn daisy-btn-info bg-inherit "
+                          onClick={() =>
+                            setClipBoardOpened((clicked) => !clicked)
                           }
-                        }}
-                      >
-                        Save
-                      </button>
+                        >
+                          Close
+                        </button>
+
+                        <button
+                          className="daisy-btn daisy-btn-info bg-inherit "
+                          onClick={async () => {
+                            if (
+                              noteInput.length != 0 &&
+                              noteInput != oldNoteInput
+                            ) {
+                              await handleNoteSave();
+                              noteSaved &&
+                                setClipBoardOpened((clicked) => !clicked);
+                            } else {
+                              setClipBoardOpened((clicked) => !clicked);
+                            }
+                          }}
+                        >
+                          Save
+                        </button>
+                      </div>
                     </div>
                   </>
                 ) : (

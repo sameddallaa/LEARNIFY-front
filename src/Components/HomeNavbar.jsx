@@ -50,6 +50,7 @@ const HomeNavbar = () => {
     year_tag,
   } = user;
   console.log(user);
+
   const location = useLocation();
   // const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState([]);
@@ -118,119 +119,136 @@ const HomeNavbar = () => {
     }
   };
 
+  const is_admin = user && !is_student && !is_teacher;
+
   const { logout } = useContext(AuthContext);
   return (
     <>
       <Navbar expand="lg" className={`${classes.nav} `}>
         <Container className="relative flex items-center justify-center  ">
-          <Button className={`${classes.navToggle}`} onClick={handleShow}>
-            <VscThreeBars />
-          </Button>
-          <Offcanvas
-            show={show}
-            onHide={handleClose}
-            className={`${classes.offcanvas}`}
-          >
-            <Offcanvas.Body className={`${classes.offcanvasBody} bg-blueT`}>
-              <div>
-                <div className={`${classes.options}`}>
-                  <Accordion className={`${classes.accordion}`}>
-                    <Accordion.Item
-                      className={`${classes.accordionItem}`}
-                      eventKey="0"
-                    >
-                      <Accordion.Header
-                        className={`${classes.accordionHeader}`}
-                      >
-                        Modules
-                      </Accordion.Header>
-                      <Accordion.Body className={`${classes.accordionBody}`}>
-                        {is_teacher ? (
-                          finished &&
-                          yearsSubjects.map((year) => (
-                            <div
-                              className={`${classes.yearContainer}`}
-                              key={year.year.id}
-                            >
-                              <p className={`${classes.year}`}>
-                                {year.year.year_tag}
-                              </p>
-                              <div className={`${classes.courses}`}>
-                                {year.subjects.map((subject) => (
-                                  <ListGroup
-                                    className={`${classes.listGroup}`}
-                                    key={subject.id}
-                                  >
-                                    <ListGroup.Item
-                                      className={`${classes.listGroupItem}`}
-                                    >
-                                      <div className={`${classes.courseIcon}`}>
-                                        <FaBookOpen
-                                          className={`${classes.openBook}`}
-                                        />
-                                      </div>
-                                      <Link
-                                        className={`${classes.courseLink}`}
-                                        to={`/subjects/${subject.id}/`}
-                                        onClick={() => {
-                                          setSubjectId(subject.id);
-                                          setPathToggle(
-                                            (prevToggle) => !prevToggle,
-                                          );
-                                          navigate(`/subjects/${subject.id}/`);
-                                          window.location.reload();
-                                        }}
+          {!is_admin && (
+            <>
+              <Button className={`${classes.navToggle}`} onClick={handleShow}>
+                <VscThreeBars />
+              </Button>
+
+              <Offcanvas
+                show={show}
+                onHide={handleClose}
+                className={`${classes.offcanvas}`}
+              >
+                <Offcanvas.Body className={`${classes.offcanvasBody} bg-blueT`}>
+                  <div>
+                    <div className={`${classes.options}`}>
+                      <Accordion className={`${classes.accordion}`}>
+                        <Accordion.Item
+                          className={`${classes.accordionItem}`}
+                          eventKey="0"
+                        >
+                          <Accordion.Header
+                            className={`${classes.accordionHeader}`}
+                          >
+                            Modules
+                          </Accordion.Header>
+                          <Accordion.Body
+                            className={`${classes.accordionBody}`}
+                          >
+                            {is_teacher ? (
+                              finished &&
+                              yearsSubjects.map((year) => (
+                                <div
+                                  className={`${classes.yearContainer}`}
+                                  key={year.year.id}
+                                >
+                                  <p className={`${classes.year}`}>
+                                    {year.year.year_tag}
+                                  </p>
+                                  <div className={`${classes.courses}`}>
+                                    {year.subjects.map((subject) => (
+                                      <ListGroup
+                                        className={`${classes.listGroup}`}
+                                        key={subject.id}
                                       >
-                                        <p className={`${classes.courseText}`}>
-                                          {subject.name}
-                                        </p>
-                                      </Link>
-                                    </ListGroup.Item>
+                                        <ListGroup.Item
+                                          className={`${classes.listGroupItem}`}
+                                        >
+                                          <div
+                                            className={`${classes.courseIcon}`}
+                                          >
+                                            <FaBookOpen
+                                              className={`${classes.openBook}`}
+                                            />
+                                          </div>
+                                          <Link
+                                            className={`${classes.courseLink}`}
+                                            to={`/subjects/${subject.id}/`}
+                                            onClick={() => {
+                                              setSubjectId(subject.id);
+                                              setPathToggle(
+                                                (prevToggle) => !prevToggle,
+                                              );
+                                              navigate(
+                                                `/subjects/${subject.id}/`,
+                                              );
+                                              window.location.reload();
+                                            }}
+                                          >
+                                            <p
+                                              className={`${classes.courseText}`}
+                                            >
+                                              {subject.name}
+                                            </p>
+                                          </Link>
+                                        </ListGroup.Item>
+                                      </ListGroup>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))
+                            ) : is_student ? (
+                              <div className={`${classes.yearContainer}`}>
+                                <p className={`${classes.year}`}>{year_tag}</p>
+                                <div className={`${classes.courses}`}>
+                                  <ListGroup className={`${classes.listGroup}`}>
+                                    {subjects.map((key) => (
+                                      <ListGroup.Item
+                                        className={`${classes.listGroupItem}`}
+                                        key={key.id}
+                                      >
+                                        <div
+                                          className={`${classes.courseIcon}`}
+                                        >
+                                          <FaBookOpen
+                                            className={`${classes.openBook}`}
+                                          />
+                                        </div>
+                                        <Link
+                                          className={`${classes.courseLink}`}
+                                          to={`/subjects/${key.id}/`}
+                                          onClick={() => {
+                                            setLoading((prv) => !prv);
+                                            navigate(`/subjects/${key.id}/`);
+                                            window.location.reload();
+                                          }}
+                                        >
+                                          <p
+                                            className={`${classes.courseText}`}
+                                          >
+                                            {key.name}
+                                          </p>
+                                        </Link>
+                                      </ListGroup.Item>
+                                    ))}
                                   </ListGroup>
-                                ))}
+                                </div>
                               </div>
-                            </div>
-                          ))
-                        ) : is_student ? (
-                          <div className={`${classes.yearContainer}`}>
-                            <p className={`${classes.year}`}>{year_tag}</p>
-                            <div className={`${classes.courses}`}>
-                              <ListGroup className={`${classes.listGroup}`}>
-                                {subjects.map((key) => (
-                                  <ListGroup.Item
-                                    className={`${classes.listGroupItem}`}
-                                    key={key.id}
-                                  >
-                                    <div className={`${classes.courseIcon}`}>
-                                      <FaBookOpen
-                                        className={`${classes.openBook}`}
-                                      />
-                                    </div>
-                                    <Link
-                                      className={`${classes.courseLink}`}
-                                      to={`/subjects/${key.id}/`}
-                                      onClick={() => {
-                                        setLoading((prv) => !prv);
-                                        navigate(`/subjects/${key.id}/`);
-                                        window.location.reload();
-                                      }}
-                                    >
-                                      <p className={`${classes.courseText}`}>
-                                        {key.name}
-                                      </p>
-                                    </Link>
-                                  </ListGroup.Item>
-                                ))}
-                              </ListGroup>
-                            </div>
-                          </div>
-                        ) : (
-                          ""
-                        )}
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                  {/* <div className={`${classes.option}`}>
+                            ) : (
+                              ""
+                            )}
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      </Accordion>
+                      {/* <div className={`${classes.option}`}>
                     <div className={`${classes.optionHead}`}>
                       <IoDocumentsOutline className={`${classes.optionIcon}`} />
                       <p className={`${classes.optionText} ${classes.wrap}`}>
@@ -239,10 +257,22 @@ const HomeNavbar = () => {
                     </div>
                     <MdArrowForwardIos />
                   </div> */}
-                </div>
-              </div>
-            </Offcanvas.Body>
-          </Offcanvas>
+                    </div>
+                  </div>
+                </Offcanvas.Body>
+              </Offcanvas>
+            </>
+          )}
+
+          {is_admin && (
+            <Link
+              to={"/dashboard"}
+              className="daisy-btn  border-none bg-inherit tracking-wider text-black no-underline hover:bg-white"
+            >
+              Dashboard
+            </Link>
+          )}
+
           <Navbar.Brand href="/" className="mx-auto lg:absolute lg:left-[45%]">
             <div className={`${classes.logoContainer}`}>
               <img src={logoImage} alt="logo" className={`${classes.logo}`} />
@@ -254,15 +284,17 @@ const HomeNavbar = () => {
             {location.pathname.startsWith("/subjects") && (
               <Button
                 className={`${classes.navToggle}`}
-                onClick={() => (window.location.href = `/forum/${subjectId}`)}
+                onClick={() => {
+                  window.location.href = `/forum/${subjectId}`;
+                }}
               >
                 <MdOutlineForum />
               </Button>
             )}
 
-            <Button className={`${classes.navToggle} `}>
+            {/* <Button className={`${classes.navToggle} `}>
               <MdOutlineNotificationsActive className="" />
-            </Button>
+            </Button> */}
             <div className="relative mr-10 flex flex-col items-center">
               {/* <button
                 className="daisy-avatar"
