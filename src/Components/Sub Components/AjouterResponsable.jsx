@@ -1,4 +1,4 @@
-import AjouterEnseignantAuModule from "./Retulizable Components/AjouterEnseignantAuModule";
+import AjouterEnseignantAuModule from "./AjouterEnseignantAuModule";
 
 function AjouterResponsable() {
   return (
