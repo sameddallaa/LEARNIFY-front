@@ -98,8 +98,8 @@ function ChapitreModal({ chapitre, start }) {
             },
           });
           const data = await res.data;
-          console.log("Cours :");
-          console.log(data);
+          // console.log("Cours :");
+          // console.log(data);
           setCours(data);
         } catch (err) {
           console.log(err.message);
@@ -113,8 +113,8 @@ function ChapitreModal({ chapitre, start }) {
             },
           });
           const data = await res.data;
-          console.log("Td :", chapitre.number);
-          console.log(data);
+          // console.log("Td :", chapitre.number);
+          // console.log(data);
           setTd(data);
         } catch (err) {
           console.log(err.message);
@@ -128,8 +128,8 @@ function ChapitreModal({ chapitre, start }) {
             },
           });
           const data = await res.data;
-          console.log("TP :");
-          console.log(data);
+          // console.log("TP :");
+          // console.log(data);
           setTp(data);
         } catch (err) {
           console.log(err.message);
@@ -143,8 +143,8 @@ function ChapitreModal({ chapitre, start }) {
             },
           });
           const data = await res.data;
-          console.log("Devoir :");
-          console.log(data);
+          // console.log("Devoir :");
+          // console.log(data);
           setDevoir(data);
         } catch (err) {
           console.log(err.message);
@@ -158,8 +158,8 @@ function ChapitreModal({ chapitre, start }) {
             },
           });
           const data = await res.data;
-          console.log("Quizzes :");
-          console.log(data);
+          // console.log("Quizzes :");
+          // console.log(data);
           setQuizzes(data);
         } catch (err) {
           console.log(err.message);
@@ -173,8 +173,8 @@ function ChapitreModal({ chapitre, start }) {
             },
           });
           const data = await res.data;
-          console.log("Autre ressources :");
-          console.log(data);
+          // console.log("Autre ressources :");
+          // console.log(data);
           setAutreRs(data);
         } catch (err) {
           console.log(err.message);

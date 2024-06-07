@@ -31,7 +31,7 @@ const PostAttachment = ({ attachment }) => {
           <>
             <div className={`${classes.linkContainer}`}>
               <a
-                href={`http://localhost:8000${attachment}`}
+                href={`${attachment}`}
                 target="_blank"
                 rel="noreferrer"
                 className={`${classes.attachLink}`}

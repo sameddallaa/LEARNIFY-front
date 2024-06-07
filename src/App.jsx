@@ -14,6 +14,7 @@ import Question from "./Components/Question";
 import Forum from "./Components/Forum";
 import Answer from "./Components/Answer";
 import Discussion from "./Components/Discussion";
+import CSVSignup from "./Components/CSVSignup";
 
 export default function App() {
   const [lgnClicked, setLgnClicked] = useState(false);
@@ -39,6 +40,7 @@ export default function App() {
         {/* <Route path="/home" element={<Home />}></Route> */}
         <Route path="/forum/:subjectId" element={<Forum />} />
         <Route path="/discussion/:postId/" element={<Discussion />} />
+        <Route path="/csv-add" element={<CSVSignup userType={"students"} />} />
       </Routes>
     </>
   );
