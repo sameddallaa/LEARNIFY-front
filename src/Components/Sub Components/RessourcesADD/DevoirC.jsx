@@ -19,7 +19,9 @@ function DevoirC() {
     return initialDateString;
   }
 
-  async function handleAdd() {}
+  async function handleAdd() {
+    const endPoint = `http://localhost:8000/api/ ressources/homework/<int:subject>/<int:chapter>/`;
+  }
   return (
     <div className=" mt-4 flex w-fit flex-col  items-center justify-center  space-y-5 bg-[#A5BED7] ">
       {/* <h3 className="text-center text-lg font-bold">
