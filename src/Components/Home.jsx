@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import classes from "../CSS/Home.module.css";
 import { Button, Container } from "react-bootstrap";
 import logoImg from "../assets/img/main.svg";
@@ -20,9 +20,14 @@ const Home = () => {
   const is_admin = user && !is_student && !is_teacher;
   const { year } = user;
   // const newsEndpoint = `https://elearn-n48v.onrender.com/api/news/${Number(year)}/ `;
-  const newsEndpoint = `http://localhost:8000/api/news/${Number(year)}/ `;
+  const newsEndpoint = `${!is_admin ? `http://localhost:8000/api/news/${Number(year)}/` : `http://localhost:8000/api/ressources/news/`}`;
 
   const [news, setNews] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [file, setFile] = useState("");
+  const [yearNews, setYearNews] = useState(1);
 
   const [addOpened, setaddOpened] = useState(false);
 
@@ -46,6 +51,33 @@ const Home = () => {
     }
   }
 
+  const titleRef = useRef("");
+  const contentRef = useRef("");
+  const fileRef = useRef(null);
+
+  const handleSubmit = async (e, year) => {
+    e.preventDefault();
+    const post = {
+      title: title,
+      body: description,
+      image: image,
+      attachment: file,
+      year: year,
+    };
+    const endpoint = `http://localhost:8000/api/news/${yearNews}/`;
+    const response = await axios.post(endpoint, post, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token.access,
+      },
+    });
+    if (response.status === 200) {
+      const data = response.data;
+      console.log(data);
+      setaddOpened(false);
+    }
+  };
+
   useEffect(() => {
     handleFetchNews();
   }, []);
@@ -59,15 +91,18 @@ const Home = () => {
         Les actuatliés
       </h3>
       <main className={`${classes.main} flex items-center justify-center`}>
-        <ul id="news" className="w-auto min-w-full space-y-10 ">
+        <ul
+          id="news"
+          className={`w-auto min-w-full space-y-10 ${addOpened && "blur-sm"} transition-all duration-150 `}
+        >
           {news.map((nvl) => (
             <React.Fragment key={nvl.id}>
-              <li className="hover:trasition-all relative flex   space-x-10  rounded-badge  px-3 py-2 shadow-xl shadow-stone-600 hover:mx-10 hover:duration-700">
+              <li className="hover:trasition-all relative mx-32   flex  space-x-10  rounded-badge px-3 py-2 shadow-xl shadow-stone-600 hover:mx-10 hover:duration-700">
                 {/* {nvl.img && ( */}
                 <img
-                  className=" w-auto max-w-64 rounded-box  border-2 border-stone-600 object-cover p-3"
+                  className=" h-20  w-auto  max-w-64 rounded-box border-2 border-stone-600 object-cover p-3"
                   alt="Picture"
-                  src={nvl.image}
+                  src={nvl.image || img}
                 />
                 {/* )} */}
 
@@ -78,11 +113,15 @@ const Home = () => {
                   <p className=" mb-3 break-words text-start text-sm text-gray-700 md:text-base ">
                     {nvl.body}
                   </p>
-                  <a href={`${nvl.attachment}`} download={"filename"}>
-                    <button className="daisy-btn daisy-btn-info  absolute bottom-4 right-10 tracking-wider text-white ">
-                      Ouvrir
-                    </button>
-                  </a>
+                  {nvl.attachment && (
+                    <a href={`${nvl.attachment}`} download={"filename"}>
+                      <button
+                        className={`daisy-btn daisy-btn-info  absolute bottom-4 right-10 tracking-wider text-white ${addOpened && "border-none bg-inherit"} `}
+                      >
+                        Télecharger
+                      </button>
+                    </a>
+                  )}
                 </div>
               </li>
             </React.Fragment>
@@ -92,22 +131,39 @@ const Home = () => {
         {is_admin && (
           <div
             className={`${classes.addNews}  z-10 grid bg-transparent`}
-            id="ajouter une actualité"
+            id="ajouter_une_actualité"
           >
             {addOpened ? (
               <>
-                <div className="flex flex-col items-center space-y-4">
+                <div
+                  className="flex flex-col items-center space-y-4"
+                  id="ajouterNews"
+                >
                   <div className="flex flex-col items-center space-y-4">
                     <textarea
-                      className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4 h-auto min-h-fit w-80 max-w-xs overflow-hidden bg-inherit focus:bg-white"
+                      className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4 h-auto min-h-fit w-80 max-w-xs overflow-hidden bg-inherit bg-white "
                       placeholder="Title "
-                      // defaultValue={note}
+                      onChange={(e) => setTitle(e.target.value)}
+                      value={title}
                     ></textarea>
                     <textarea
-                      className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4 h-full w-80  max-w-xs bg-inherit text-base focus:bg-white"
+                      className="daisy-textarea daisy-textarea-bordered daisy-textarea-info daisy-textarea-lg mx-4 h-full w-80  max-w-xs bg-inherit bg-white text-base"
                       placeholder="Description "
-                      // defaultValue={note}
+                      onChange={(e) => setDescription(e.target.value)}
+                      value={description}
                     ></textarea>
+
+                    <select
+                      className="daisy-select daisy-select-ghost daisy-select-info w-full max-w-xs bg-inherit bg-white text-center text-black"
+                      onChange={(e) => setYearNews(e.target.value)}
+                      defaultValue={1}
+                    >
+                      <option value={1}>1CPI</option>
+                      <option value={2}>2CPI</option>
+                      <option value={3}>1CS</option>
+                      <option value={4}>2CS</option>
+                      <option value={5}>3CS</option>
+                    </select>
                   </div>
 
                   <div className="space-y- mt-1 flex flex-col space-y-2">
@@ -119,30 +175,39 @@ const Home = () => {
                       </div>
                       <input
                         type="file"
-                        className="daisy-file-input daisy-file-input-bordered daisy-file-input-info daisy-file-input-sm w-full max-w-xs bg-inherit"
+                        className="daisy-file-input daisy-file-input-bordered daisy-file-input-info daisy-file-input-sm w-full max-w-xs bg-white"
+                        onChange={(e) => setImage(e.target.files[0])}
                       />
                     </label>
                     <label className="daisy-form-control w-full max-w-xs">
                       <div className="daisy-label">
-                        <span className="daisy-label-text">
+                        <span className="daisy-label-text text-black">
                           Uploader un fichier pdf
                         </span>
                       </div>
                       <input
                         type="file"
-                        className="daisy-file-input daisy-file-input-bordered daisy-file-input-info daisy-file-input-sm w-full max-w-xs bg-inherit"
+                        className="daisy-file-input daisy-file-input-bordered daisy-file-input-info daisy-file-input-sm w-full max-w-xs bg-white"
+                        onChange={(e) => setFile(e.target.files[0])}
                       />
                     </label>
                   </div>
                   <div className="flex space-x-6">
                     <button
-                      className="daisy-btn daisy-btn-info bg-inherit "
+                      className="daisy-btn daisy-btn-info bg-white "
                       onClick={() => setaddOpened((clicked) => !clicked)}
                     >
                       Close
                     </button>
 
-                    <button className="daisy-btn daisy-btn-info bg-inherit ">
+                    <button
+                      className="daisy-btn daisy-btn-info bg-white "
+                      onClick={(e) => {
+                        if (title && description) {
+                          handleSubmit(e);
+                        }
+                      }}
+                    >
                       Save
                     </button>
                   </div>
@@ -150,7 +215,7 @@ const Home = () => {
               </>
             ) : (
               <button
-                className={`${classes.addNote} daisy-btn daisy-btn-info border-none text-white `}
+                className={`${classes.addNote} daisy-btn daisy-btn-info z-10 border-none  text-white`}
                 onClick={() => setaddOpened((opened) => !opened)}
               >
                 + Ajouter

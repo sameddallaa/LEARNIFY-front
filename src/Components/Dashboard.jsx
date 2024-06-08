@@ -3,14 +3,18 @@ import classes from "../CSS/Home.module.css";
 import EnseignantSignUp_Solo from "./Sub Components/EnseignantSignUp_Solo";
 import EtudiantSignUp_Solo from "./Sub Components/EtudiantSignUp_Solo";
 import { FcDeleteRow } from "react-icons/fc";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CSVSignup from "./CSVSignup";
+import AuthContext from "../Contexts/AuthContext";
 function Dashboard() {
   const token = JSON.parse(localStorage.getItem("tokens"));
   const [modules, setModules] = useState([]);
   const [yearClicked, setYearClicked] = useState(false);
+  const [year, setYear] = useState(1);
   const [teachers, setTeachers] = useState([]);
+
   const [students, setStudents] = useState([]);
+  const { selectedModule } = useContext(AuthContext);
 
   async function handleAnnée(year) {
     const endPoint = `http://localhost:8000/api/ressources/subjects/year/${year}`;
@@ -58,14 +62,23 @@ function Dashboard() {
   }
 
   async function handleDelete(id) {
-    const endPoint = "";
-    const res = axios.delete(endPoint, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token.access,
-      },
-    });
-    console.log(res);
+    try {
+      const endPoint = `http://localhost:8000/api/users/${id}/delete`;
+      const res = await axios.delete(endPoint, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token.access,
+        },
+      });
+      console.log(res);
+      if (res.status != 204)
+        throw new Error(
+          "Something wrong has happened , please try again later !",
+        );
+      window.location.reload();
+    } catch (err) {
+      console.error(err.message);
+    }
   }
   return (
     <main
@@ -78,6 +91,7 @@ function Dashboard() {
         <button
           className=" daisy-btn rounded-badge border-2 bg-orange-700 px-10 text-lg text-white hover:bg-orange-800"
           onClick={() => {
+            setYear(1);
             handleAnnée(1);
             handleUsersTabs(1);
           }}
@@ -87,6 +101,7 @@ function Dashboard() {
         <button
           className=" daisy-btn rounded-badge border-2 bg-orange-700 px-10 text-lg text-white hover:bg-orange-800"
           onClick={() => {
+            setYear(2);
             handleAnnée(2);
             handleUsersTabs(2);
           }}
@@ -96,6 +111,7 @@ function Dashboard() {
         <button
           className=" daisy-btn rounded-badge border-2 bg-orange-700 px-10 text-lg text-white hover:bg-orange-800"
           onClick={() => {
+            setYear(3);
             handleAnnée(3);
             handleUsersTabs(3);
           }}
@@ -105,6 +121,7 @@ function Dashboard() {
         <button
           className=" daisy-btn rounded-badge border-2 bg-orange-700 px-10 text-lg text-white hover:bg-orange-800"
           onClick={() => {
+            setYear(4);
             handleAnnée(4);
             handleUsersTabs(4);
           }}
@@ -114,6 +131,7 @@ function Dashboard() {
         <button
           className=" daisy-btn rounded-badge border-2 bg-orange-700 px-10 text-lg text-white hover:bg-orange-800"
           onClick={() => {
+            setYear(5);
             handleAnnée(5);
             handleUsersTabs(5);
           }}
@@ -136,7 +154,14 @@ function Dashboard() {
                 <React.Fragment key={module.id}>
                   <a
                     className=" daisy-btn w-40 rounded-box bg-slate-300 text-xs text-black hover:bg-slate-400"
-                    href="/module"
+                    onClick={async () => {
+                      localStorage.setItem("module_nom", module.name);
+                      localStorage.setItem("module_id", module.id);
+                      localStorage.setItem("module_year", year);
+                      console.log("module :");
+                      console.log(module);
+                      window.location.href = "/module";
+                    }}
                   >
                     {module.name}
                   </a>

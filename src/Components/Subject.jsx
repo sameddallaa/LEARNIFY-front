@@ -11,7 +11,7 @@ import AuthContext from "../Contexts/AuthContext";
 import LoadingAnimation from "./Sub Components/LoadingAnimation";
 import ChapitreModal from "./ChapitreModal";
 import ChapitreAdd_Modal from "./Sub Components/ChapitreAdd_Modal";
-import { GrEdit } from "react-icons/gr";
+import { TiDeleteOutline } from "react-icons/ti";
 
 const Subject = () => {
   const [subject, setSubject] = useState({});
@@ -34,6 +34,9 @@ const Subject = () => {
   const [noteInput, setNoteInput] = useState("");
   let noteSaved = false;
   const { student_id, teacher_id } = user;
+  const [mainTeacherId, setMainTacherId] = useState(-1);
+  const is_Assistant = is_teacher && teacher_id != mainTeacherId;
+  const is_Responsable = is_teacher && teacher_id == mainTeacherId;
   const [start, setStart] = useState(false);
 
   const [oldNoteInput, setOldNoteInput] = useState("");
@@ -90,7 +93,7 @@ const Subject = () => {
 
   async function handleChapterDelete(chapterId) {
     // const chapterDltEndpoint = `https://elearn-n48v.onrender.com/api/ressources/${subjectId}/chapters/delete/`;
-    const chapterDltEndpoint = `http://localhost:8000/api/ressources/${subjectId}/chapters/delete/`;
+    const chapterDltEndpoint = `http://localhost:8000/api/ressources/chapters/${chapterId}/delete/`;
     try {
       const res = await axios.delete(chapterDltEndpoint, {
         headers: {
@@ -99,6 +102,9 @@ const Subject = () => {
       });
 
       console.log(res);
+      if (res.status == 204) {
+        window.location.reload();
+      }
     } catch (err) {
       console.log(err.message);
     }
@@ -119,6 +125,7 @@ const Subject = () => {
       }
     }
   }, []);
+
   useEffect(
     () =>
       async function fetchChapters() {
@@ -161,7 +168,9 @@ const Subject = () => {
             currentPath = location.pathname;
             setDataLoading(false);
             console.log(currentPath);
-            console.log(subject);
+            console.log("subject : ");
+            console.log(data);
+            setMainTacherId(data.main_teacher);
             console.log("im running");
           } else {
             console.log("Something went wrong");
@@ -209,15 +218,17 @@ const Subject = () => {
                 </div>
               </div>
               <div className={`${classes.courses}`} id="chapters">
-                {chapters.map((chapter) => (
+                {chapters.map((chapter, i) => (
                   <React.Fragment key={chapter.id}>
                     <div className={`${classes.course} relative`}>
-                      {is_teacher && (
+                      {is_Responsable && (
                         <button
-                          className="absolute right-1 top-0 p-1 text-lg hover:text-xl hover:text-[#00b6ff] hover:transition-all hover:duration-200"
-                          onClick={async () => {}}
+                          className="absolute right-1 top-0 p-1 text-lg hover:text-xl hover:text-red-600 hover:transition-all hover:duration-200"
+                          onClick={async () => {
+                            await handleChapterDelete(chapter.id);
+                          }}
                         >
-                          <GrEdit />
+                          <TiDeleteOutline />
                         </button>
                       )}
                       <button
@@ -230,18 +241,24 @@ const Subject = () => {
                         }}
                       >
                         <div className={`${classes.courseTitle}`}>
-                          Chapitre {chapter.number}
+                          Chapitre {i + 1}
                         </div>
                         <div className={`${classes.courseDesc}`}>
                           {chapter.name}
                         </div>
                       </button>
                     </div>
-                    <ChapitreModal chapitre={chapter} start={start} />
+                    <ChapitreModal
+                      chapitre={chapter}
+                      start={start}
+                      is_student={is_student}
+                      is_Responsable={is_Responsable}
+                      is_Assistant={is_Assistant}
+                    />
                   </React.Fragment>
                 ))}
 
-                {is_teacher ? (
+                {is_Responsable ? (
                   <>
                     <div className={`${classes.course}`}>
                       <button

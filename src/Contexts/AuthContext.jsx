@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const AuthContext = createContext();
@@ -20,6 +20,9 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
   const [pathToggle, setPathToggle] = useState(false);
+  const [teachers, setTeachers] = useState([]);
+  // const [selectedModule, setSelectedModule] = useState("");
+  const selectedModule = useRef("");
 
   const login = async (email, password) => {
     const endpoint = "http://localhost:8000/api/auth/login/";
@@ -110,6 +113,9 @@ export const AuthProvider = ({ children }) => {
     errorMsg: errorMsg,
     pathToggle: pathToggle,
     setPathToggle: setPathToggle,
+    selectedModule: selectedModule,
+    teachers: teachers,
+    setTeachers: setTeachers,
   };
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>

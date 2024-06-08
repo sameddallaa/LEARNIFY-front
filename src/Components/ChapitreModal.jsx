@@ -10,7 +10,13 @@ import RessourceClassique from "./Sub Components/RessourcesADD/RessourceClassiqu
 import AutreRessource from "./Sub Components/RessourcesADD/AutreRessource";
 import QuizzModel from "./Sub Components/QuizzModel";
 
-function ChapitreModal({ chapitre, start }) {
+function ChapitreModal({
+  chapitre,
+  start,
+  is_student,
+  is_Responsable,
+  is_Assistant,
+}) {
   const token = JSON.parse(localStorage.getItem("tokens"));
   const [cours, setCours] = useState([]);
   const [td, setTd] = useState([]);
@@ -20,7 +26,7 @@ function ChapitreModal({ chapitre, start }) {
   const [autreRs, setAutreRs] = useState([]);
   const [selected, setSelected] = useState(-1);
   const { user } = useContext(AuthContext);
-  const { is_teacher, is_student } = user;
+
   // const coursEndPoint = `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/`;
   // const tdEndPoint = `https://elearn-n48v.onrender.com/api/ressources/td/${chapitre.subject}/${chapitre.number}/`;
   // const tpEndPoint = `https://elearn-n48v.onrender.com/api/ressources/tp/${chapitre.subject}/${chapitre.number}/`;
@@ -57,7 +63,7 @@ function ChapitreModal({ chapitre, start }) {
     //   `${minutes} minutes ${Math.sign(remainingMs) < 0 ? "ago" : ""}`,
     // );
 
-    const dateString = `${Math.sign(remainingMs) < 0 ? "Expiré il y a " : "Il vous reste "}${years !== 0 ? `${years} année${years > 1 ? "s " : " "} ` : ""}${days !== 0 ? `${days} jour${days > 1 ? "s " : " "} ` : ""}${hours !== 0 ? `${hours} heure${hours > 1 ? "s " : " "}` : ""}${minutes} minute${minutes > 1 ? "s" : ""} `;
+    const dateString = `${Math.sign(remainingMs) < 0 ? "Expiré il y a " : "Il reste "}${years !== 0 ? `${years} année${years > 1 ? "s " : " "} ` : ""}${days !== 0 ? `${days} jour${days > 1 ? "s " : " "} ` : ""}${hours !== 0 ? `${hours} heure${hours > 1 ? "s " : " "}` : ""}${minutes} minute${minutes > 1 ? "s" : ""} `;
 
     return { dateString, expired: remainingMs < 0 };
   }
@@ -213,13 +219,13 @@ function ChapitreModal({ chapitre, start }) {
                           >
                             Download
                           </Link>
-                          {is_teacher && (
+                          {is_Responsable && (
                             <button
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
                                   // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${cours.number}/delete/`,
-                                  `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${cours.number}/delete/`,
+                                  `http://localhost:8000/api/ressources/courses/${cours.id}/delete/`,
                                 )
                               }
                             >
@@ -256,13 +262,13 @@ function ChapitreModal({ chapitre, start }) {
                           >
                             Download
                           </Link>
-                          {is_teacher && (
+                          {is_Responsable && (
                             <button
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
                                   // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
-                                  `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${td.number}/delete/`,
+                                  `http://localhost:8000/api/ressources/td/${td.id}/delete/`,
                                 )
                               }
                             >
@@ -297,13 +303,13 @@ function ChapitreModal({ chapitre, start }) {
                           >
                             Download
                           </Link>
-                          {is_teacher && (
+                          {is_Responsable && (
                             <button
                               className="daisy-btn daisy-btn-error py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
                                   // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
-                                  `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${tp.number}/delete/`,
+                                  `http://localhost:8000/api/ressources/tp/${tp.id}/delete/`,
                                 )
                               }
                             >
@@ -324,81 +330,98 @@ function ChapitreModal({ chapitre, start }) {
                 <div>
                   {devoir.map((devoir) => (
                     <React.Fragment key={devoir.id}>
-                      <div className="grid grid-cols-4 items-baseline ">
-                        <p className=" flex justify-start text-center text-[#26a69a] ">
+                      <div
+                        className={`${!is_Assistant ? "grid grid-cols-4 items-baseline" : "relative flex items-center justify-between space-x-36 pl-4"} `}
+                      >
+                        <p
+                          className={`flex justify-start text-center  text-[#26a69a] ${is_student && "ml-4"}`}
+                        >
                           {devoir.title}
                         </p>
 
                         {devoir.deadline && (
                           <p
-                            className={`inline font-serif text-xs tracking-widest ${getDelai(devoir.deadline).expired ? "text-red-600" : "text-green-800"} `}
+                            className={`inline font-serif text-xs tracking-widest ${getDelai(devoir.deadline).expired ? "text-red-600" : "text-green-800"} ${is_student && "w-fit pl-36"} `}
                           >
                             {getDelai(devoir.deadline)?.dateString}
                           </p>
                         )}
-
-                        <div className="col-start-4 flex items-baseline justify-evenly space-x-2  py-2 ">
-                          {/* <p className="">1.4 MB</p> */}
-                          <Link
-                            to={devoir.content}
-                            target="_blank"
-                            download
-                            className="daisy-btn border-[#26a69a] bg-[#26a69a] py-1 tracking-widest text-white hover:bg-[#017676] "
-                          >
-                            Download
-                          </Link>
-                          <div className="flex flex-col items-center justify-center space-y-4">
-                            {is_student ? (
-                              !getDelai(devoir.deadline).expired && (
-                                <button
-                                  className="daisy-btn border-[#4d8c57] bg-[#4d8c57] py-1 tracking-widest text-white hover:bg-[#3d6d44] "
-                                  onClick={() => {
-                                    document
-                                      .getElementById("devoir_modal")
-                                      .showModal();
-                                    // document
-                                    //   .getElementById(`my_modal_${chapitre.id}`)
-                                    //   .close();
-                                  }}
-                                >
-                                  Upload
-                                </button>
-                              )
-                            ) : (
-                              <button
-                                className="daisy-btn daisy-btn-error py-1 tracking-widest text-white "
-                                onClick={async () =>
-                                  handleDelete(
-                                    // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
-                                    `http://localhost:8000/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
+                        {!is_Assistant ? (
+                          <div className="col-start-4 flex items-baseline justify-evenly space-x-2  py-2 ">
+                            {/* <p className="">1.4 MB</p> */}
+                            <Link
+                              to={devoir.content}
+                              target="_blank"
+                              download
+                              className="daisy-btn border-[#26a69a] bg-[#26a69a] py-1 tracking-widest text-white hover:bg-[#017676] "
+                            >
+                              Download
+                            </Link>
+                            <div className="flex flex-col items-center justify-center space-y-4">
+                              {is_student
+                                ? !getDelai(devoir.deadline).expired && (
+                                    <button
+                                      className="daisy-btn border-[#4d8c57] bg-[#4d8c57] py-1 tracking-widest text-white hover:bg-[#3d6d44] "
+                                      onClick={() => {
+                                        document
+                                          .getElementById("devoir_modal")
+                                          .showModal();
+                                        // document
+                                        //   .getElementById(`my_modal_${chapitre.id}`)
+                                        //   .close();
+                                      }}
+                                    >
+                                      Upload
+                                    </button>
                                   )
-                                }
-                              >
-                                Delete
-                              </button>
-                            )}
-                          </div>
-                          <dialog id="devoir_modal" className="daisy-modal ">
-                            <div className="daisy-modal-box flex w-fit flex-col items-center justify-center  space-y-5 bg-[#A5BED7] shadow-md shadow-stone-400">
-                              {/* <h3 className="text-center text-lg font-bold">
+                                : is_Responsable && (
+                                    <button
+                                      className="daisy-btn daisy-btn-error py-1 tracking-widest text-white "
+                                      onClick={async () =>
+                                        handleDelete(
+                                          // `https://elearn-n48v.onrender.com/api/ressources/cours/${chapitre.subject}/${chapitre.number}/${devoir.number}/delete/`,
+                                          `http://localhost:8000/api/ressources/homework/${devoir.id}/delete/`,
+                                        )
+                                      }
+                                    >
+                                      Delete
+                                    </button>
+                                  )}
+                            </div>
+
+                            <dialog id="devoir_modal" className="daisy-modal ">
+                              <div className="daisy-modal-box flex w-fit flex-col items-center justify-center  space-y-5 bg-[#A5BED7] shadow-md shadow-stone-400">
+                                {/* <h3 className="text-center text-lg font-bold">
                                 Upload your file
                               </h3> */}
-                              <input
-                                type="file"
-                                className="daisy-file-input daisy-file-input-bordered daisy-file-input-info  w-full max-w-xs bg-white"
-                              />
-                              <button className="daisy-btn border-[#00b6ff] bg-[#00b6ff] py-1 tracking-widest text-white hover:bg-[#0684b6] ">
-                                Save
-                              </button>
-                            </div>
-                            <form
-                              method="dialog"
-                              className="daisy-modal-backdrop"
+                                <input
+                                  type="file"
+                                  className="daisy-file-input daisy-file-input-bordered daisy-file-input-info  w-full max-w-xs bg-white"
+                                />
+                                <button className="daisy-btn border-[#00b6ff] bg-[#00b6ff] py-1 tracking-widest text-white hover:bg-[#0684b6] ">
+                                  Save
+                                </button>
+                              </div>
+                              <form
+                                method="dialog"
+                                className="daisy-modal-backdrop"
+                              >
+                                <button>close</button>
+                              </form>
+                            </dialog>
+                          </div>
+                        ) : (
+                          <div className="pr-16">
+                            <Link
+                              to={devoir.content}
+                              target="_blank"
+                              download
+                              className="daisy-btn border-[#26a69a] bg-[#26a69a] py-1 tracking-widest text-white hover:bg-[#017676]  "
                             >
-                              <button>close</button>
-                            </form>
-                          </dialog>
-                        </div>
+                              Download
+                            </Link>
+                          </div>
+                        )}
                       </div>
                     </React.Fragment>
                   ))}
@@ -413,7 +436,7 @@ function ChapitreModal({ chapitre, start }) {
                   {quizzes.map((quizze, i) => (
                     <React.Fragment key={quizze.id}>
                       <div
-                        className={`flex items-baseline justify-between ${is_student && "pr-20"} `}
+                        className={`flex items-baseline justify-between ${(is_student || is_Assistant) && "pr-20"} `}
                       >
                         <p className=" flex justify-start pl-4  text-center text-[#26a69a] ">
                           {`Quizze #${i + 1}`}
@@ -427,7 +450,7 @@ function ChapitreModal({ chapitre, start }) {
                         )}
 
                         <div
-                          className={`flex items-baseline justify-evenly py-2 ${is_teacher && "space-x-9  md:pr-3"}  `}
+                          className={`flex items-baseline justify-evenly py-2 ${is_Responsable && "space-x-9  md:pr-3"}  `}
                         >
                           <button
                             className="daisy-btn border-[#26a69a] bg-[#26a69a] py-1 tracking-widest text-white hover:bg-[#017676] "
@@ -440,13 +463,13 @@ function ChapitreModal({ chapitre, start }) {
                             {is_student ? "Start" : "Open"}
                           </button>
 
-                          {is_teacher && (
+                          {is_Responsable && (
                             <button
                               className="daisy-btn daisy-btn-error  py-1 tracking-widest text-white"
                               onClick={async () =>
                                 handleDelete(
                                   // `https://elearn-n48v.onrender.com/api/ressources/quizzes/QUIZZ_ID/delete/`,
-                                  `http://localhost:8000/api/ressources/quizzes/QUIZZ_ID/delete/`,
+                                  `http://localhost:8000/api/ressources/quizzes/${"quizzId"}/delete/`,
                                 )
                               }
                             >
@@ -480,18 +503,18 @@ function ChapitreModal({ chapitre, start }) {
                           {rs.title}
                         </p>
                         <a
-                          className={`${is_student && "pr-20"} text-center tracking-widest text-[#26a69a] underline`}
+                          className={`${is_student || (is_Assistant && "pr-20")} text-center tracking-widest text-[#26a69a] underline`}
                           href={rs?.link}
                         >
                           {rs?.link}
                         </a>
 
-                        {is_teacher && (
+                        {is_Responsable && (
                           <button
                             className="daisy-btn daisy-btn-error -mt-2 mr-4 py-1 tracking-widest text-white"
                             onClick={async () =>
                               handleDelete(
-                                `https://elearn-n48v.onrender.com/api/ressources/quizzes/QUIZZ_ID/delete/`,
+                                `http://localhost:8000/api/ressources/other/${rs.id}/delete/`,
                               )
                             }
                           >
@@ -506,7 +529,7 @@ function ChapitreModal({ chapitre, start }) {
             )}
           </div>
 
-          {is_teacher && (
+          {is_Responsable && (
             <dialog id="modal_add_ressource" className="daisy-modal">
               <div className="daisy-modal-box flex h-auto w-auto min-w-fit space-y-10 bg-[#A5BED7] shadow-md shadow-stone-400">
                 <div>
@@ -555,7 +578,7 @@ function ChapitreModal({ chapitre, start }) {
             className="daisy-modal-backdrop  justify-center"
           >
             <div className="space-x-4">
-              {is_teacher && (
+              {is_Responsable && (
                 <button
                   className="daisy-btn daisy-btn-outline daisy-btn-info  mt-10 w-48 min-w-40"
                   onClick={() =>

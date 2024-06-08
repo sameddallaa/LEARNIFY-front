@@ -24,6 +24,7 @@ function AutreRessource({ endPoint }) {
       if (res.status == 201) {
         setAdded(true);
         console.log("Link Added.");
+        document.getElementById("modal_add_ressource").close();
       }
     } catch (err) {
       console.log(err.message);
